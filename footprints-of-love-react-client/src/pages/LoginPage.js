@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Input from "../components/Input";
 import ButtonWithProgress from "../components/ButtonWithProgress";
-import * as apiCalls from "../api/apiCalls";
+import { connect } from "react-redux";
+import * as authActions from "../actions/auth/authActions";
 
 const LoginPage = (props) => {
   const [email, setEmail] = useState("");
@@ -21,7 +22,7 @@ const LoginPage = (props) => {
 
     setPendingApiCall(true);
 
-    apiCalls
+    props.actions
       .login(user)
       .then((response) => {
         setPendingApiCall(false);
@@ -80,4 +81,12 @@ const LoginPage = (props) => {
   );
 };
 
-export default LoginPage;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    actions: {
+      login: (user) => dispatch(authActions.loginHandler(user)),
+    },
+  };
+};
+
+export default connect(null, mapDispatchToProps)(LoginPage);

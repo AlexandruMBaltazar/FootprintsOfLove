@@ -25,7 +25,7 @@ const LoginPage = () => {
           <label for="floatingPassword">Password</label>
         </div>
         <button className="w-100 btn btn-lg btn-primary mt-2" type="submit">
-          Sign in
+          Login
         </button>
         <p className="mt-5 mb-3 text-muted">&copy; Footprints of Love</p>
       </form>

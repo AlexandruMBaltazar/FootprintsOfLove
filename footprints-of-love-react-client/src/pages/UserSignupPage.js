@@ -48,6 +48,7 @@ const UserSignupPage = (props) => {
       .signup(user)
       .then((response) => {
         setPendingApiCall(false);
+        props.history.push("/login");
       })
       .catch((apiError) => {
         setPendingApiCall(false);

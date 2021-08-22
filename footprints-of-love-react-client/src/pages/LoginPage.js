@@ -12,6 +12,7 @@ const LoginPage = () => {
             className="form-control"
             id="floatingInput"
             placeholder="name@example.com"
+            required
           />
           <label for="floatingInput">Email address</label>
         </div>
@@ -21,6 +22,7 @@ const LoginPage = () => {
             className="form-control"
             id="floatingPassword"
             placeholder="Password"
+            required
           />
           <label for="floatingPassword">Password</label>
         </div>

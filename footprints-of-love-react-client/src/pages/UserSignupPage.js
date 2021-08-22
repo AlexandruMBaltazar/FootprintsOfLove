@@ -12,6 +12,7 @@ const UserSignupPage = () => {
             className="form-control"
             id="floatingInput"
             placeholder="John"
+            required
           />
           <label for="floatingInput">First Name</label>
         </div>
@@ -21,6 +22,7 @@ const UserSignupPage = () => {
             className="form-control"
             id="floatingInput"
             placeholder="John"
+            required
           />
           <label for="floatingInput">Last Name</label>
         </div>
@@ -30,6 +32,7 @@ const UserSignupPage = () => {
             className="form-control"
             id="floatingInput"
             placeholder="name@example.com"
+            required
           />
           <label for="floatingInput">Email address</label>
         </div>
@@ -39,6 +42,7 @@ const UserSignupPage = () => {
             className="form-control"
             id="floatingPassword"
             placeholder="Password"
+            required
           />
           <label for="floatingPassword">Password</label>
         </div>

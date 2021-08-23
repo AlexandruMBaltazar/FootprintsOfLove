@@ -6,9 +6,11 @@ import HomePage from "../pages/HomePage";
 import UserSignupPage from "../pages/UserSignupPage";
 import { connect } from "react-redux";
 import * as authActions from "../actions/auth/authActions";
+import { useHistory } from "react-router-dom";
 
 function App(props) {
   const [pendingApiCalls, setPendingApiCalls] = useState(false);
+  let history = useHistory();
 
   useEffect(() => {
     setPendingApiCalls(true);
@@ -19,6 +21,7 @@ function App(props) {
       })
       .catch((errors) => {
         setPendingApiCalls(false);
+        history.push("/login");
       });
   }, [props.actions]);
 

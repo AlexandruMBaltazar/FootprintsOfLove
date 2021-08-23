@@ -7,9 +7,10 @@ import UserSignupPage from "../pages/UserSignupPage";
 import { connect } from "react-redux";
 import * as authActions from "../actions/auth/authActions";
 import { useHistory } from "react-router-dom";
+import SecuredRoute from "../securityUtils/SecuredRoute";
 
 function App(props) {
-  const [pendingApiCalls, setPendingApiCalls] = useState(false);
+  const [pendingApiCalls, setPendingApiCalls] = useState(true);
   let history = useHistory();
 
   useEffect(() => {
@@ -43,7 +44,7 @@ function App(props) {
       <TopBar />
       <div className="container">
         <Switch>
-          <Route exact path="/" component={HomePage} />
+          <SecuredRoute exact path="/" component={HomePage} />
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/signup" component={UserSignupPage} />
         </Switch>

@@ -35,7 +35,7 @@ const TopBar = (props) => {
         <li className="nav-item">
           <button
             type="button"
-            class="btn btn-outline-danger"
+            className="btn btn-outline-danger"
             onClick={onClickLogout}
           >
             <i className="fas fa-sign-out-alt text-danger"></i> Logout

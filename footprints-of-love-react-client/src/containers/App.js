@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import TopBar from "../components/TopBar";
 import { Route, Switch } from "react-router-dom";
 import LoginPage from "../pages/LoginPage";
@@ -8,9 +8,32 @@ import { connect } from "react-redux";
 import * as authActions from "../actions/auth/authActions";
 
 function App(props) {
+  const [pendingApiCalls, setPendingApiCalls] = useState(false);
+
   useEffect(() => {
-    props.actions.getAuthUser();
+    setPendingApiCalls(true);
+    props.actions
+      .getAuthUser()
+      .then((response) => {
+        setPendingApiCalls(false);
+      })
+      .catch((errors) => {
+        setPendingApiCalls(false);
+      });
   }, [props.actions]);
+
+  if (pendingApiCalls) {
+    return (
+      <div className="d-flex flex-column min-vh-100 justify-content-center align-items-center">
+        <div className="d-flex align-items-center">
+          <div className="spinner-grow text-primary">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+          <span className="ps-2">Loading...</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div>

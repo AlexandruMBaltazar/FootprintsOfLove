@@ -24,7 +24,6 @@ export const logout = () => (dispatch) => {
 
 export const loginHandler = (credentials) => (dispatch) => {
   return apiCalls.login(credentials).then((response) => {
-    dispatch(loginSuccess());
-    return response;
+    return dispatch(loginSuccess());
   });
 };

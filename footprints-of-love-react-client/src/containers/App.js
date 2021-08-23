@@ -1,10 +1,17 @@
+import { useEffect } from "react";
 import TopBar from "../components/TopBar";
 import { Route, Switch } from "react-router-dom";
 import LoginPage from "../pages/LoginPage";
 import HomePage from "../pages/HomePage";
 import UserSignupPage from "../pages/UserSignupPage";
+import { connect } from "react-redux";
+import * as authActions from "../actions/auth/authActions";
 
-function App() {
+function App(props) {
+  useEffect(() => {
+    props.actions.getAuthUser();
+  }, [props.actions]);
+
   return (
     <div>
       <TopBar />
@@ -19,4 +26,12 @@ function App() {
   );
 }
 
-export default App;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    actions: {
+      getAuthUser: () => dispatch(authActions.loginSuccess()),
+    },
+  };
+};
+
+export default connect(null, mapDispatchToProps)(App);

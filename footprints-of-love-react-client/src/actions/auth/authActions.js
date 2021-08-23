@@ -1,11 +1,24 @@
 import * as apiCalls from "../../api/apiCalls";
+import { LOGIN_SUCCESS, LOGOUT } from "./types";
 
 export const loginSuccess = () => (dispatch) => {
-  apiCalls.getAuthUser().then((response) => {
+  return apiCalls.getAuthUser().then((response) => {
     dispatch({
-      type: "login-success",
+      type: LOGIN_SUCCESS,
       payload: response.data.data,
     });
+
+    return response;
+  });
+};
+
+export const logout = () => (dispatch) => {
+  return apiCalls.logout().then((response) => {
+    dispatch({
+      type: LOGOUT,
+    });
+
+    return response;
   });
 };
 

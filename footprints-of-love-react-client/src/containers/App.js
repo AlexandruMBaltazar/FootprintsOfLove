@@ -23,7 +23,7 @@ function App(props) {
         setPendingApiCalls(false);
         history.push("/login");
       });
-  }, [props.actions]);
+  }, [props.actions, history]);
 
   if (pendingApiCalls) {
     return (

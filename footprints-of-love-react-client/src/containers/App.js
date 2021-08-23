@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import * as authActions from "../actions/auth/authActions";
 import { useHistory } from "react-router-dom";
 import SecuredRoute from "../securityUtils/SecuredRoute";
+import ForgotPasswordPage from "../pages/ForgotPasswordPage";
 
 function App(props) {
   const [pendingApiCalls, setPendingApiCalls] = useState(true);
@@ -47,6 +48,7 @@ function App(props) {
           <SecuredRoute exact path="/" component={HomePage} />
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/signup" component={UserSignupPage} />
+          <Route exact path="/forgot" component={ForgotPasswordPage} />
         </Switch>
       </div>
     </div>

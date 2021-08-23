@@ -34,6 +34,7 @@ const UserSignupPage = (props) => {
   };
 
   const submit = (event) => {
+    event.preventDefault();
     const user = {
       first_name: form.firstName,
       last_name: form.lastName,
@@ -69,7 +70,7 @@ const UserSignupPage = (props) => {
 
   return (
     <div>
-      <form className="d-flex flex-column w-50 offset-4 mt-5">
+      <form className="d-flex flex-column w-50 offset-4 mt-5" onSubmit={submit}>
         <h1 className="h3 mb-3 fw-normal text-center">Join Us !</h1>
 
         <div className="mb-1">
@@ -137,8 +138,8 @@ const UserSignupPage = (props) => {
           />
         </div>
         <ButtonWithProgress
+          type="submit"
           className="w-100 btn btn-lg btn-primary mt-2"
-          onClick={submit}
           disabled={pendingApiCall || passwordMatch ? true : false}
           pendingApiCall={pendingApiCall}
           text="Sign Up"

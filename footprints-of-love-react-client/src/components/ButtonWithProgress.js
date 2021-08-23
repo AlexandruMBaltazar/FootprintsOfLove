@@ -3,6 +3,7 @@ import React from "react";
 const ButtonWithProgress = (props) => {
   return (
     <button
+      type={props.type || "button"}
       className={props.className || "btn btn-primary"}
       onClick={props.onClick}
       disabled={props.disabled}

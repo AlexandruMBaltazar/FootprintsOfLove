@@ -1,5 +1,9 @@
 import axios from "axios";
 
+export const forgot = (email) => {
+  return axios.post("/api/forgot", email);
+};
+
 export const login = (user) => {
   return axios.post("/api/login", user);
 };

@@ -3,6 +3,7 @@ import Input from "../components/Input";
 import ButtonWithProgress from "../components/ButtonWithProgress";
 import { connect } from "react-redux";
 import * as authActions from "../actions/auth/authActions";
+import { Link } from "react-router-dom";
 
 const LoginPage = (props) => {
   const [email, setEmail] = useState("");
@@ -14,7 +15,9 @@ const LoginPage = (props) => {
     setErrors();
   }, [email, password]);
 
-  const submit = () => {
+  const submit = (event) => {
+    event.preventDefault();
+
     const user = {
       email,
       password,
@@ -38,7 +41,7 @@ const LoginPage = (props) => {
 
   return (
     <div>
-      <form className="d-flex flex-column w-50 offset-4 mt-5">
+      <form className="d-flex flex-column w-50 offset-4 mt-5" onSubmit={submit}>
         <h1 className="h3 mb-3 fw-normal text-center">Log in</h1>
 
         <div className="mb-1">
@@ -69,12 +72,15 @@ const LoginPage = (props) => {
           </div>
         )}
         <ButtonWithProgress
+          type="submit"
           className="w-100 btn btn-lg btn-primary mt-2"
-          onClick={submit}
           disabled={disableSubmit || pendingApiCall}
           pendingApiCall={pendingApiCall}
           text="Sign Up"
         />
+        <Link to="/forgot" className="mt-2">
+          Forgot Password ?
+        </Link>
         <p className="mt-5 mb-3 text-muted">&copy; Footprints of Love</p>
       </form>
     </div>

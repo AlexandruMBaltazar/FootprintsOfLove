@@ -9,13 +9,13 @@ import * as authActions from "../actions/auth/authActions";
 import { useHistory } from "react-router-dom";
 import SecuredRoute from "../securityUtils/SecuredRoute";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage";
+import PasswordResetPage from "../pages/PasswordResetPage";
 
 function App(props) {
   const [pendingApiCalls, setPendingApiCalls] = useState(true);
   let history = useHistory();
 
   useEffect(() => {
-    setPendingApiCalls(true);
     props.actions
       .getAuthUser()
       .then((response) => {
@@ -23,7 +23,6 @@ function App(props) {
       })
       .catch((errors) => {
         setPendingApiCalls(false);
-        history.push("/login");
       });
   }, [props.actions, history]);
 
@@ -46,9 +45,10 @@ function App(props) {
       <div className="container">
         <Switch>
           <SecuredRoute exact path="/" component={HomePage} />
-          <Route exact path="/login" component={LoginPage} />
-          <Route exact path="/signup" component={UserSignupPage} />
           <Route exact path="/forgot" component={ForgotPasswordPage} />
+          <Route exact path="/login" component={LoginPage} />
+          <Route path="/reset/:token" component={PasswordResetPage} />
+          <Route exact path="/signup" component={UserSignupPage} />
         </Switch>
       </div>
     </div>

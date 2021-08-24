@@ -9,6 +9,7 @@ const UserSignupPage = (props) => {
     firstName: "",
     lastName: "",
     email: "",
+    username: "",
     password: "",
     passwordConfirm: "",
   });
@@ -39,6 +40,7 @@ const UserSignupPage = (props) => {
       first_name: form.firstName,
       last_name: form.lastName,
       email: form.email,
+      username: form.username,
       password: form.password,
       password_confirm: form.passwordConfirm,
     };
@@ -110,6 +112,19 @@ const UserSignupPage = (props) => {
             label="Email address"
             hasError={errors.email && true}
             error={errors.email}
+          />
+        </div>
+        <div className="mb-1">
+          <Input
+            type="text"
+            name="username"
+            placeholder="Doe"
+            value={form.username}
+            onChange={onChange}
+            required={true}
+            label="Username"
+            hasError={errors.username && true}
+            error={errors.username}
           />
         </div>
         <div className="mb-1">

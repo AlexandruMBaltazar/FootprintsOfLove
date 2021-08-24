@@ -3,18 +3,9 @@ import logo from "../assets/footprints-of-love-logo.png";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import * as authActions from "../actions/auth/authActions";
-import { useHistory } from "react-router-dom";
 import ProfileImageWithDefault from "./ProfileImageWithDefault";
 
 const TopBar = (props) => {
-  let history = useHistory();
-
-  const onClickLogout = () => {
-    props.actions.logout().then((response) => {
-      history.push("/login");
-    });
-  };
-
   let links = (
     <ul className="nav navbar-nav ms-auto">
       <li className="nav-item">

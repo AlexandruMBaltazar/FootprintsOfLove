@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import * as authActions from "../actions/auth/authActions";
 import { useHistory } from "react-router-dom";
+import ProfileImageWithDefault from "./ProfileImageWithDefault";
 
 const TopBar = (props) => {
   let history = useHistory();
@@ -33,13 +34,20 @@ const TopBar = (props) => {
     links = (
       <ul className="nav navbar-nav ms-auto">
         <li className="nav-item">
-          <button
-            type="button"
-            className="btn btn-outline-danger"
-            onClick={onClickLogout}
-          >
-            <i className="fas fa-sign-out-alt text-danger"></i> Logout
-          </button>
+          <div>
+            <Link
+              to="/profile"
+              className="text-decoration-none text-white bg-dark"
+            >
+              <ProfileImageWithDefault
+                className="rounded-circle m-auto"
+                width="32"
+                height="32"
+                image={props.user.image}
+              />
+              {props.user.first_name}
+            </Link>
+          </div>
         </li>
       </ul>
     );

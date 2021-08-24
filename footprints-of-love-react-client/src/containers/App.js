@@ -10,6 +10,7 @@ import { useHistory } from "react-router-dom";
 import SecuredRoute from "../securityUtils/SecuredRoute";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage";
 import PasswordResetPage from "../pages/PasswordResetPage";
+import ProfilePage from "../pages/ProfilePage";
 
 function App(props) {
   const [pendingApiCalls, setPendingApiCalls] = useState(true);
@@ -47,7 +48,8 @@ function App(props) {
           <SecuredRoute exact path="/" component={HomePage} />
           <Route exact path="/forgot" component={ForgotPasswordPage} />
           <Route exact path="/login" component={LoginPage} />
-          <Route path="/reset/:token" component={PasswordResetPage} />
+          <SecuredRoute exact path="/profile" component={ProfilePage} />
+          <Route exact path="/reset/:token" component={PasswordResetPage} />
           <Route exact path="/signup" component={UserSignupPage} />
         </Switch>
       </div>

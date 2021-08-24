@@ -46,7 +46,7 @@ const TopBar = (props) => {
 
   return (
     <div className="bg-dark shadow-sm mb-2">
-      <div className="container">
+      <div className="container mb-0 pb-0">
         <nav className="navbar navbar-dark bg-dark navbar-expand">
           <Link to="/" className="navbar-brand">
             <img src={logo} width="60" alt="Footprints of Love" />

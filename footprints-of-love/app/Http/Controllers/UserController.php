@@ -48,7 +48,7 @@ class UserController extends Controller
      * @param $user
      * @return Response
      */
-    public function update(Request $request, $user)
+    public function update(Request $request, User $user)
     {
         //
     }

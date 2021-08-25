@@ -29,7 +29,12 @@ const LoginPage = (props) => {
       .login(user)
       .then((response) => {
         setPendingApiCall(false);
-        props.history.push("/");
+
+        if (response.data.data.boarding_completed) {
+          props.history.push("/");
+        }
+
+        props.history.push("/onboarding");
       })
       .catch((apiErrors) => {
         setPendingApiCall(false);

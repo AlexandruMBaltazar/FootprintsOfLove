@@ -14,8 +14,7 @@ class UserObserver
      */
     public function created(User $user)
     {
-        //Create an empty user details
-        $user->detail()->create();
+        //
     }
 
     /**

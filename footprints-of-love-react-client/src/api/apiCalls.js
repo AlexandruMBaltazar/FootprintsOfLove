@@ -1,5 +1,13 @@
 import axios from "axios";
 
+export const details = (detail) => {
+  return axios.get(`/api/details?detail=${detail}`);
+};
+
+export const postDetails = (detail, user) => {
+  return axios.post(`api/users/${user}/details`, detail);
+};
+
 export const forgot = (email) => {
   return axios.post("/api/forgot", email);
 };

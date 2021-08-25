@@ -3,9 +3,11 @@ import { LOGIN_SUCCESS, LOGOUT } from "./types";
 
 export const loginSuccess = () => (dispatch) => {
   return apiCalls.getAuthUser().then((response) => {
+    const user = { ...response.data.data };
+
     dispatch({
       type: LOGIN_SUCCESS,
-      payload: response.data.data,
+      payload: user,
     });
 
     return response;

@@ -2,17 +2,17 @@
 
 namespace Database\Factories\User;
 
-use App\Models\User\Detail;
+use App\Models\User\UserDetail;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class DetailFactory extends Factory
+class UserDetailFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Detail::class;
+    protected $model = UserDetail::class;
 
     /**
      * Define the model's default state.

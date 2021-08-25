@@ -7,18 +7,26 @@ import ProfileImageWithDefault from "./ProfileImageWithDefault";
 
 const TopBar = (props) => {
   let links = (
-    <ul className="nav navbar-nav ms-auto">
-      <li className="nav-item">
-        <Link to="/signup" className="nav-link">
-          Sign Up
-        </Link>
-      </li>
-      <li className="nav-item">
-        <Link to="/login" className="nav-link">
-          Login
-        </Link>
-      </li>
-    </ul>
+    <div className="w-100">
+      <ul className="nav navbar-nav float-end">
+        <li className="nav-item">
+          <Link
+            to="/signup"
+            className="nav-link btn btn-warning text-dark px-5 me-4"
+          >
+            Join Now
+          </Link>
+        </li>
+        <li className="nav-item">
+          <Link
+            to="/login"
+            className="nav-link btn btn-outline-warning text-white px-5"
+          >
+            Login
+          </Link>
+        </li>
+      </ul>
+    </div>
   );
 
   if (props.user.isLoggedIn) {

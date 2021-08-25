@@ -49,6 +49,7 @@ class UserDetail extends Model
         'religion_id',
         'sign_id',
         'smoke_id',
+        'dob'
     ];
 
 

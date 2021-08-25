@@ -29,6 +29,7 @@ class UserDetailsRequest extends FormRequest
             'religion_id' => "sometimes|exists:signs,id",
             'sign_id' => "sometimes|exists:smokes,id",
             'smoke_id' => "sometimes|exists:smokes,id",
+            'dob' => "required",
         ];
     }
 
@@ -51,6 +52,7 @@ class UserDetailsRequest extends FormRequest
             'religion_id' => "nullable|exists:signs,id",
             'sign_id' => "nullable|exists:smokes,id",
             'smoke_id' => "nullable|exists:smokes,id",
+            'dob' => "sometimes",
         ];
     }
 }

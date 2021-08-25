@@ -12,7 +12,7 @@ const Input = (props) => {
       <input
         type={props.type || "text"}
         name={props.name}
-        className={inputClassName}
+        className={props.className || inputClassName}
         placeholder={props.placeholder}
         onChange={props.onChange}
         value={props.value}

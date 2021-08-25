@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -44,13 +46,18 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
-     * @param $user
-     * @return Response
+     * @param UserRequest $request
+     * @param User $user
+     * @return UserResource
+     * @throws AuthorizationException
      */
-    public function update(Request $request, User $user)
+    public function update(UserRequest $request, User $user): UserResource
     {
-        //
+        $this->authorize('update', $user);
+
+        $user->update($request->fillable());
+
+        return new UserResource($user);
     }
 
     /**

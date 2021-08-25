@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import * as apiCalls from "../api/apiCalls";
+import Input from "./Input";
 
 export default function RadioFieldSet(props) {
   const [details, setDetails] = useState();
@@ -18,7 +19,7 @@ export default function RadioFieldSet(props) {
   if (details) {
     radio = details.map((detail) => (
       <div className="form-check" key={detail.id}>
-        <input
+        <Input
           className="form-check-input"
           type="radio"
           name={props.name}

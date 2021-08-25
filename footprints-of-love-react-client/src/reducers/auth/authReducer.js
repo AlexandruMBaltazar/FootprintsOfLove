@@ -1,4 +1,4 @@
-import { LOGIN_SUCCESS, LOGOUT } from "../../actions/auth/types";
+import { LOGIN_SUCCESS, LOGOUT, UPDATE } from "../../actions/auth/types";
 
 const initialState = {
   id: 0,
@@ -10,6 +10,12 @@ const initialState = {
 
 export default function authReducer(state = initialState, action) {
   switch (action.type) {
+    case UPDATE:
+      return {
+        ...state,
+        ...action.payload,
+      };
+
     case LOGIN_SUCCESS:
       return {
         ...state,

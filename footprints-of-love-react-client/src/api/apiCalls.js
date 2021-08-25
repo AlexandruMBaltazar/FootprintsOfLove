@@ -4,8 +4,12 @@ export const details = (detail) => {
   return axios.get(`/api/details?detail=${detail}`);
 };
 
-export const postDetails = (detail, user) => {
-  return axios.post(`api/users/${user}/details`, detail);
+export const postDetails = (detail, userId) => {
+  return axios.post(`api/users/${userId}/details`, detail);
+};
+
+export const putUser = (user, userId) => {
+  return axios.put(`/api/users/${userId}`, user);
 };
 
 export const forgot = (email) => {

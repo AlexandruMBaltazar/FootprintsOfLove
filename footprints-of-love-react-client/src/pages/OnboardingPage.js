@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import RadioFieldSet from "../components/RadioFieldSet";
 import ButtonWithProgress from "../components/ButtonWithProgress";
 import { connect } from "react-redux";
 import * as apiCalls from "../api/apiCalls";
+import * as authActions from "../actions/auth/authActions";
+import moment from "moment";
 
 const OnboardingPage = (props) => {
-  const [startDate, setStartDate] = useState(new Date());
+  const [dob, setDob] = useState(new Date());
   const [pendingApiCall, setPendingApiCall] = useState(false);
   const [height, setHeight] = useState("170");
   const [details, setDetails] = useState({
@@ -27,6 +29,8 @@ const OnboardingPage = (props) => {
     sign: undefined,
     smoke: undefined,
   });
+
+  useEffect(() => {}, []);
 
   const submit = (event) => {
     event.preventDefault();
@@ -48,13 +52,26 @@ const OnboardingPage = (props) => {
       sign_id: details.sign,
       smoke_id: details.smoke,
       height,
+      dob: moment(dob).format("YYYY-MM-DD"),
+    };
+
+    const user = {
+      boarding_completed: true,
     };
 
     setPendingApiCall(true);
 
-    apiCalls.postDetails(userDetails, props.user.id).then((response) => {
-      setPendingApiCall(false);
-    });
+    apiCalls
+      .postDetails(userDetails, props.user.id)
+      .then((response) => {
+        props.actions.updateAuthUser(user, props.user.id).then((response) => {
+          setPendingApiCall(false);
+          props.history.push("/");
+        });
+      })
+      .catch((error) => {
+        setPendingApiCall(false);
+      });
   };
 
   const onChange = (event) => {
@@ -84,17 +101,14 @@ const OnboardingPage = (props) => {
         <div className="row mb-3 mt-3">
           <label className="col-3 col-form-label">Date of Birth</label>
           <div className="col-9 pt-1">
-            <DatePicker
-              selected={startDate}
-              onChange={(date) => setStartDate(date)}
-            />
+            <DatePicker selected={dob} onChange={(dob) => setDob(dob)} />
           </div>
         </div>
         <div className="mb-3">
-          <label class="form-label">Height in cm - {height} </label>
+          <label className="form-label">Height in cm - {height} </label>
           <input
             type="range"
-            class="form-range"
+            className="form-range"
             min="145"
             max="200"
             value={height}
@@ -120,4 +134,13 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(OnboardingPage);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    actions: {
+      updateAuthUser: (user, userId) =>
+        dispatch(authActions.updateAuthUser(user, userId)),
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(OnboardingPage);

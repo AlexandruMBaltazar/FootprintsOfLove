@@ -32,9 +32,9 @@ const LoginPage = (props) => {
 
         if (response.data.data.boarding_completed) {
           props.history.push("/");
+        } else {
+          props.history.push("/onboarding");
         }
-
-        props.history.push("/onboarding");
       })
       .catch((apiErrors) => {
         setPendingApiCall(false);

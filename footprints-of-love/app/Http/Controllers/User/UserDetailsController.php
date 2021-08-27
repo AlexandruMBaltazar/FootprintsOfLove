@@ -14,22 +14,6 @@ use Illuminate\Support\Facades\Auth;
 class UserDetailsController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return UserDetailsResource
-     */
-    public function index(User $user): UserDetailsResource
-    {
-        $detail = $user->detail()
-            ->with(['bodyType', 'child', 'diet', 'drink', 'education', 'employment',
-            'ethnicity', 'gender', 'language', 'pet', 'politics', 'relationship',
-            'religion', 'sign', 'smoke'])
-            ->first();
-
-        return new UserDetailsResource($detail);
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param UserDetailsRequest $request
@@ -49,8 +33,14 @@ class UserDetailsController extends Controller
      * @param UserDetail $detail
      * @return UserDetailsResource
      */
-    public function show(UserDetail $detail): UserDetailsResource
+    public function show(User $user): UserDetailsResource
     {
+        $detail = $user->detail()
+            ->with(['bodyType', 'child', 'diet', 'drink', 'education', 'employment',
+                'ethnicity', 'gender', 'language', 'pet', 'politics', 'relationship',
+                'religion', 'sign', 'smoke'])
+            ->first();
+
         return new UserDetailsResource($detail);
     }
 

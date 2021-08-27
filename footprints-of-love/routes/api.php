@@ -21,15 +21,19 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('forgot', [PasswordController::class, 'forgot']);
 Route::post('login', [AuthController::class, 'login']);
-Route::post('register', [AuthController::class, 'register']);
 Route::post('reset', [PasswordController::class, 'reset']);
 
+Route::resource('users', UserController::class);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('details', DetailController::class);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::get('user', [AuthController::class, 'user']);
-    Route::resource('users', UserController::class);
-    Route::resource('users.details', UserDetailsController::class)->shallow();
+
+    Route::prefix('users/{user}')->group(function () {
+        Route::post('/details', [UserDetailsController::class, 'store']);
+        Route::get('/details', [UserDetailsController::class, 'show']);
+    });
+    Route::put('/details/{detail}', [UserDetailsController::class, 'update']);
 });
 

@@ -2,15 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth:sanctum', 'api'])->except('store');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -27,9 +34,16 @@ class UserController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(RegisterRequest $request)
     {
-        //
+        $user = User::create([
+            'first_name' => $request->input('first_name'),
+            'last_name' => $request->input('last_name'),
+            'email' => $request->input('email'),
+            'password' => Hash::make($request->input('password')),
+        ]);
+
+        return response($user, \Symfony\Component\HttpFoundation\Response::HTTP_CREATED);
     }
 
     /**

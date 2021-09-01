@@ -1,6 +1,7 @@
 import {
   FETCH_USER_DETAILS,
   LOADING_USER_DETAILS,
+  UPDATE_USER_DETAILS,
 } from "../../../actions/user/details/types";
 
 const initialState = {
@@ -30,6 +31,15 @@ const initialState = {
 export default function authReducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_USER_DETAILS:
+      return {
+        details: {
+          ...state.details,
+          ...action.payload,
+        },
+        isLoading: false,
+      };
+
+    case UPDATE_USER_DETAILS:
       return {
         details: {
           ...state.details,

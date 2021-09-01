@@ -6,4 +6,5 @@
   -webkit-box-shadow: 0 0 3px #ccc;
   box-shadow: 0 0 3px #ccc;
   background-color: white;
+  cursor: pointer;
 }

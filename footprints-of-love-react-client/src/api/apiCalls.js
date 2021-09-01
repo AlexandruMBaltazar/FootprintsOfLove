@@ -19,6 +19,9 @@ export const details = (detail) => {
 export const postDetails = (detail, userId) => {
   return axios.post(`api/users/${userId}/details`, detail);
 };
+export const putDetails = (detail, detailId) => {
+  return axios.put(`api/details/${detailId}`, detail);
+};
 export const getDetails = (userId) => {
   return axios.get(`api/users/${userId}/details`);
 };

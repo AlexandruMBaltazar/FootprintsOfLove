@@ -1,14 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import styles from "./details.module.css";
+import { useHistory } from "react-router";
 
 const Details = (props) => {
   let pageContent;
+  let history = useHistory();
 
   let details = props.details.filter((detail) => detail !== null);
-
-  console.log(details.length);
-
   if (details.length === 0) {
     pageContent = "Add more details about you";
   } else {
@@ -16,7 +14,7 @@ const Details = (props) => {
   }
 
   return (
-    <Link className="text-decoration-none text-dark">
+    <div onClick={() => history.push(`/profile?page=edit`)}>
       <div className={`card mb-2 ${styles.card}`}>
         <div className="d-flex"></div>
         <div className="card-body">
@@ -28,7 +26,7 @@ const Details = (props) => {
           </div>
         </div>
       </div>
-    </Link>
+    </div>
   );
 };
 

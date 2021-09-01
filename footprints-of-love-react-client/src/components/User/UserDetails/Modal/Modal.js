@@ -80,7 +80,7 @@ const Modal = (props) => {
                     </div>
                   </div>
                 </div>
-                <div className="col-6 flex-fill">
+                <div className="col-6 h-100 flex-fill">
                   <ModalEdit />
                 </div>
               </div>

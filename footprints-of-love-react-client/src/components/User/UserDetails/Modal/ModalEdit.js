@@ -4,24 +4,28 @@ import RadioFieldSet from "../../../RadioFieldSet";
 import * as changeCase from "change-case";
 import { connect } from "react-redux";
 import * as userDetailsActions from "../../../../actions/user/details/userDetailsActions";
+import ButtonWithProgress from "../../../ButtonWithProgress";
 
 const ModalEdit = (props) => {
   const [height, setHeight] = useState();
-  const [value, setValue] = useState({});
-
-  useEffect(() => {
-    setHeight(props.details && props.details.height);
-  }, [props.details, props.details.height]);
+  const [value, setValue] = useState();
 
   const { search } = useLocation();
   const searchParams = new URLSearchParams(search);
   const detail = searchParams.get("detail");
 
+  useEffect(() => {
+    setHeight(props.details && props.details.height);
+
+    return () => {
+      setValue(undefined);
+    };
+  }, [props.details, props.details.height, detail]);
+
   const onChange = (event) => {
     const { value, name } = event.target;
     setValue((previousForm) => {
       return {
-        ...previousForm,
         [name + "_id"]: value,
       };
     });
@@ -35,40 +39,58 @@ const ModalEdit = (props) => {
     }
   };
 
+  let disableSubmit = value || height !== props.details.height ? false : true;
+
   return (
-    <div>
+    <div className="container">
       {detail && (
         <div>
-          <form className="d-flex flex-column offset-3 mt-5">
-            <div className="mb-1">
-              {detail !== "height" ? (
-                <RadioFieldSet
-                  detail={changeCase.pascalCase(detail)}
-                  name={detail}
-                  onChange={onChange}
-                />
-              ) : (
-                <div>
-                  <label className="form-label">Height in cm - {height} </label>
-                  <input
-                    type="range"
-                    className="form-range"
-                    min="145"
-                    max="200"
-                    value={height}
-                    onChange={(event) => setHeight(event.target.value)}
-                  ></input>
+          <div className="row overflow-auto">
+            <div className="col-12">
+              <form
+                className="d-flex flex-column offset-3 mt-5"
+                style={{ height: "260px" }}
+              >
+                <div className="mb-1">
+                  {detail !== "height" ? (
+                    <RadioFieldSet
+                      detail={changeCase.pascalCase(detail)}
+                      name={detail}
+                      onChange={onChange}
+                    />
+                  ) : (
+                    <div>
+                      <label className="form-label">
+                        Height in cm - {height}{" "}
+                      </label>
+                      <input
+                        type="range"
+                        className="form-range"
+                        min="145"
+                        max="200"
+                        value={height}
+                        onChange={(event) => setHeight(event.target.value)}
+                      ></input>
+                    </div>
+                  )}
                 </div>
-              )}
+              </form>
             </div>
-            <button
-              type="button"
-              className="w-50 btn btn-md btn-primary ms-4"
-              onClick={onClick}
-            >
-              Save
-            </button>
-          </form>
+          </div>
+          <div className="row mt-5">
+            <div className="col-12">
+              <ButtonWithProgress
+                type="submit"
+                className="w-50 btn btn-md btn-primary offset-3 mt-5"
+                disabled={props.isLoading || disableSubmit}
+                pendingApiCall={props.isLoading}
+                text="Submit"
+                onClick={onClick}
+              >
+                Save
+              </ButtonWithProgress>
+            </div>
+          </div>
         </div>
       )}
     </div>
@@ -79,6 +101,7 @@ const mapStateToProps = (state) => {
   return {
     detailId: state.userDetails.details.id,
     details: state.userDetails.details,
+    isLoading: state.userDetails.isLoading,
   };
 };
 

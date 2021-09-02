@@ -74,7 +74,7 @@ const Modal = (props) => {
                   <div className="overflow-auto">
                     <div
                       className="d-flex flex-column align-items-stretch flex-shrink-0 bg-white"
-                      style={{ height: "360px" }}
+                      style={{ height: "460px" }}
                     >
                       {sidebar}
                     </div>

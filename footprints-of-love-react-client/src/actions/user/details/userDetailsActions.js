@@ -19,6 +19,10 @@ export const fetchUserDetails = (userId) => (dispatch) => {
 };
 
 export const updateUserDetails = (detail, detailId) => (dispatch) => {
+  dispatch({
+    type: LOADING_USER_DETAILS,
+    payload: true,
+  });
   return apiCalls.putDetails(detail, detailId).then((response) => {
     dispatch({
       type: UPDATE_USER_DETAILS,

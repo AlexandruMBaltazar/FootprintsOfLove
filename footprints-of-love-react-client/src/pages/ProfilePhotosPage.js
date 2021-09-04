@@ -1,10 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ProfileImageWithDefault from "../components/ProfileImageWithDefault";
 import { connect } from "react-redux";
 import * as photoActions from "../actions/photo/photoActions";
+import UploadInput from "../components/UploadInput";
 
 const ProfilePhotosPage = (props) => {
   const [photo, setPhoto] = useState();
+
+  useEffect(() => {
+    
+    return () => {
+      props.actions.clearUploadPhotoErrors();
+    };
+  }, [props.actions.]);
 
   const onFileSelect = (event) => {
     if (event.target.files.length === 0) {
@@ -16,6 +24,7 @@ const ProfilePhotosPage = (props) => {
 
     reader.onloadend = () => {
       setPhoto(photo);
+      props.actions.clearUploadPhotoErrors();
     };
 
     reader.readAsDataURL(photo);
@@ -24,7 +33,9 @@ const ProfilePhotosPage = (props) => {
   const uploadPhoto = () => {
     const body = new FormData();
     body.append("photo", photo);
-    props.actions.uploadPhoto(props.user.id, body);
+    props.actions.uploadPhoto(props.user.id, body).then((response) => {
+      setPhoto();
+    });
   };
 
   return (
@@ -45,20 +56,19 @@ const ProfilePhotosPage = (props) => {
               <span className="fs-4 fw-bolder">{props.user.first_name}</span>
             </div>
             <div className="align-self-center">
-              <div className="input-group mb-3">
-                <button
-                  className="btn btn-outline-primary"
-                  type="button"
-                  onClick={uploadPhoto}
-                >
-                  Upload Photo
-                </button>
-                <input
-                  type="file"
-                  className="form-control"
-                  onChange={onFileSelect}
-                />
-              </div>
+              <UploadInput
+                onClick={uploadPhoto}
+                onChange={onFileSelect}
+                disabled={props.photo.pendingApiCall || !photo}
+                pendingApiCall={props.photo.pendingApiCall}
+                hasError={
+                  props.uploadPhotoErrors &&
+                  props.uploadPhotoErrors.length !== 0
+                    ? true
+                    : undefined
+                }
+                error={props.uploadPhotoErrors}
+              />
             </div>
           </div>
         </div>
@@ -77,6 +87,8 @@ const ProfilePhotosPage = (props) => {
 const mapStateToProps = (state) => {
   return {
     user: state.auth,
+    photo: state.photo,
+    uploadPhotoErrors: state.photo.uploadPhotoErrors,
   };
 };
 
@@ -85,6 +97,9 @@ const mapDispatchToProps = (dispatch) => {
     actions: {
       uploadPhoto: (userId, photo) =>
         dispatch(photoActions.uploadPhoto(userId, photo)),
+
+      clearUploadPhotoErrors: () =>
+        dispatch(photoActions.clearUploadPhotoErrors()),
     },
   };
 };

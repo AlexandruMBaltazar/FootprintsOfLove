@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PhotoRequest;
 use App\Http\Resources\PhotoResource;
 use App\Models\Photo;
 use App\Models\User;
@@ -28,7 +29,7 @@ class PhotoController extends Controller
      * @param Request $request
      * @return PhotoResource
      */
-    public function store(Request $request, User $user): PhotoResource
+    public function store(PhotoRequest $request, User $user): PhotoResource
     {
         $location = sprintf('%s-%s', $user->getTable(), $user->id);
         $path = Storage::putFile($location, $request->file('photo'));
@@ -50,18 +51,6 @@ class PhotoController extends Controller
     public function show(Photo $photo): PhotoResource
     {
         return new PhotoResource($photo);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param Photo $photo
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Photo $photo)
-    {
-        //
     }
 
     /**

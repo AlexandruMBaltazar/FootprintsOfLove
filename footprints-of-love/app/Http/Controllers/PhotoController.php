@@ -20,7 +20,11 @@ class PhotoController extends Controller
      */
     public function index(User $user): AnonymousResourceCollection
     {
-        return PhotoResource::collection($user->photos);
+        $photos = $user->photos()
+            ->orderBy('created_at', 'DESC')
+            ->get();
+
+        return PhotoResource::collection($photos);
     }
 
     /**
@@ -31,7 +35,7 @@ class PhotoController extends Controller
      */
     public function store(PhotoRequest $request, User $user): PhotoResource
     {
-        $location = sprintf('%s-%s', $user->getTable(), $user->id);
+        $location = sprintf('photos/%s-%s', $user->getTable(), $user->id);
         $path = Storage::putFile($location, $request->file('photo'));
 
         $photo = $user->photos()->create([

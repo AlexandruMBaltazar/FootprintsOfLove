@@ -4,7 +4,20 @@ import {
   PENDING_API_CALL,
   UPLOAD_PHOTO_FAIL,
   CLEAR_UPLOAD_PHOTO_ERRORS,
+  FETCH_PHOTOS,
 } from "./types";
+
+export const getPhotos = (userId) => (dispatch) => {
+  dispatch({
+    type: PENDING_API_CALL,
+  });
+  return apiCalls.getPhotos(userId).then((response) => {
+    dispatch({
+      type: FETCH_PHOTOS,
+      payload: response.data.data,
+    });
+  });
+};
 
 export const uploadPhoto = (userId, photo) => (dispatch) => {
   dispatch({

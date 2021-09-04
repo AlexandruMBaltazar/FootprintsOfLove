@@ -26,6 +26,9 @@ export const getDetails = (userId) => {
   return axios.get(`api/users/${userId}/details`);
 };
 
+export const getPhotos = (userId) => {
+  return axios.get(`/api/users/${userId}/photos`);
+};
 export const postPhoto = (userId, photo) => {
   return axios.post(`/api/users/${userId}/photos`, photo);
 };

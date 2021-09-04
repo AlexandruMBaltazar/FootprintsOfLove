@@ -3,16 +3,16 @@ import ProfileImageWithDefault from "../components/ProfileImageWithDefault";
 import { connect } from "react-redux";
 import * as photoActions from "../actions/photo/photoActions";
 import UploadInput from "../components/UploadInput";
+import PhotoAlbum from "../components/Photo/PhotoAlbum";
 
 const ProfilePhotosPage = (props) => {
   const [photo, setPhoto] = useState();
 
   useEffect(() => {
-    
     return () => {
       props.actions.clearUploadPhotoErrors();
     };
-  }, [props.actions.]);
+  }, [props.actions, props.user.id]);
 
   const onFileSelect = (event) => {
     if (event.target.files.length === 0) {
@@ -77,6 +77,7 @@ const ProfilePhotosPage = (props) => {
       <div className="row mt-5">
         <div className="col-10">
           <span className="fs-5 fw-bolder">Your Photos</span>
+          <PhotoAlbum />
         </div>
         <div className="col-2">Photos List</div>
       </div>

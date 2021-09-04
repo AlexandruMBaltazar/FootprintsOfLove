@@ -1,3 +1,4 @@
+export const FETCH_PHOTOS = "FETCH_PHOTOS";
 export const UPLOAD_PHOTO = "UPLOAD_PHOTO";
 export const PENDING_API_CALL = "PENDING_API_CALL";
 export const UPLOAD_PHOTO_FAIL = "UPLOAD_PHOTO_FAIL";

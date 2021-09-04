@@ -26,8 +26,8 @@ class UserDetailsRequest extends FormRequest
             'pet_id' => "sometimes|exists:pets,id",
             'politics_id' => "sometimes|exists:politics,id",
             'relationship_id' => "sometimes|exists:relationships,id",
-            'religion_id' => "sometimes|exists:signs,id",
-            'sign_id' => "sometimes|exists:smokes,id",
+            'religion_id' => "sometimes|exists:religions,id",
+            'sign_id' => "sometimes|exists:signs,id",
             'smoke_id' => "sometimes|exists:smokes,id",
             'dob' => "required",
         ];

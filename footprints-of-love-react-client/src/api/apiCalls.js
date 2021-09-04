@@ -26,6 +26,10 @@ export const getDetails = (userId) => {
   return axios.get(`api/users/${userId}/details`);
 };
 
+export const postPhoto = (userId, photo) => {
+  return axios.post(`/api/users/${userId}/photos`, photo);
+};
+
 export const getAuthUser = () => {
   return axios.get("/api/user");
 };

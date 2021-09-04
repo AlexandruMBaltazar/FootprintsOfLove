@@ -7,6 +7,7 @@ use App\Http\Controllers\User\UserDetailsController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PhotoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +28,11 @@ Route::resource('users', UserController::class);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('details', DetailController::class);
+
     Route::post('logout', [AuthController::class, 'logout']);
+
+    Route::resource('users.photos', PhotoController::class)->shallow();
+
     Route::get('user', [AuthController::class, 'user']);
 
     Route::prefix('users/{user}')->group(function () {

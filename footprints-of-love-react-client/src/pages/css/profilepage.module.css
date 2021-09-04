@@ -1,0 +1,8 @@
+.btn {
+  display: none;
+}
+
+img:hover + .btn,
+.btn:hover {
+  display: inline-block;
+}

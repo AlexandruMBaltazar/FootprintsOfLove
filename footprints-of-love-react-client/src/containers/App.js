@@ -12,6 +12,7 @@ import ForgotPasswordPage from "../pages/ForgotPasswordPage";
 import PasswordResetPage from "../pages/PasswordResetPage";
 import ProfilePage from "../pages/ProfilePage";
 import OnboardingPage from "../pages/OnboardingPage";
+import ProfilePhotosPage from "../pages/ProfilePhotosPage";
 
 function App(props) {
   const [pendingApiCalls, setPendingApiCalls] = useState(true);
@@ -50,6 +51,11 @@ function App(props) {
           <Route exact path="/forgot" component={ForgotPasswordPage} />
           <Route exact path="/login" component={LoginPage} />
           <SecuredRoute exact path="/profile" component={ProfilePage} />
+          <SecuredRoute
+            exact
+            path="/profile/photos"
+            component={ProfilePhotosPage}
+          />
           <Route exact path="/reset/:token" component={PasswordResetPage} />
           <Route exact path="/signup" component={UserSignupPage} />
           <SecuredRoute exact path="/onboarding" component={OnboardingPage} />

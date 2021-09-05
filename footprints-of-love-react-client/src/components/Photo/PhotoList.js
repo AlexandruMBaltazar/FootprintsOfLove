@@ -13,8 +13,8 @@ const PhotoList = (props) => {
     );
   } else {
     content =
-      props.photo.photos &&
-      props.photo.photos.map((photo) => {
+      props.photos &&
+      props.photos.map((photo) => {
         return <PhotoListItem key={photo.id} photo={photo} />;
       });
   }
@@ -28,7 +28,7 @@ const PhotoList = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    photo: state.photo,
+    photos: state.photo.photos,
     isFetchingPhotos: state.photo.isFetchingPhotos,
   };
 };

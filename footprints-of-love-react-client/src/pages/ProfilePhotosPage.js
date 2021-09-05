@@ -49,8 +49,7 @@ const ProfilePhotosPage = (props) => {
                 alt="profile"
                 width="75"
                 height="75"
-                src={props.loadedImage}
-                className={`rounded-circle shadow`}
+                className="rounded-circle shadow"
               />
             </div>
             <div className="ms-2 flex-fill align-self-center">

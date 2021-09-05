@@ -7,6 +7,7 @@ import {
   CLEAR_UPLOAD_PHOTO_ERRORS,
   FETCH_PHOTOS,
   REMOVE_PHOTO,
+  SET_PROFILE_PHOTO,
 } from "./types";
 
 export const getPhotos = (userId) => (dispatch) => {
@@ -41,6 +42,15 @@ export const uploadPhoto = (userId, photo) => (dispatch) => {
         });
       }
     });
+};
+
+export const setProfilePhoto = (photoId, photo) => (dispatch) => {
+  return apiCalls.putPhoto(photoId, photo).then((response) => {
+    dispatch({
+      type: SET_PROFILE_PHOTO,
+      payload: response.data.data,
+    });
+  });
 };
 
 export const deletePhoto = (photoId) => (dispatch) => {

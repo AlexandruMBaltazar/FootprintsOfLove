@@ -42,7 +42,6 @@ const TopBar = (props) => {
                 className="rounded-circle m-auto"
                 width="32"
                 height="32"
-                image={props.user.image}
               />
               {props.user.first_name}
             </Link>

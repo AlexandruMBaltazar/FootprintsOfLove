@@ -1,10 +1,14 @@
 import React from "react";
-import ProfileImageWithDefault from "../ProfileImageWithDefault";
 import styles from "./css/photolist.module.css";
 import { connect } from "react-redux";
 import * as photoActions from "../../actions/photo/photoActions";
+import Photo from "./Photo";
 
 const PhotoListItem = (props) => {
+  const setProfilePhoto = () => {
+    props.actions.setProfilePhoto(props.photo.id, { is_profile_photo: true });
+  };
+
   const deletePhoto = () => {
     props.actions.deletePhoto(props.photo.id);
   };
@@ -20,7 +24,7 @@ const PhotoListItem = (props) => {
     >
       <div className="d-flex justify-content-between align-items-center py-2">
         <div>
-          <ProfileImageWithDefault
+          <Photo
             alt="profile"
             width="90"
             height="90"
@@ -35,7 +39,13 @@ const PhotoListItem = (props) => {
             Remove
           </span>
         </div>
-        <span className="badge bg-primary rounded-pill">14</span>
+        <button
+          className="btn btn-primary ms-2"
+          onClick={setProfilePhoto}
+          disabled={props.photo.is_profile_photo}
+        >
+          Set Profile Photo
+        </button>
       </div>
     </li>
   );
@@ -45,6 +55,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     actions: {
       deletePhoto: (photoId) => dispatch(photoActions.deletePhoto(photoId)),
+      setProfilePhoto: (photoId, photo) =>
+        dispatch(photoActions.setProfilePhoto(photoId, photo)),
     },
   };
 };

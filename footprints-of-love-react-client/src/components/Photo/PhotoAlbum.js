@@ -21,7 +21,15 @@ const PhotoAlbum = (props) => {
     content =
       props.photo.photos &&
       props.photo.photos.map((photo) => {
-        return <Photo key={photo.id} location={photo.location} />;
+        return (
+          <Photo
+            className="img-fluid"
+            key={photo.id}
+            image={photo.location}
+            width="558"
+            height="993"
+          />
+        );
       });
   }
 

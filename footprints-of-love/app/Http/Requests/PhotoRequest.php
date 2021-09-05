@@ -18,4 +18,13 @@ class PhotoRequest extends FormRequest
         ];
     }
 
+    public function rulesPut()
+    {
+        return [
+            'is_profile_photo' => [
+                'boolean',
+            ],
+        ];
+    }
+
 }

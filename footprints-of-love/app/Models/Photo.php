@@ -18,6 +18,16 @@ class Photo extends Model
     protected $fillable = [
         'name',
         'location',
+        'is_profile_photo',
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'is_profile_photo' => 'boolean',
     ];
 
     public function user(): BelongsTo

@@ -1,15 +1,18 @@
 import {
   UPLOAD_PHOTO,
-  PENDING_API_CALL,
+  IS_UPLOADING_PHOTO,
   UPLOAD_PHOTO_FAIL,
+  IS_FETCHING_PHOTOS,
   CLEAR_UPLOAD_PHOTO_ERRORS,
   FETCH_PHOTOS,
+  REMOVE_PHOTO,
 } from "../../actions/photo/types";
 
 const initialState = {
   photos: [],
   uploadPhotoErrors: [],
-  pendingApiCall: false,
+  isUploadingPhoto: false,
+  isFetchingPhotos: false,
 };
 
 export default function authReducer(state = initialState, action) {
@@ -17,20 +20,27 @@ export default function authReducer(state = initialState, action) {
     case FETCH_PHOTOS:
       return {
         photos: action.payload,
-        pendingApiCall: false,
+        isFetchingPhotos: false,
       };
 
     case UPLOAD_PHOTO:
       return {
         photos: [action.payload, ...state.photos],
-        pendingApiCall: false,
+        isUploadingPhoto: false,
+      };
+
+    case REMOVE_PHOTO:
+      return {
+        photos: state.photos.filter((photo) => {
+          return photo.id !== action.payload.id;
+        }),
       };
 
     case UPLOAD_PHOTO_FAIL:
       return {
         ...state,
         uploadPhotoErrors: action.payload,
-        pendingApiCall: false,
+        isUploadingPhoto: false,
       };
 
     case CLEAR_UPLOAD_PHOTO_ERRORS:
@@ -39,10 +49,16 @@ export default function authReducer(state = initialState, action) {
         uploadPhotoErrors: [],
       };
 
-    case PENDING_API_CALL:
+    case IS_UPLOADING_PHOTO:
       return {
         ...state,
-        pendingApiCall: true,
+        isUploadingPhoto: true,
+      };
+
+    case IS_FETCHING_PHOTOS:
+      return {
+        ...state,
+        isFetchingPhotos: true,
       };
 
     default:

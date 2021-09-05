@@ -32,6 +32,9 @@ export const getPhotos = (userId) => {
 export const postPhoto = (userId, photo) => {
   return axios.post(`/api/users/${userId}/photos`, photo);
 };
+export const deletePhoto = (photoId) => {
+  return axios.delete(`/api/photos/${photoId}`);
+};
 
 export const getAuthUser = () => {
   return axios.get("/api/user");

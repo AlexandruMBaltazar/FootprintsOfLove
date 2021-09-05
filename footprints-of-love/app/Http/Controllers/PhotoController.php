@@ -35,6 +35,7 @@ class PhotoController extends Controller
      */
     public function store(PhotoRequest $request, User $user): PhotoResource
     {
+        $this->authorize('create', [Photo::class, $user]);
         $location = sprintf('photos/%s-%s', $user->getTable(), $user->id);
         $path = Storage::putFile($location, $request->file('photo'));
 
@@ -58,6 +59,25 @@ class PhotoController extends Controller
     }
 
     /**
+     * Update the specified resource in storage.
+     * @param Photo $photo
+     * @return PhotoResource
+     */
+    public function update(PhotoRequest $request, Photo $photo): PhotoResource
+    {
+        $this->authorize('update', $photo);
+
+        //If we update to a new profile photo then remove the previous one
+        if ($request->has('is_profile_photo')) {
+            Photo::where('is_profile_photo', true)->update(['is_profile_photo' => false]);
+        }
+
+        $photo->update($request->fillable());
+
+        return new PhotoResource($photo);
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param Photo $photo
@@ -65,6 +85,8 @@ class PhotoController extends Controller
      */
     public function destroy(Photo $photo): PhotoResource
     {
+        $this->authorize('delete', $photo);
+
         $photo->delete();
         Storage::delete($photo->location);
 

@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import * as photoActions from "../actions/photo/photoActions";
 import UploadInput from "../components/UploadInput";
 import PhotoAlbum from "../components/Photo/PhotoAlbum";
+import PhotoList from "../components/Photo/PhotoList";
 
 const ProfilePhotosPage = (props) => {
   const [photo, setPhoto] = useState();
@@ -75,11 +76,14 @@ const ProfilePhotosPage = (props) => {
       </div>
 
       <div className="row mt-5">
-        <div className="col-10">
-          <span className="fs-5 fw-bolder">Your Photos</span>
+        <span className="fs-5 fw-bolder">Your Photos</span>
+
+        <div className="col-8">
           <PhotoAlbum />
         </div>
-        <div className="col-2">Photos List</div>
+        <div className="col-4">
+          <PhotoList />
+        </div>
       </div>
     </div>
   );

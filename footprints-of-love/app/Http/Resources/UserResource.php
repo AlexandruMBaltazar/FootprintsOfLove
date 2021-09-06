@@ -19,6 +19,7 @@ class UserResource extends JsonResource
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
             'email' => $this->email,
+            'profile_photo' => new PhotoResource($this->photos()->where('is_profile_photo', true)->first()),
             'boarding_completed' => $this->boarding_completed,
         ];
     }

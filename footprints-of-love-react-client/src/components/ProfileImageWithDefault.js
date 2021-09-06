@@ -4,14 +4,8 @@ import { connect } from "react-redux";
 const ProfileImageWithDefault = (props) => {
   let imageSource = "/storage/profile.png";
 
-  let profilePhoto =
-    props.photo &&
-    props.photo.photos.filter((photo) => {
-      return photo.is_profile_photo === true;
-    });
-
-  if (profilePhoto.length !== 0) {
-    imageSource = `/${profilePhoto[0].location}`;
+  if (props.user.profile_photo) {
+    imageSource = `/${props.user.profile_photo.location}`;
   }
 
   return (
@@ -30,7 +24,7 @@ const ProfileImageWithDefault = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    photo: state.photo,
+    user: state.auth,
   };
 };
 

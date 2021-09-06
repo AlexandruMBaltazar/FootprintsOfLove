@@ -19,7 +19,6 @@ class PhotoResource extends JsonResource
             'name' => $this->name,
             'location' => $this->location,
             'is_profile_photo' => $this->is_profile_photo,
-            'user' => new UserResource($this->user),
         ];
     }
 }

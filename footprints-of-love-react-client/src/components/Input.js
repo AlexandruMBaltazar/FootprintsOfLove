@@ -17,6 +17,7 @@ const Input = (props) => {
         onChange={props.onChange}
         value={props.value}
         required={props.required}
+        disabled={props.disabled}
       />
       {props.label && <label>{props.label}</label>}
       {props.hasError && (

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import Details from "./UserDetails/Details";
 import * as userDetailsActions from "../../actions/user/details/userDetailsActions";
 import Spinner from "../Spinner";
-import Modal from "./UserDetails/Modal/Modal";
+import Modal from "../Modal/Modal";
 import { detailTypes } from "./UserDetails/detailTypes";
 
 const UserDetails = (props) => {

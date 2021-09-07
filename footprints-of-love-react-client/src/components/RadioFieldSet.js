@@ -3,6 +3,8 @@ import * as apiCalls from "../api/apiCalls";
 import Input from "./Input";
 import { connect } from "react-redux";
 import Spinner from "./Spinner";
+import styles from "../components/Modal/modal.module.css";
+import * as changeCase from "change-case";
 
 const RadioFieldSet = (props) => {
   const [details, setDetails] = useState();
@@ -27,25 +29,35 @@ const RadioFieldSet = (props) => {
   } else {
     if (details) {
       radioContent = details.map((detail) => (
-        <div className="form-check" key={detail.id}>
+        <div className="form-check d-flex flex-row mt-2" key={detail.id}>
           <Input
-            className="form-check-input ms-2"
+            className={`radio form-check-input ms-2 ${styles.radio}`}
             type="radio"
             name={props.name}
             value={detail.id}
             onChange={props.onChange}
+            disabled={
+              props.userDetails[props.name] &&
+              props.userDetails[props.name].id === detail.id
+            }
           />
-          <label className="form-check-label">{detail.value}</label>
+          <label className="form-check-label align-self-center flex-fill ms-5">
+            {detail.value}
+          </label>
         </div>
       ));
     }
   }
 
   return (
-    <fieldset className="row mb-3">
-      <legend className="col-form-label col-sm-2 pt-0">{props.detail}</legend>
-      <div className="col-sm-10">{radioContent}</div>
-    </fieldset>
+    <div>
+      <h3 className="offset-3">{changeCase.capitalCase(props.detail)}</h3>
+      <div className="row">
+        <div className="col-sm-10">
+          <div className="bg-white p-2 mt-5">{radioContent}</div>
+        </div>
+      </div>
+    </div>
   );
 };
 

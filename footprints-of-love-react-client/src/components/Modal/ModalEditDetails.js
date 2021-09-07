@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router";
-import RadioFieldSet from "../../../RadioFieldSet";
 import * as changeCase from "change-case";
 import { connect } from "react-redux";
-import * as userDetailsActions from "../../../../actions/user/details/userDetailsActions";
-import ButtonWithProgress from "../../../ButtonWithProgress";
+import * as userDetailsActions from "../../actions/user/details/userDetailsActions";
+import ButtonWithProgress from "../ButtonWithProgress";
+import RadioFieldSet from "../RadioFieldSet";
 
-const ModalEdit = (props) => {
+const ModalEditDetails = (props) => {
   const [height, setHeight] = useState();
   const [value, setValue] = useState();
 
@@ -114,4 +114,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ModalEdit);
+export default connect(mapStateToProps, mapDispatchToProps)(ModalEditDetails);

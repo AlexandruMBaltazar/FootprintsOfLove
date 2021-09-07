@@ -43,7 +43,7 @@ const TopBar = (props) => {
                 width="32"
                 height="32"
               />
-              {props.user.first_name}
+              <span className="ps-1">{props.user.first_name}</span>
             </Link>
           </div>
         </li>

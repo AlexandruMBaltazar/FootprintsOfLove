@@ -48,17 +48,13 @@ function App(props) {
       <div className="container">
         <Switch>
           <SecuredRoute exact path="/" component={HomePage} />
-          <Route exact path="/forgot" component={ForgotPasswordPage} />
-          <Route exact path="/login" component={LoginPage} />
+          <Route path="/forgot" component={ForgotPasswordPage} />
+          <Route path="/login" component={LoginPage} />
           <SecuredRoute exact path="/profile" component={ProfilePage} />
-          <SecuredRoute
-            exact
-            path="/profile/photos"
-            component={ProfilePhotosPage}
-          />
-          <Route exact path="/reset/:token" component={PasswordResetPage} />
-          <Route exact path="/signup" component={UserSignupPage} />
-          <SecuredRoute exact path="/onboarding" component={OnboardingPage} />
+          <SecuredRoute path="/profile/photos" component={ProfilePhotosPage} />
+          <Route path="/reset/:token" component={PasswordResetPage} />
+          <Route path="/signup" component={UserSignupPage} />
+          <SecuredRoute path="/onboarding" component={OnboardingPage} />
         </Switch>
       </div>
     </div>

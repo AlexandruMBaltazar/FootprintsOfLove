@@ -1,0 +1,85 @@
+<?php
+
+namespace App\Http\Controllers\User;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\User\PreferenceRequest;
+use App\Http\Resources\User\PreferenceResource;
+use App\Models\User;
+use App\Models\User\Preference;
+use Illuminate\Http\Response;
+
+class PreferenceController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function index(User $user)
+    {
+        $this->authorize('viewAny', [Preference::class, $user]);
+
+        $preferences = $user->preferences()
+            ->with('preferenceable')
+            ->get();
+
+        return new PreferenceResource($preferences);
+    }
+
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param PreferenceRequest $request
+     * @param User $user
+     * @return PreferenceResource
+     */
+    public function store(PreferenceRequest $request, User $user): PreferenceResource
+    {
+        $this->authorize('create', [Preference::class, $user]);
+
+
+        if ($request->input('preference_ids')) {
+            $model = 'App\Models\User\Detail\\'. $request->input('preference_type');
+
+            User\Preference::query()
+                ->where('preferenceable_type', $model)
+                ->where('user_id', $user->id)
+                ->delete();
+
+            foreach ($request->input('preference_ids') as $id) {
+                $model = $model::findOrFail($id);
+                $model->preferences()->create([
+                    'user_id' => $user->id,
+                ]);
+            }
+        }
+
+        if ($request->input('height')) {
+            $user->heightPreference()->updateOrCreate(
+                ['user_id' => $user->heightPreference->id],
+                [
+                    'min' => $request->input('height.min'),
+                    'max' => $request->input('height.max'),
+                ]
+            );
+        }
+
+        if ($request->input('age')) {
+            $user->agePreference()->updateOrCreate(
+                ['user_id' => $user->agePreference->id],
+                [
+                    'min' => $request->input('age.min'),
+                    'max' => $request->input('age.max'),
+                ]
+            );
+        }
+
+        $preferences = $user->preferences()
+            ->with('preferenceable')
+            ->get();
+
+        return new PreferenceResource($preferences);
+    }
+}

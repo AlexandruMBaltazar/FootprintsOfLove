@@ -5,7 +5,9 @@ namespace App\Providers;
 use App\Models\Photo;
 use App\Models\User;
 use App\Models\User\UserDetail;
+use App\Models\User\Preference;
 use App\Policies\PhotoPolicy;
+use App\Policies\User\PreferencePolicy;
 use App\Policies\User\UserDetailsPolicy;
 use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -23,6 +25,7 @@ class AuthServiceProvider extends ServiceProvider
         UserDetail::class => UserDetailsPolicy::class,
         User::class => UserPolicy::class,
         Photo::class => PhotoPolicy::class,
+        Preference::class => PreferencePolicy::class
     ];
 
     /**

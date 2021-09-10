@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\User\Detail\DetailController;
+use App\Http\Controllers\User\PreferenceController;
 use App\Http\Controllers\User\UserDetailsController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -38,6 +39,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('users/{user}')->group(function () {
         Route::post('/details', [UserDetailsController::class, 'store']);
         Route::get('/details', [UserDetailsController::class, 'show']);
+
+        Route::post('/preferences', [PreferenceController::class, 'store']);
+        Route::get('/preferences', [PreferenceController::class, 'index']);
     });
     Route::put('/details/{detail}', [UserDetailsController::class, 'update']);
 });

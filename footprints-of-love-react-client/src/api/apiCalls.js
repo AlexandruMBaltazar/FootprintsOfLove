@@ -39,6 +39,13 @@ export const deletePhoto = (photoId) => {
   return axios.delete(`/api/photos/${photoId}`);
 };
 
+export const getPreferences = (userId) => {
+  return axios.get(`/api/users/${userId}/preferences`);
+};
+export const postPreferences = (userId, preferences) => {
+  return axios.post(`/api/users/${userId}/preferences`, preferences);
+};
+
 export const getAuthUser = () => {
   return axios.get("/api/user");
 };

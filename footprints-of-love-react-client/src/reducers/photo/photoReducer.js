@@ -16,7 +16,7 @@ const initialState = {
   isFetchingPhotos: false,
 };
 
-export default function authReducer(state = initialState, action) {
+export default function photoReducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_PHOTOS:
       return {

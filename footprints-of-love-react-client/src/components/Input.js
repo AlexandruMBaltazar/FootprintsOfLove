@@ -18,6 +18,9 @@ const Input = (props) => {
         value={props.value}
         required={props.required}
         disabled={props.disabled}
+        checked={props.checked}
+        min={props.min}
+        max={props.max}
       />
       {props.label && <label>{props.label}</label>}
       {props.hasError && (

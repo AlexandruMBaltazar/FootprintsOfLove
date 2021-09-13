@@ -20,7 +20,8 @@ class PreferenceRequest extends FormRequest
             ],
 
             'preference_ids' => [
-                'required_without_all:height,age',
+                'sometimes',
+                'present',
                 'array'
             ],
 
@@ -29,18 +30,17 @@ class PreferenceRequest extends FormRequest
                 'array'
             ],
             'height.*.min' => [
-                'min:140',
+                'min:145',
                 'max:200'
             ],
             'height.*.max' => [
-                'min:140',
+                'min:145',
                 'max:200'
             ],
 
             'age' => [
                 'required_without_all:preference_ids,height,preference_type',
-                'min:18',
-                'max:99'
+                'array'
             ],
             'age.*.min' => [
                 'min:18',

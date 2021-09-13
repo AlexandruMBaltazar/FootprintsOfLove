@@ -39,8 +39,7 @@ class PreferenceController extends Controller
     {
         $this->authorize('create', [Preference::class, $user]);
 
-
-        if ($request->input('preference_ids')) {
+        if ($request->has('preference_ids')) {
             $model = 'App\Models\User\Detail\\'. $request->input('preference_type');
 
             User\Preference::query()
@@ -56,9 +55,9 @@ class PreferenceController extends Controller
             }
         }
 
-        if ($request->input('height')) {
+        if ($request->has('height')) {
             $user->heightPreference()->updateOrCreate(
-                ['user_id' => $user->heightPreference->id],
+                ['user_id' => $user->heightPreference->user_id],
                 [
                     'min' => $request->input('height.min'),
                     'max' => $request->input('height.max'),
@@ -66,9 +65,9 @@ class PreferenceController extends Controller
             );
         }
 
-        if ($request->input('age')) {
+        if ($request->has('age')) {
             $user->agePreference()->updateOrCreate(
-                ['user_id' => $user->agePreference->id],
+                ['user_id' => $user->agePreference->user_id],
                 [
                     'min' => $request->input('age.min'),
                     'max' => $request->input('age.max'),

@@ -228,7 +228,7 @@ const UserDetails = (props) => {
   }
 
   return (
-    <div className="col-4">
+    <div>
       {pageContent}
       <Modal />
     </div>

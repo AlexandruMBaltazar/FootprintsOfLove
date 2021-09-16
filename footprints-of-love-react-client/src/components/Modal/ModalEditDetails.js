@@ -129,7 +129,7 @@ const ModalEditDetails = (props) => {
       let body = {
         preference_ids: preferenceIds,
         preference_type: changeCase.pascalCase(detail),
-        is_important: isImportant,
+        is_important: preferenceIds.length !== 0 ? isImportant : false,
       };
       props.actions.postUserPreferences(props.user.id, body);
     }
@@ -144,6 +144,14 @@ const ModalEditDetails = (props) => {
     }
 
     return props.isPostingUserPreferences;
+  };
+
+  const disableSiwtch = () => {
+    if (detail === "height" || detail === "age") {
+      return !min && !max;
+    }
+
+    return preferenceIds && preferenceIds.length === 0;
   };
 
   const editDetails = (
@@ -266,7 +274,7 @@ const ModalEditDetails = (props) => {
           <div className="row overflow-auto">
             <div className="col-12">
               <form
-                className="d-flex flex-column offset-3 mt-5"
+                className="d-flex flex-column offset-2 mt-5"
                 style={{ height: "260px" }}
               >
                 <div className="mb-1">
@@ -275,20 +283,23 @@ const ModalEditDetails = (props) => {
               </form>
             </div>
           </div>
-          <div>
-            <div className="form-check form-switch offset-3">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                onChange={() => setIsImportant(!isImportant)}
-                checked={isImportant}
-              />
-              <label className="form-check-label">
-                Is this important to you ?
-              </label>
+          {page === "preferences" && (
+            <div className="mt-3">
+              <div className="form-check form-switch offset-3">
+                <Input
+                  className="form-check-input"
+                  type="checkbox"
+                  onChange={() => setIsImportant(!isImportant)}
+                  checked={isImportant}
+                  disabled={disableSiwtch()}
+                />
+                <label className="form-check-label">
+                  Is this important to you ?
+                </label>
+              </div>
             </div>
-          </div>
-          <div className="row mt-5">
+          )}
+          <div className="row mt-4">
             <div className="col-12">
               <ButtonWithProgress
                 type="submit"

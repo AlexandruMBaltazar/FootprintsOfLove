@@ -13,6 +13,12 @@ class PreferenceRequest extends FormRequest
     public function rulesPost()
     {
         return [
+
+            'is_important' => [
+                'required',
+                'boolean'
+            ],
+
             'preference_type' => [
                 'required_without_all:height,age',
                 Rule::in(['BodyType', 'Child', 'Diet', 'Drink', 'Education', 'Employment', 'Ethnicity', 'Gender', 'Language',

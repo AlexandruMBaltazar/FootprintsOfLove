@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateHeightPreferencesTable extends Migration
+class CreateImportancesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateHeightPreferencesTable extends Migration
      */
     public function up()
     {
-        Schema::create('height_preferences', function (Blueprint $table) {
+        Schema::create('importances', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users');
-            $table->integer('min');
-            $table->integer('max');
+            $table->string('preferenceable_type');
             $table->boolean('is_important')->default(false);
             $table->timestamps();
         });
@@ -30,6 +29,6 @@ class CreateHeightPreferencesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('height_preferences');
+        Schema::dropIfExists('importances');
     }
 }

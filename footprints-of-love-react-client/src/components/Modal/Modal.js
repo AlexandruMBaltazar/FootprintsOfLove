@@ -95,8 +95,8 @@ const Modal = (props) => {
     }
 
     let preferences =
-      props.preferences[infoType] &&
-      props.preferences[infoType].map((preference) => {
+      props.preferences[infoType].values &&
+      props.preferences[infoType].values.map((preference) => {
         return preference.value;
       });
 

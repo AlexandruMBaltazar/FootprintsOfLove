@@ -16,7 +16,8 @@ class VariablePreferenceResource extends JsonResource
     {
         return [
             'min' => $this->min,
-            'max' => $this->max
+            'max' => $this->max,
+            'is_important' => $this->is_important
         ];
     }
 }

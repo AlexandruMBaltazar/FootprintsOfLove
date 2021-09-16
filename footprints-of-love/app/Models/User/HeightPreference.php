@@ -17,5 +17,15 @@ class HeightPreference extends Model
     protected $fillable = [
         'min',
         'max',
+        'is_important',
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'is_important' => 'boolean',
     ];
 }

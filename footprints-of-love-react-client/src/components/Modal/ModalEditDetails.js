@@ -16,6 +16,7 @@ const ModalEditDetails = (props) => {
   const [preferenceIds, setPreferenceIds] = useState([]);
   const [min, setMin] = useState();
   const [max, setMax] = useState();
+  const [isImportant, setIsImportant] = useState(false);
 
   const { search } = useLocation();
   const searchParams = new URLSearchParams(search);
@@ -32,12 +33,16 @@ const ModalEditDetails = (props) => {
       } else {
         setPreferenceIds(() => {
           return (
-            props.preferences &&
             props.preferences[detail] &&
-            props.preferences[detail].map((detail) => detail.id)
+            props.preferences[detail].values &&
+            props.preferences[detail].values.map((detail) => detail.id)
           );
         });
       }
+
+      setIsImportant(
+        props.preferences[detail] && props.preferences[detail].is_important
+      );
     };
 
     loadPreferences();
@@ -106,6 +111,7 @@ const ModalEditDetails = (props) => {
           min,
           max,
         },
+        is_important: isImportant,
       };
 
       props.actions.postUserPreferences(props.user.id, body);
@@ -115,6 +121,7 @@ const ModalEditDetails = (props) => {
           min,
           max,
         },
+        is_important: isImportant,
       };
 
       props.actions.postUserPreferences(props.user.id, body);
@@ -122,6 +129,7 @@ const ModalEditDetails = (props) => {
       let body = {
         preference_ids: preferenceIds,
         preference_type: changeCase.pascalCase(detail),
+        is_important: isImportant,
       };
       props.actions.postUserPreferences(props.user.id, body);
     }
@@ -267,11 +275,24 @@ const ModalEditDetails = (props) => {
               </form>
             </div>
           </div>
+          <div>
+            <div className="form-check form-switch offset-3">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                onChange={() => setIsImportant(!isImportant)}
+                checked={isImportant}
+              />
+              <label className="form-check-label">
+                Is this important to you ?
+              </label>
+            </div>
+          </div>
           <div className="row mt-5">
             <div className="col-12">
               <ButtonWithProgress
                 type="submit"
-                className="w-50 btn btn-md btn-primary offset-3 mt-5"
+                className="w-50 btn btn-md btn-primary offset-3 mt-4"
                 disabled={disableSubmitButton()}
                 pendingApiCall={
                   props.isLoading || props.isPostingUserPreferences

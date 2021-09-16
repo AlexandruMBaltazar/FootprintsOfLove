@@ -34,21 +34,66 @@ class PreferenceResource extends JsonResource
     {
         return [
             'user' => new UserResource($request->user()),
-            'body_type' => DetailResource::collection($this->ofType(BodyType::class)),
-            'child' => DetailResource::collection($this->ofType(Child::class)),
-            'diet' => DetailResource::collection($this->ofType(Diet::class)),
-            'drink' => DetailResource::collection($this->ofType(Drink::class)),
-            'education' => DetailResource::collection($this->ofType(Education::class)),
-            'employment' => DetailResource::collection($this->ofType(Employment::class)),
-            'ethnicity' => DetailResource::collection($this->ofType(Ethnicity::class)),
-            'gender' => DetailResource::collection($this->ofType(Gender::class)),
-            'language' => DetailResource::collection($this->ofType(Language::class)),
-            'pet' => DetailResource::collection($this->ofType(Pet::class)),
-            'politics' => DetailResource::collection($this->ofType(Politics::class)),
-            'relationship' => DetailResource::collection($this->ofType(Relationship::class)),
-            'religion' => DetailResource::collection($this->ofType(Religion::class)),
-            'sign' => DetailResource::collection($this->ofType(Sign::class)),
-            'smoke' => DetailResource::collection($this->ofType(Smoke::class)),
+            'body_type' => [
+                'values' => DetailResource::collection($this->ofType(BodyType::class)),
+                'is_important' => $this->ofImportanceType(BodyType::class)
+            ],
+            'child' => [
+                'values' => DetailResource::collection($this->ofType(Child::class)),
+                'is_important' => $this->ofImportanceType(Child::class)
+            ],
+            'diet' => [
+                'values' => DetailResource::collection($this->ofType(Diet::class)),
+                'is_important' => $this->ofImportanceType(Diet::class)
+            ],
+            'drink' => [
+                'values' => DetailResource::collection($this->ofType(Drink::class)),
+                'is_important' => $this->ofImportanceType(Drink::class)
+            ],
+            'education' => [
+                'values' => DetailResource::collection($this->ofType(Education::class)),
+                'is_important' => $this->ofImportanceType(Education::class)
+            ],
+            'employment' => [
+                'values' => DetailResource::collection($this->ofType(Employment::class)),
+                'is_important' => $this->ofImportanceType(Employment::class)
+            ],
+            'ethnicity' => [
+                'values' => DetailResource::collection($this->ofType(Ethnicity::class)),
+                'is_important' => $this->ofImportanceType(Ethnicity::class)
+            ],
+            'gender' => [
+                'values' => DetailResource::collection($this->ofType(Gender::class)),
+                'is_important' => $this->ofImportanceType(Gender::class)
+            ],
+            'language' => [
+                'values' => DetailResource::collection($this->ofType(Language::class)),
+                'is_important' => $this->ofImportanceType(Language::class)
+            ],
+            'pet' => [
+                'values' => DetailResource::collection($this->ofType(Pet::class)),
+                'is_important' => $this->ofImportanceType(Pet::class)
+            ],
+            'politics' => [
+                'values' => DetailResource::collection($this->ofType(Politics::class)),
+                'is_important' => $this->ofImportanceType(Politics::class)
+            ],
+            'relationship' => [
+                'values' => DetailResource::collection($this->ofType(Relationship::class)),
+                'is_important' => $this->ofImportanceType(Relationship::class)
+            ],
+            'religion' => [
+                'values' => DetailResource::collection($this->ofType(Religion::class)),
+                'is_important' => $this->ofImportanceType(Religion::class)
+            ],
+            'sign' => [
+                'values' => DetailResource::collection($this->ofType(Sign::class)),
+                'is_important' => $this->ofImportanceType(Sign::class)
+            ],
+            'smoke' => [
+                'values' => DetailResource::collection($this->ofType(Smoke::class)),
+                'is_important' => $this->ofImportanceType(Smoke::class)
+            ],
             'age' => new VariablePreferenceResource($request->user()->agePreference),
             'height' => new VariablePreferenceResource($request->user()->heightPreference),
         ];
@@ -57,5 +102,14 @@ class PreferenceResource extends JsonResource
     private function ofType(string $type)
     {
         return $this->where('preferenceable_type', $type)->pluck('preferenceable');
+    }
+
+    private function ofImportanceType(string $type): bool
+    {
+        if ($preference = $this->where('preferenceable_type', $type)->first()) {
+            return $preference->getIsImportant();
+        }
+
+        return false;
     }
 }

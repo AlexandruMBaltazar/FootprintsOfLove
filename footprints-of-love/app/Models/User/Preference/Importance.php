@@ -1,23 +1,18 @@
 <?php
 
-namespace App\Models\User;
+namespace App\Models\User\Preference;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AgePreference extends Model
+class Importance extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
-        'min',
-        'max',
-        'is_important',
+        'user_id',
+        'preferenceable_type',
+        'is_important'
     ];
 
     /**

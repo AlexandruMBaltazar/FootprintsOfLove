@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\User\AgePreference;
 use App\Models\User\HeightPreference;
 use App\Models\User\Preference;
+use App\Models\User\Preference\Importance;
 use App\Models\User\UserDetail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -74,5 +75,10 @@ class User extends Authenticatable
     public function agePreference(): HasOne
     {
         return $this->hasOne(AgePreference::class);
+    }
+
+    public function importances(): HasMany
+    {
+        return $this->hasMany(Importance::class);
     }
 }

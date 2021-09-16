@@ -18,6 +18,7 @@ class CreateAgePreferencesTable extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->integer('min');
             $table->integer('max');
+            $table->boolean('is_important')->default(false);
             $table->timestamps();
         });
     }

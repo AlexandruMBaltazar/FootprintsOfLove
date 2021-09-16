@@ -47,6 +47,14 @@ class PreferenceController extends Controller
                 ->where('user_id', $user->id)
                 ->delete();
 
+            $user->importances()->updateOrCreate(
+                ['preferenceable_type' => $model],
+                [
+                    'preferenceable_type' => $model,
+                    'is_important' => $request->input('is_important')
+                ]
+            );
+
             foreach ($request->input('preference_ids') as $id) {
                 $model = $model::findOrFail($id);
                 $model->preferences()->create([
@@ -61,6 +69,7 @@ class PreferenceController extends Controller
                 [
                     'min' => $request->input('height.min'),
                     'max' => $request->input('height.max'),
+                    'is_important' => $request->input('is_important')
                 ]
             );
         }
@@ -71,12 +80,13 @@ class PreferenceController extends Controller
                 [
                     'min' => $request->input('age.min'),
                     'max' => $request->input('age.max'),
+                    'is_important' => $request->input('is_important')
                 ]
             );
         }
 
         $preferences = $user->preferences()
-            ->with('preferenceable')
+            ->with(['preferenceable', 'user.importances'])
             ->get();
 
         return new PreferenceResource($preferences);

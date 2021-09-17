@@ -81,4 +81,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(Importance::class);
     }
+
+    public function preferencesImportance(): HasMany
+    {
+        return $this->hasMany(Preference::class)
+            ->join('importances', function ($join) {
+                $join->on('preferences.user_id', 'importances.user_id');
+                $join->on('preferences.preferenceable_type', 'importances.preferenceable_type');
+            });
+    }
 }

@@ -33,6 +33,7 @@ class CreateUserDetailsTable extends Migration
             $table->foreignId('sign_id')->nullable()->constrained('signs');
             $table->foreignId('smoke_id')->nullable()->constrained('smokes');
             $table->date('dob');
+            $table->integer('age');
             $table->timestamps();
         });
     }

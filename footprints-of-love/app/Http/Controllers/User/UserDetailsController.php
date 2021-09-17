@@ -7,6 +7,7 @@ use App\Http\Requests\User\UserDetailsRequest;
 use App\Http\Resources\User\UserDetailsResource;
 use App\Models\User;
 use App\Models\User\UserDetail;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +23,11 @@ class UserDetailsController extends Controller
      */
     public function store(UserDetailsRequest $request, User $user): UserDetailsResource
     {
-        $detail = $user->detail()->create($request->fillable());
+        $detail = $user->detail()->create(array_merge(
+                $request->fillable(), [
+                'age' => Carbon::parse($request->fillable()['dob'])->age
+            ])
+        );
 
         return new UserDetailsResource($detail);
     }
@@ -56,7 +61,16 @@ class UserDetailsController extends Controller
     {
         $this->authorize('update', $detail);
 
-        $detail->update($request->fillable());
+        $detail->update(
+            $request->has('dob') ?
+                array_merge($request->fillable(),
+                    [
+                        'age' => Carbon::parse($request->fillable()['dob'])->age
+                    ]
+                )
+                :
+                $request->fillable()
+        );
 
         return new UserDetailsResource($detail);
     }

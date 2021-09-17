@@ -4,34 +4,77 @@ namespace App\Traits\Search;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 
 trait UserDetails
 {
     public function scopeSearch(Builder $query): Builder
     {
-        $user = Auth::user()->load('preferences');
+        $user = Auth::user()->load(['preferencesImportance', 'heightPreference', 'agePreference']);
+        $importantPreferences = $this->getImportantPreferences($user);
 
         return $query
-            ->whereIn('gender_id', $this->getPreference(User\Detail\Gender::class, $user))
-            ->whereIn('body_type_id', $this->getPreference(User\Detail\BodyType::class, $user));
-//            ->whereIn('child_id', $this->getPreference(User\Detail\Child::class, $user));
-//            ->orWhereIn('diet_id', $this->getPreference(User\Detail\Diet::class, $user))
-//            ->orWhereIn('drink_id', $this->getPreference(User\Detail\Drink::class, $user))
-//            ->orWhereIn('education_id', $this->getPreference(User\Detail\Education::class, $user))
-//            ->orWhereIn('employment_id', $this->getPreference(User\Detail\Employment::class, $user))
-//            ->orWhereIn('ethnicity_id', $this->getPreference(User\Detail\Ethnicity::class, $user))
-//            ->orWhereIn('language_id', $this->getPreference(User\Detail\Language::class, $user))
-//            ->orWhereIn('pet_id', $this->getPreference(User\Detail\Pet::class, $user))
-//            ->orWhereIn('politics_id', $this->getPreference(User\Detail\Politics::class, $user))
-//            ->orWhereIn('relationship_id', $this->getPreference(User\Detail\Relationship::class, $user))
-//            ->orWhereIn('religion_id', $this->getPreference(User\Detail\Religion::class, $user))
-//            ->orWhereIn('sign_id', $this->getPreference(User\Detail\Sign::class, $user))
-//            ->orWhereIn('smoke_id', $this->getPreference(User\Detail\Smoke::class, $user));
+            ->when(Arr::exists($importantPreferences, User\Detail\Gender::class), function (Builder $query) use ($importantPreferences) {
+                $query->whereIn('gender_id', $importantPreferences[User\Detail\Gender::class]);
+            })
+            ->when(Arr::exists($importantPreferences, User\Detail\BodyType::class), function (Builder $query) use ($importantPreferences) {
+                $query->whereIn('body_type_id', $importantPreferences[User\Detail\BodyType::class]);
+            })
+            ->when(Arr::exists($importantPreferences, User\Detail\Child::class), function (Builder $query) use ($importantPreferences) {
+                $query->whereIn('child_id', $importantPreferences[User\Detail\Child::class]);
+            })
+            ->when(Arr::exists($importantPreferences, User\Detail\Diet::class), function (Builder $query) use ($importantPreferences) {
+                $query->whereIn('diet_id', $importantPreferences[User\Detail\Diet::class]);
+            })
+            ->when(Arr::exists($importantPreferences, User\Detail\Drink::class), function (Builder $query) use ($importantPreferences) {
+                $query->whereIn('drink_id', $importantPreferences[User\Detail\Drink::class]);
+            })
+            ->when(Arr::exists($importantPreferences, User\Detail\Education::class), function (Builder $query) use ($importantPreferences) {
+                $query->whereIn('education_id', $importantPreferences[User\Detail\Education::class]);
+            })
+            ->when(Arr::exists($importantPreferences, User\Detail\Employment::class), function (Builder $query) use ($importantPreferences) {
+                $query->whereIn('employment_id', $importantPreferences[User\Detail\Employment::class]);
+            })
+            ->when(Arr::exists($importantPreferences, User\Detail\Ethnicity::class), function (Builder $query) use ($importantPreferences) {
+                $query->whereIn('ethnicity_id', $importantPreferences[User\Detail\Ethnicity::class]);
+            })
+            ->when(Arr::exists($importantPreferences, User\Detail\Language::class), function (Builder $query) use ($importantPreferences) {
+                $query->whereIn('language_id', $importantPreferences[User\Detail\Language::class]);
+            })
+            ->when(Arr::exists($importantPreferences, User\Detail\Pet::class), function (Builder $query) use ($importantPreferences) {
+                $query->whereIn('pet_id', $importantPreferences[User\Detail\Pet::class]);
+            })
+            ->when(Arr::exists($importantPreferences, User\Detail\Politics::class), function (Builder $query) use ($importantPreferences) {
+                $query->whereIn('politics_id', $importantPreferences[User\Detail\Politics::class]);
+            })
+            ->when(Arr::exists($importantPreferences, User\Detail\Relationship::class), function (Builder $query) use ($importantPreferences) {
+                $query->whereIn('relationship_id', $importantPreferences[User\Detail\Relationship::class]);
+            })
+            ->when(Arr::exists($importantPreferences, User\Detail\Religion::class), function (Builder $query) use ($importantPreferences) {
+                $query->whereIn('religion_id', $importantPreferences[User\Detail\Religion::class]);
+            })
+            ->when(Arr::exists($importantPreferences, User\Detail\Sign::class), function (Builder $query) use ($importantPreferences) {
+                $query->whereIn('sign_id', $importantPreferences[User\Detail\Sign::class]);
+            })
+            ->when(Arr::exists($importantPreferences, User\Detail\Smoke::class), function (Builder $query) use ($importantPreferences) {
+                $query->whereIn('smoke_id', $importantPreferences[User\Detail\Smoke::class]);
+            })
+            ->when($user->heightPreference->is_important, function (Builder $query) use ($user) {
+                $query->whereBetween('height', [$user->heightPreference->min, $user->heightPreference->max]);
+            })
+            ->when($user->agePreference->is_important, function (Builder $query) use ($user) {
+                $query->whereBetween('age', [$user->agePreference->min, $user->agePreference->max]);
+            });
     }
 
-    private function getPreference(string $type, User $user): array
+    private function getImportantPreferences(User $user)
     {
-        return $user->preferences->where('preferenceable_type', $type)->pluck('preferenceable_id')->toArray();
+        $preferences = $user->preferencesImportance
+            ->where('is_important', true);
+
+        return $preferences->mapToGroups(function ($preference, $key) {
+            return [$preference['preferenceable_type'] => $preference['preferenceable_id']];
+        });
     }
 }

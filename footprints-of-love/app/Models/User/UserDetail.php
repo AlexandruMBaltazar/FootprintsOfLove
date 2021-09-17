@@ -18,14 +18,14 @@ use App\Models\User\Detail\Relationship;
 use App\Models\User\Detail\Religion;
 use App\Models\User\Detail\Sign;
 use App\Models\User\Detail\Smoke;
+use App\Traits\Search\UserDetails as Search;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class UserDetail extends Model
 {
-    use HasFactory;
-
+    use HasFactory, Search;
 
     /**
      * The attributes that are mass assignable.
@@ -49,7 +49,8 @@ class UserDetail extends Model
         'religion_id',
         'sign_id',
         'smoke_id',
-        'dob'
+        'dob',
+        'age'
     ];
 
 

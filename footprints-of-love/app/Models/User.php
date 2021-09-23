@@ -62,6 +62,11 @@ class User extends Authenticatable
         return $this->hasMany(Photo::class);
     }
 
+    public function profilePhoto(): HasOne
+    {
+        return $this->hasOne(Photo::class)->where('is_profile_photo', true);
+    }
+
     public function preferences(): HasMany
     {
         return $this->hasMany(Preference::class);

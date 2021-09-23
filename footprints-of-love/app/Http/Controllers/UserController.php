@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\User\FilterByNonImportantPreferences;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\UserRequest;
+use App\Http\Resources\User\ShowResource;
 use App\Http\Resources\UserResource;
 use App\Models\User;
-use Carbon\Carbon;
+use App\Paginator\CollectionPaginator;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Builder;
@@ -24,18 +27,20 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return ShowResource
      */
     public function index()
     {
-        $users = User::whereHas('detail', function (Builder $query) {
-            $query->search();
+        $users = User::with('profilePhoto', 'detail')->whereHas('detail', function (Builder $query) {
+            $query->searchByImportantPreferences();
         })
-        ->get()
-        ->except(Auth::id());
+        ->where('id', '!=', Auth::id())
+        ->lazy()->filter(function ($user) {
+            return \app()->makeWith(FilterByNonImportantPreferences::class, ['user' => $user])
+                ->meetsThreshold();
+        });
 
-
-        dd($users->toArray());
+        return new ShowResource(CollectionPaginator::paginate($users));
     }
 
     /**

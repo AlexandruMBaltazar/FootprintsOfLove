@@ -4,8 +4,79 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6aee78c7a3c32b78c1a7c794189d8d69",
+    "content-hash": "b25006f208be4b9f15929a2f35556bf4",
     "packages": [
+        {
+            "name": "acadea/collection-paginator",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/acadea/collection-paginator.git",
+                "reference": "07423ad628682c227cb2c1e25c63d20687534288"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/acadea/collection-paginator/zipball/07423ad628682c227cb2c1e25c63d20687534288",
+                "reference": "07423ad628682c227cb2c1e25c63d20687534288",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^8.0",
+                "php": "^7.3"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.16",
+                "orchestra/testbench": "^6.0",
+                "phpunit/phpunit": "^9.3",
+                "vimeo/psalm": "^3.11"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Acadea\\CollectionPaginator\\CollectionPaginatorServiceProvider"
+                    ],
+                    "aliases": {
+                        "CollectionPaginator": "Acadea\\CollectionPaginator\\CollectionPaginatorFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Acadea\\CollectionPaginator\\": "src",
+                    "Acadea\\CollectionPaginator\\Database\\Factories\\": "database/factories"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "sam-ngu",
+                    "email": "opensource@acadea.io",
+                    "homepage": "https://www.acadea.io",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Laravel Package to paginate any collection",
+            "homepage": "https://github.com/acadea/collection-paginator",
+            "keywords": [
+                "acadea",
+                "collection-paginator"
+            ],
+            "support": {
+                "issues": "https://github.com/acadea/collection-paginator/issues",
+                "source": "https://github.com/acadea/collection-paginator/tree/v1.0.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/acadea",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-01-14T06:53:52+00:00"
+        },
         {
             "name": "asm89/stack-cors",
             "version": "v2.0.3",
@@ -1468,6 +1539,74 @@
                 }
             ],
             "time": "2021-08-17T13:49:42+00:00"
+        },
+        {
+            "name": "league/fractal",
+            "version": "0.19.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/fractal.git",
+                "reference": "06dc15f6ba38f2dde2f919d3095d13b571190a7c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/fractal/zipball/06dc15f6ba38f2dde2f919d3095d13b571190a7c",
+                "reference": "06dc15f6ba38f2dde2f919d3095d13b571190a7c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "doctrine/orm": "^2.5",
+                "illuminate/contracts": "~5.0",
+                "mockery/mockery": "~0.9",
+                "pagerfanta/pagerfanta": "~1.0.0",
+                "phpunit/phpunit": "^4.8.35 || ^7.5",
+                "squizlabs/php_codesniffer": "~1.5|~2.0|~3.4",
+                "zendframework/zend-paginator": "~2.3"
+            },
+            "suggest": {
+                "illuminate/pagination": "The Illuminate Pagination component.",
+                "pagerfanta/pagerfanta": "Pagerfanta Paginator",
+                "zendframework/zend-paginator": "Zend Framework Paginator"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.13-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\Fractal\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Phil Sturgeon",
+                    "email": "me@philsturgeon.uk",
+                    "homepage": "http://philsturgeon.uk/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Handle the output of complex data structures ready for API output.",
+            "homepage": "http://fractal.thephpleague.com/",
+            "keywords": [
+                "api",
+                "json",
+                "league",
+                "rest"
+            ],
+            "support": {
+                "issues": "https://github.com/thephpleague/fractal/issues",
+                "source": "https://github.com/thephpleague/fractal/tree/0.19.2"
+            },
+            "time": "2020-01-24T23:17:29+00:00"
         },
         {
             "name": "league/mime-type-detection",

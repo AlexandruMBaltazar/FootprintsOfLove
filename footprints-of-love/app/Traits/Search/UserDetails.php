@@ -6,13 +6,14 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 trait UserDetails
 {
-    public function scopeSearch(Builder $query): Builder
+    public function scopeSearchByImportantPreferences(Builder $query): Builder
     {
         $user = Auth::user()->load(['preferencesImportance', 'heightPreference', 'agePreference']);
-        $importantPreferences = $this->getImportantPreferences($user);
+        $importantPreferences = $this->getImportantPreferences($user)->toArray();
 
         return $query
             ->when(Arr::exists($importantPreferences, User\Detail\Gender::class), function (Builder $query) use ($importantPreferences) {

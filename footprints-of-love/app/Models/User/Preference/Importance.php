@@ -9,6 +9,8 @@ class Importance extends Model
 {
     use HasFactory;
 
+    public const THRESHOLD = 50;
+
     protected $fillable = [
         'user_id',
         'preferenceable_type',

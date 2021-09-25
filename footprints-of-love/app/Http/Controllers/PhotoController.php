@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class PhotoController extends Controller
@@ -69,7 +70,8 @@ class PhotoController extends Controller
 
         //If we update to a new profile photo then remove the previous one
         if ($request->has('is_profile_photo')) {
-            Photo::where('is_profile_photo', true)->update(['is_profile_photo' => false]);
+            Auth::user()->photos()
+                ->where('is_profile_photo', true)->update(['is_profile_photo' => false]);
         }
 
         $photo->update($request->fillable());

@@ -4,9 +4,9 @@ import { connect } from "react-redux";
 const ProfileImageWithDefault = (props) => {
   let imageSource = "/storage/profile.png";
 
-  if (props.user.profile_photo) {
-    imageSource = `/${props.user.profile_photo.location}`;
-  }
+  // if (props.user.profile_photo) {
+  //   imageSource = `/${props.user.profile_photo.location}`;
+  // }
 
   return (
     <img

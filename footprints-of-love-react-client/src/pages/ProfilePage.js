@@ -19,7 +19,11 @@ const ProfilePage = (props) => {
                 alt="profile"
                 width="200"
                 height="200"
-                src={props.loadedImage}
+                src={
+                  props.user.profile_photo
+                    ? `/${props.user.profile_photo.location}`
+                    : null
+                }
                 className={`rounded-circle shadow`}
               />
               <Link

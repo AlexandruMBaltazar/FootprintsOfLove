@@ -52,6 +52,10 @@ export const getAuthUser = () => {
 export const signup = (user) => {
   return axios.post("/api/users", user);
 };
+
+export const getUsers = (page = 1) => {
+  return axios.get(`/api/users?page=${page}`);
+};
 export const putUser = (user, userId) => {
   return axios.put(`/api/users/${userId}`, user);
 };

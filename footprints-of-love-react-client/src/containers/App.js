@@ -48,6 +48,7 @@ function App(props) {
       <div className="container">
         <Switch>
           <SecuredRoute exact path="/" component={HomePage} />
+          <SecuredRoute path="/discover" component={HomePage} />
           <Route path="/forgot" component={ForgotPasswordPage} />
           <Route path="/login" component={LoginPage} />
           <SecuredRoute exact path="/profile" component={ProfilePage} />

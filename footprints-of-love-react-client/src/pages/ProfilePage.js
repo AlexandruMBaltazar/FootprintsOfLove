@@ -5,6 +5,7 @@ import moment from "moment";
 import UserDetails from "../components/User/UserDetails";
 import styles from "./css/profilepage.module.css";
 import { Link } from "react-router-dom";
+import * as authActions from "../actions/auth/authActions";
 
 const ProfilePage = (props) => {
   const { dob } = props.userDetails.details;
@@ -63,7 +64,11 @@ const ProfilePage = (props) => {
         <div className="col-8">User description</div>
         <div className="col-4">
           <UserDetails />
-          <button type="button" class="btn btn-outline-danger mt-3 w-100">
+          <button
+            type="button"
+            class="btn btn-outline-danger mt-3 w-100"
+            onClick={() => props.actions.logout(props.history)}
+          >
             Logout
           </button>
         </div>
@@ -79,4 +84,12 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(ProfilePage);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    actions: {
+      logout: (history) => dispatch(authActions.logout(history)),
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage);

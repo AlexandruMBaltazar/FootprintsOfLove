@@ -7,7 +7,8 @@ const User = (props) => {
     <div>
       <div className="card" style={{ width: "18rem" }}>
         <ProfileImageWithDefault
-          alt="profile"
+          width="286"
+          height="286"
           src={
             props.user.profile_photo
               ? `/${props.user.profile_photo.location}`

@@ -23,10 +23,12 @@ class FilterByNonImportantPreferences
     public function meetsThreshold()
     {
         $preferences = $this->getNonImportantPreferences($this->user);
-        $isHeightImportant = $this->user->heightPreference->is_important;
-        $isAgeImportant = $this->user->agePreference->is_important;
 
-        $percentageWorth = 100 / (count($preferences) + (!$isHeightImportant ? 1 : 0) + (!$isAgeImportant ? 1 : 0));
+        try {
+            $percentageWorth = 100 / (count($preferences) + (Arr::exists($preferences, 'Height') ? 1 : 0) + (Arr::exists($preferences, 'Age') ? 1 : 0));
+        } catch (\DivisionByZeroError $exception) {
+            return true;
+        }
 
         $preferences
             ->when(Arr::exists($preferences, User\Detail\BodyType::class), function ($preferences) use ($percentageWorth) {
@@ -85,14 +87,14 @@ class FilterByNonImportantPreferences
                 $this->total += in_array($this->filteredUser->detail->smoke_id ,$preferences[User\Detail\Smoke::class]->all()) ? $percentageWorth : 0;
                 return $preferences;
             })
-            ->when(!$isHeightImportant, function ($preferences) use ($percentageWorth) {
+            ->when(Arr::exists($preferences, 'Height'), function ($preferences) use ($percentageWorth) {
                 if ($this->filteredUser->height >=  $this->user->heightPreference->min
                     && $this->filteredUser->height <=  $this->user->heightPreference->max) {
                     $this->total += $percentageWorth;
                 }
                 return $preferences;
             })
-            ->when(!$isAgeImportant, function ($preferences) use ($percentageWorth) {
+            ->when(Arr::exists($preferences, 'Age'), function ($preferences) use ($percentageWorth) {
                 if ($this->filteredUser->age >=  $this->user->agePreference->min
                     && $this->filteredUser->age <=  $this->user->agePreference->max) {
                     $this->total += $percentageWorth;
@@ -109,10 +111,20 @@ class FilterByNonImportantPreferences
         $preferences = $user->preferencesImportance
             ->where('is_important', false);
 
-        return $preferences->mapToGroups(function ($preference) {
+        $preferences =  $preferences->mapToGroups(function ($preference) {
             return [
                 $preference['preferenceable_type'] => $preference['preferenceable_id'],
             ];
         });
+
+        if (optional($user->heightPreference)->is_important !== null && optional($user->heightPreference)->is_important == false) {
+            $preferences['Height'] = optional($user->heightPreference)->is_important;
+        }
+
+        if (optional($user->agePreference)->is_important !== null && optional($user->agePreference)->is_important == false) {
+            $preferences['Age'] = optional($user->agePreference)->is_important;
+        }
+
+        return $preferences;
     }
 }

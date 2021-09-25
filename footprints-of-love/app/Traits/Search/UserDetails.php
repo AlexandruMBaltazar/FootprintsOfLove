@@ -15,6 +15,7 @@ trait UserDetails
         $user = Auth::user()->load(['preferencesImportance', 'heightPreference', 'agePreference']);
         $importantPreferences = $this->getImportantPreferences($user)->toArray();
 
+
         return $query
             ->when(Arr::exists($importantPreferences, User\Detail\Gender::class), function (Builder $query) use ($importantPreferences) {
                 $query->whereIn('gender_id', $importantPreferences[User\Detail\Gender::class]);
@@ -61,10 +62,10 @@ trait UserDetails
             ->when(Arr::exists($importantPreferences, User\Detail\Smoke::class), function (Builder $query) use ($importantPreferences) {
                 $query->whereIn('smoke_id', $importantPreferences[User\Detail\Smoke::class]);
             })
-            ->when($user->heightPreference->is_important, function (Builder $query) use ($user) {
+            ->when(Arr::exists($importantPreferences, 'Height'), function (Builder $query) use ($user) {
                 $query->whereBetween('height', [$user->heightPreference->min, $user->heightPreference->max]);
             })
-            ->when($user->agePreference->is_important, function (Builder $query) use ($user) {
+            ->when(Arr::exists($importantPreferences, 'Age'), function (Builder $query) use ($user) {
                 $query->whereBetween('age', [$user->agePreference->min, $user->agePreference->max]);
             });
     }
@@ -74,8 +75,18 @@ trait UserDetails
         $preferences = $user->preferencesImportance
             ->where('is_important', true);
 
-        return $preferences->mapToGroups(function ($preference, $key) {
+        $preferences =  $preferences->mapToGroups(function ($preference, $key) {
             return [$preference['preferenceable_type'] => $preference['preferenceable_id']];
         });
+
+        if (optional($user->heightPreference)->is_important) {
+            $preferences['Height'] = optional($user->heightPreference)->is_important;
+        }
+
+        if (optional($user->agePreference)->is_important) {
+            $preferences['Age'] = optional($user->agePreference)->is_important;
+        }
+
+        return $preferences;
     }
 }

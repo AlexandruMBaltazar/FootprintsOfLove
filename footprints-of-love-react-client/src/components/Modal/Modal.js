@@ -87,11 +87,11 @@ const Modal = (props) => {
     }
 
     if (infoType === "height" || infoType === "age") {
-      return (
-        props.preferences[infoType].min +
-        " - " +
-        props.preferences[infoType].max
-      );
+      return props.preferences[infoType]
+        ? props.preferences[infoType].min +
+            " - " +
+            props.preferences[infoType].max
+        : "Add";
     }
 
     let preferences =

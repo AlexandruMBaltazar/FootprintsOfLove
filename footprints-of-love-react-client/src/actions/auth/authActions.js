@@ -14,13 +14,13 @@ export const loginSuccess = () => (dispatch) => {
   });
 };
 
-export const logout = () => (dispatch) => {
+export const logout = (history) => (dispatch) => {
   return apiCalls.logout().then((response) => {
     dispatch({
       type: LOGOUT,
     });
 
-    return response;
+    history.push("/login");
   });
 };
 

@@ -4,79 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b25006f208be4b9f15929a2f35556bf4",
+    "content-hash": "a1d72c9bf92105dae214d67bc5d4af21",
     "packages": [
-        {
-            "name": "acadea/collection-paginator",
-            "version": "v1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/acadea/collection-paginator.git",
-                "reference": "07423ad628682c227cb2c1e25c63d20687534288"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/acadea/collection-paginator/zipball/07423ad628682c227cb2c1e25c63d20687534288",
-                "reference": "07423ad628682c227cb2c1e25c63d20687534288",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/contracts": "^8.0",
-                "php": "^7.3"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.16",
-                "orchestra/testbench": "^6.0",
-                "phpunit/phpunit": "^9.3",
-                "vimeo/psalm": "^3.11"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Acadea\\CollectionPaginator\\CollectionPaginatorServiceProvider"
-                    ],
-                    "aliases": {
-                        "CollectionPaginator": "Acadea\\CollectionPaginator\\CollectionPaginatorFacade"
-                    }
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Acadea\\CollectionPaginator\\": "src",
-                    "Acadea\\CollectionPaginator\\Database\\Factories\\": "database/factories"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "sam-ngu",
-                    "email": "opensource@acadea.io",
-                    "homepage": "https://www.acadea.io",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Laravel Package to paginate any collection",
-            "homepage": "https://github.com/acadea/collection-paginator",
-            "keywords": [
-                "acadea",
-                "collection-paginator"
-            ],
-            "support": {
-                "issues": "https://github.com/acadea/collection-paginator/issues",
-                "source": "https://github.com/acadea/collection-paginator/tree/v1.0.1"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/acadea",
-                    "type": "github"
-                }
-            ],
-            "time": "2021-01-14T06:53:52+00:00"
-        },
         {
             "name": "asm89/stack-cors",
             "version": "v2.0.3",

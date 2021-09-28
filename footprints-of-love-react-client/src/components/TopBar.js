@@ -1,5 +1,6 @@
 import React from "react";
 import logo from "../assets/footprints-of-love-logo.png";
+import logoText from "../assets/footprints-of-love-text.png";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import * as authActions from "../actions/auth/authActions";
@@ -89,7 +90,7 @@ const TopBar = (props) => {
         <nav className="navbar navbar-dark bg-dark navbar-expand">
           <Link to="/" className="navbar-brand">
             <img src={logo} width="60" alt="Footprints of Love" />
-            Footprints of Love
+            <span className="ps-2">Footprints of Love</span>
           </Link>
           {links}
         </nav>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import * as discoverActions from "../../actions/discover/discoverActions";
+import Spinner from "../Spinner";
 import User from "./User";
 
 const UsersContainer = (props) => {
@@ -10,18 +11,28 @@ const UsersContainer = (props) => {
     props.actions.fetchPreferedUsers(page);
   }, [page, props.actions]);
 
-  return (
-    <div className="row mt-3">
-      {props.preferedUsers.users &&
-        props.preferedUsers.users.map((user) => {
-          return (
-            <div key={user.id} className="col-sm-4 mb-5">
-              <User user={user} />
-            </div>
-          );
-        })}
-    </div>
-  );
+  const displayPreferedUsers = () => {
+    if (props.preferedUsers.isLoading) {
+      return (
+        <div className="mt-5">
+          <Spinner />
+        </div>
+      );
+    }
+
+    return (
+      props.preferedUsers.users &&
+      props.preferedUsers.users.map((user) => {
+        return (
+          <div key={user.id} className="col-sm-4 mb-5">
+            <User user={user} />
+          </div>
+        );
+      })
+    );
+  };
+
+  return <div className="row mt-3">{displayPreferedUsers()}</div>;
 };
 
 const mapStateToProps = (state) => {

@@ -18,7 +18,7 @@ export default function photoReducer(state = initialState, action) {
       return {
         ...state,
         preferedUsers: {
-          users: action.payload.data,
+          users: [...state.preferedUsers.users, ...action.payload.data],
           next: action.payload.links.next,
           prev: action.payload.links.prev,
         },

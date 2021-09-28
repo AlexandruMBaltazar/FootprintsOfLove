@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import * as discoverActions from "../../actions/discover/discoverActions";
 import Spinner from "../Spinner";
 import User from "./User";
+import ButtonWithProgress from "../ButtonWithProgress";
 
 const UsersContainer = (props) => {
   const [page, setPage] = useState(1);
@@ -12,7 +13,7 @@ const UsersContainer = (props) => {
   }, [page, props.actions]);
 
   const displayPreferedUsers = () => {
-    if (props.preferedUsers.isLoading) {
+    if (props.preferedUsers.isLoading && page === 1) {
       return (
         <div className="mt-5">
           <Spinner />
@@ -32,7 +33,25 @@ const UsersContainer = (props) => {
     );
   };
 
-  return <div className="row mt-3">{displayPreferedUsers()}</div>;
+  return (
+    <div className="row mt-3">
+      {displayPreferedUsers()}
+      {props.preferedUsers.next && (
+        <div>
+          <ButtonWithProgress
+            onClick={() => setPage(page + 1)}
+            type="button"
+            className="btn btn-primary btn-lg mb-5 w-50 offset-sm-3"
+            disabled={props.preferedUsers.isLoading}
+            pendingApiCall={props.preferedUsers.isLoading}
+            text="Load More"
+          >
+            Load More
+          </ButtonWithProgress>
+        </div>
+      )}
+    </div>
+  );
 };
 
 const mapStateToProps = (state) => {

@@ -12,6 +12,12 @@ const UsersContainer = (props) => {
     props.actions.fetchPreferedUsers(page);
   }, [page, props.actions]);
 
+  useEffect(() => {
+    return () => {
+      props.actions.clearPreferedUsers();
+    };
+  }, [props.actions]);
+
   const displayPreferedUsers = () => {
     if (props.preferedUsers.isLoading && page === 1) {
       return (
@@ -65,6 +71,8 @@ const mapDispatchToProps = (dispatch) => {
     actions: {
       fetchPreferedUsers: (page) =>
         dispatch(discoverActions.fetchPreferedUsers(page)),
+
+      clearPreferedUsers: () => dispatch(discoverActions.clearPreferedUsers()),
     },
   };
 };

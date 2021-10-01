@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\PasswordController;
+use App\Http\Controllers\Topic\AnswerController;
 use App\Http\Controllers\User\Detail\DetailController;
 use App\Http\Controllers\User\PreferenceController;
 use App\Http\Controllers\User\UserDetailsController;
@@ -28,6 +29,8 @@ Route::post('reset', [PasswordController::class, 'reset']);
 Route::resource('users', UserController::class);
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::post('topics/{topic}/answers', AnswerController::class);
+
     Route::get('details', DetailController::class);
 
     Route::post('logout', [AuthController::class, 'logout']);

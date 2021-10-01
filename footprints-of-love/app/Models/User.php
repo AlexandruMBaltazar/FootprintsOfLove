@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Topic\Answer;
 use App\Models\User\AgePreference;
 use App\Models\User\HeightPreference;
 use App\Models\User\Preference;
@@ -94,5 +95,10 @@ class User extends Authenticatable
                 $join->on('preferences.user_id', 'importances.user_id');
                 $join->on('preferences.preferenceable_type', 'importances.preferenceable_type');
             });
+    }
+
+    public function answers(): HasMany
+    {
+        return $this->hasMany(Answer::class);
     }
 }

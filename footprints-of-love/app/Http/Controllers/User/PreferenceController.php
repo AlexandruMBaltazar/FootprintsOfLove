@@ -14,7 +14,7 @@ class PreferenceController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return PreferenceResource
      */
     public function index(User $user)
     {

@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Resources\Topic;
+namespace App\Http\Resources;
 
+use App\Http\Resources\Topic\AnswerResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class AnswerResource extends JsonResource
+class TopicResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,7 +17,8 @@ class AnswerResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'value' => $this->value,
+            'name' => $this->name,
+            'answer' => new AnswerResource($this->answers->first()),
         ];
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Topic;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Topic\AnswerRequest;
 use App\Http\Resources\Topic\AnswerResource;
 use App\Models\Topic;
 use Illuminate\Http\Request;
@@ -14,11 +15,11 @@ class AnswerController extends Controller
     /**
      * Handle the incoming request.
      *
-     * @param Request $request
+     * @param AnswerRequest $request
      * @param Topic $topic
      * @return AnswerResource
      */
-    public function __invoke(Request $request, Topic $topic)
+    public function __invoke(AnswerRequest $request, Topic $topic): AnswerResource
     {
         $answer = $topic->answers()->updateOrCreate(
             ['user_id' => Auth::id()],
@@ -27,8 +28,6 @@ class AnswerController extends Controller
                 'value' => $request->input('value'),
             ]
         );
-
-        $answer->load('user', 'topic');
 
         return new AnswerResource($answer);
     }

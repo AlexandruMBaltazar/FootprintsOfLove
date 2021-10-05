@@ -15,7 +15,8 @@ class AnswerRequest extends FormRequest
             'value' => [
                 'sometimes',
                 'string',
-                'max:65535'
+                'max:65535',
+                'nullable'
             ],
         ];
     }

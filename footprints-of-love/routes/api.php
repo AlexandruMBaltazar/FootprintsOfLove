@@ -38,7 +38,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('user', [AuthController::class, 'user']);
 
     Route::post('topics/{topic}/answers', AnswerController::class);
-    Route::get('topics', TopicController::class);
 
     Route::resource('users.photos', PhotoController::class)->shallow();
 
@@ -48,6 +47,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::post('/preferences', [PreferenceController::class, 'store']);
         Route::get('/preferences', [PreferenceController::class, 'index']);
+
+        Route::get('/topics', TopicController::class);
     });
     Route::put('/details/{detail}', [UserDetailsController::class, 'update']);
 });

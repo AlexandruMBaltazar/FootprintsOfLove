@@ -4,6 +4,7 @@ import userDetailsReducer from "./user/details/userDetailsReducer";
 import photoReducer from "./photo/photoReducer";
 import userPreferenceReducer from "./user/preference/userPreferenceReducer";
 import discoverReducer from "./discover/discoverReducer";
+import topicReducer from "./topics/topicReducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -11,4 +12,5 @@ export default combineReducers({
   photo: photoReducer,
   userPreference: userPreferenceReducer,
   discover: discoverReducer,
+  topic: topicReducer,
 });

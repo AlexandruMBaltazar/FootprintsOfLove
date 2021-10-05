@@ -17,7 +17,7 @@ class CreateAnswersTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('topic_id')->constrained('topics');
-            $table->text('value');
+            $table->text('value')->nullable();
             $table->timestamps();
         });
     }

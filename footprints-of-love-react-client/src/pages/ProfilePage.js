@@ -6,6 +6,7 @@ import UserDetails from "../components/User/UserDetails";
 import styles from "./css/profilepage.module.css";
 import { Link } from "react-router-dom";
 import * as authActions from "../actions/auth/authActions";
+import Topics from "../components/Topic/Topics";
 
 const ProfilePage = (props) => {
   const { dob } = props.userDetails.details;
@@ -61,7 +62,9 @@ const ProfilePage = (props) => {
       </div>
 
       <div className="row mt-5">
-        <div className="col-8">User description</div>
+        <div className="col-8">
+          <Topics />
+        </div>
         <div className="col-4">
           <UserDetails />
           <button

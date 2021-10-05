@@ -46,6 +46,14 @@ export const postPreferences = (userId, preferences) => {
   return axios.post(`/api/users/${userId}/preferences`, preferences);
 };
 
+export const getTopics = (userId) => {
+  return axios.get(`/api/users/${userId}/topics`);
+};
+
+export const postTopicAnswer = (topicId, answer) => {
+  return axios.post(`/api/topics/${topicId}/answers`, answer);
+};
+
 export const getAuthUser = () => {
   return axios.get("/api/user");
 };

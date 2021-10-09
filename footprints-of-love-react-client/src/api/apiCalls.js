@@ -17,13 +17,13 @@ export const details = (detail) => {
   return axios.get(`/api/details?detail=${detail}`);
 };
 export const postDetails = (detail, userId) => {
-  return axios.post(`api/users/${userId}/details`, detail);
+  return axios.post(`/api/users/${userId}/details`, detail);
 };
 export const putDetails = (detail, detailId) => {
-  return axios.put(`api/details/${detailId}`, detail);
+  return axios.put(`/api/details/${detailId}`, detail);
 };
 export const getDetails = (userId) => {
-  return axios.get(`api/users/${userId}/details`);
+  return axios.get(`/api/users/${userId}/details`);
 };
 
 export const getPhotos = (userId) => {
@@ -63,6 +63,9 @@ export const signup = (user) => {
 
 export const getUsers = (page = 1) => {
   return axios.get(`/api/users?page=${page}`);
+};
+export const getUser = (userId) => {
+  return axios.get(`/api/users/${userId}`);
 };
 export const putUser = (user, userId) => {
   return axios.put(`/api/users/${userId}`, user);

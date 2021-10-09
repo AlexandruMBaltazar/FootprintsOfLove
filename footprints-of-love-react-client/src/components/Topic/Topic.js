@@ -65,10 +65,14 @@ const Topic = (props) => {
       <p className="card-text">
         {answer && answer.value
           ? answer.value
-          : "Write something interesting about you!"}
-        <span className={`ps-2 ${styles.span}`} onClick={() => setEdit(true)}>
-          <i class="fas fa-pencil-alt pe-1"></i>WRITE
-        </span>
+          : props.isAuthUser
+          ? "Write something interesting about you!"
+          : "No details were added by the user yet!"}
+        {props.isAuthUser && (
+          <span className={`ps-2 ${styles.span}`} onClick={() => setEdit(true)}>
+            <i class="fas fa-pencil-alt pe-1"></i>WRITE
+          </span>
+        )}
       </p>
     );
   };
@@ -86,6 +90,7 @@ const Topic = (props) => {
 const mapStateToProps = (state) => {
   return {
     pendingApiCall: state.topic.pendingApiCall,
+    isAuthUser: state.profile.isAuthUser,
   };
 };
 

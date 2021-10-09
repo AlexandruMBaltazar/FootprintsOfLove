@@ -52,7 +52,17 @@ function App(props) {
           <Route path="/forgot" component={ForgotPasswordPage} />
           <Route path="/login" component={LoginPage} />
           <SecuredRoute exact path="/profile" component={ProfilePage} />
-          <SecuredRoute path="/profile/photos" component={ProfilePhotosPage} />
+          <SecuredRoute
+            exact
+            path="/profile/photos"
+            component={ProfilePhotosPage}
+          />
+          <SecuredRoute exact path="/profile/:userId" component={ProfilePage} />
+          <SecuredRoute
+            exact
+            path="/profile/photos"
+            component={ProfilePhotosPage}
+          />
           <Route path="/reset/:token" component={PasswordResetPage} />
           <Route path="/signup" component={UserSignupPage} />
           <SecuredRoute path="/onboarding" component={OnboardingPage} />

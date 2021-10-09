@@ -8,7 +8,9 @@ import { detailTypes } from "./UserDetails/detailTypes";
 
 const UserDetails = (props) => {
   useEffect(() => {
-    props.actions.fetchUserDetails(props.user.id);
+    if (props.user.id) {
+      props.actions.fetchUserDetails(props.user.id);
+    }
   }, [props.actions, props.user.id]);
 
   const {
@@ -237,7 +239,6 @@ const UserDetails = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.auth,
     details: state.userDetails.details,
     isLoading: state.userDetails.isLoading,
   };

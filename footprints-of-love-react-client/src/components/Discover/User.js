@@ -24,7 +24,9 @@ const User = (props) => {
             Some quick example text to build on the card title and make up the
             bulk of the card's content.
           </p>
-          <Link className="btn btn-primary">Discover more</Link>
+          <Link to={`/profile/${props.user.id}`} className="btn btn-primary">
+            Discover more
+          </Link>
         </div>
       </div>
     </div>

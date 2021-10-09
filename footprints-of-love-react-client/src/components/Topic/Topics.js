@@ -6,7 +6,9 @@ import Spinner from "../Spinner";
 
 const Topics = (props) => {
   useEffect(() => {
-    props.actions.getTopics(props.user.id);
+    if (props.user.id) {
+      props.actions.getTopics(props.user.id);
+    }
   }, [props.actions, props.user.id]);
 
   const displayTopics = () => {
@@ -29,7 +31,6 @@ const Topics = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.auth,
     topics: state.topic.topics,
     isLoading: state.topic.isLoading,
   };

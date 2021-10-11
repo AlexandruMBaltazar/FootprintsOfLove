@@ -1,7 +1,7 @@
 import React from "react";
 import logo from "../assets/footprints-of-love-logo.png";
 import logoText from "../assets/footprints-of-love-text.png";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 import * as authActions from "../actions/auth/authActions";
 import ProfileImageWithDefault from "./ProfileImageWithDefault";
@@ -32,9 +32,9 @@ const TopBar = (props) => {
 
   if (props.user.isLoggedIn) {
     links = (
-      <ul className="nav navbar-nav w-100">
+      <ul className="nav navbar-nav w-100 h-100">
         <li className="nav-item align-self-center ms-1">
-          <Link to="/discover" className="nav-link align-self-center">
+          <NavLink to="/discover" className="nav-link align-self-center">
             <div>
               <svg
                 width="19"
@@ -58,11 +58,11 @@ const TopBar = (props) => {
               </svg>
               <span className="ps-2">Discover</span>
             </div>
-          </Link>
+          </NavLink>
         </li>
         <li className="nav-item ms-auto align-self-center">
           <div>
-            <Link
+            <NavLink
               to="/profile"
               className="text-decoration-none text-white bg-dark"
             >
@@ -77,7 +77,7 @@ const TopBar = (props) => {
                 }
               />
               <span className="ps-1">{props.user.first_name}</span>
-            </Link>
+            </NavLink>
           </div>
         </li>
       </ul>
@@ -86,7 +86,7 @@ const TopBar = (props) => {
 
   return (
     <div className="bg-dark shadow-sm mb-2">
-      <div className="container mb-0 pb-0">
+      <div className="container">
         <nav className="navbar navbar-dark bg-dark navbar-expand">
           <Link to="/" className="navbar-brand">
             <img src={logo} width="60" alt="Footprints of Love" />

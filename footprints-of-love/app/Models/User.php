@@ -101,4 +101,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Answer::class);
     }
+
+    public function swipes(): HasMany
+    {
+        return $this->hasMany(Swipe::class, 'user_id');
+    }
 }

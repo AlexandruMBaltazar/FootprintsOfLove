@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\PasswordController;
+use App\Http\Controllers\SwipeController;
 use App\Http\Controllers\Topic\AnswerController;
 use App\Http\Controllers\TopicController;
 use App\Http\Controllers\User\Detail\DetailController;
@@ -34,6 +35,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('details', DetailController::class);
 
     Route::post('logout', [AuthController::class, 'logout']);
+
+    Route::post('swipes', SwipeController::class);
 
     Route::get('user', [AuthController::class, 'user']);
 

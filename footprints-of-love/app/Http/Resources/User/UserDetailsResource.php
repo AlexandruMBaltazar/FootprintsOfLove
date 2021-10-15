@@ -35,7 +35,8 @@ class UserDetailsResource extends JsonResource
             'religion' => new DetailResource($this->religion),
             'sign' => new DetailResource($this->sign),
             'smoke' => new DetailResource($this->smoke),
-            'dob' => $this->dob
+            'dob' => $this->dob,
+            'age' => $this->age,
         ];
     }
 }

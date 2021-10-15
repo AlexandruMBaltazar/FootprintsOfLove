@@ -6,3 +6,12 @@ img:hover + .btn,
 .btn:hover {
   display: inline-block;
 }
+
+.like {
+  border-color: #e00095;
+  color: #e00095;
+}
+.like:hover {
+  border-color: #e00095;
+  background-color: #e00095;
+}

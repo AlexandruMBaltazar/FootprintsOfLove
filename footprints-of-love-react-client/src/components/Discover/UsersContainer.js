@@ -31,7 +31,10 @@ const UsersContainer = (props) => {
       props.preferedUsers.users &&
       props.preferedUsers.users.map((user) => {
         return (
-          <div key={user.id} className="col-sm-4 mb-5">
+          <div
+            key={user.id}
+            className="col-12 col-sm-12 col-md-12 col-lg-4 mb-5"
+          >
             <User user={user} />
           </div>
         );

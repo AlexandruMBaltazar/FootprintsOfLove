@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Filters\User\FilterByNonImportantPreferences;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\UserRequest;
+use App\Http\Resources\User\DiscoverResource;
 use App\Http\Resources\User\ShowResource;
 use App\Http\Resources\UserResource;
 use App\Models\User;
@@ -27,7 +28,7 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return ShowResource
+     * @return DiscoverResource
      */
     public function index()
     {
@@ -40,7 +41,7 @@ class UserController extends Controller
                 ->meetsThreshold();
         });
 
-        return new ShowResource(CollectionPaginator::paginate($users));
+        return new DiscoverResource(CollectionPaginator::paginate($users));
     }
 
     /**
@@ -65,11 +66,11 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param User $user
-     * @return UserResource
+     * @return ShowResource
      */
-    public function show(User $user): UserResource
+    public function show(User $user): ShowResource
     {
-        return new UserResource($user);
+        return new ShowResource($user);
     }
 
     /**

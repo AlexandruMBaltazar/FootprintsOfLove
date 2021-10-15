@@ -11,9 +11,11 @@ use App\Models\User\UserDetail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -53,6 +55,33 @@ class User extends Authenticatable
         'boarding_completed' => 'boolean',
     ];
 
+    private function isSwiped()
+    {
+        return Auth::user()->swipes()
+            ->where('target_user_id', $this->id)
+            ->exists();
+    }
+
+    public function isLiked()
+    {
+        if ($this->isSwiped()) {
+            return Auth::user()->swipes()
+                ->where('target_user_id', $this->id)
+                ->where('liked', true)
+                ->exists();
+        }
+
+        return null;
+    }
+
+    public function isMatched()
+    {
+        return !Auth::user()->matches->pluck('swipe')->where('target_user_id', $this->id)->isEmpty();
+    }
+
+
+
+    //Relationships
     public function detail(): HasOne
     {
         return $this->hasOne(UserDetail::class);
@@ -105,5 +134,10 @@ class User extends Authenticatable
     public function swipes(): HasMany
     {
         return $this->hasMany(Swipe::class, 'user_id');
+    }
+
+    public function matches(): HasManyThrough
+    {
+        return $this->hasManyThrough(Matches::class, Swipe::class, 'user_id', 'swipe_id', 'id', 'id');
     }
 }

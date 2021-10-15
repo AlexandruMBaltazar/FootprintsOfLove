@@ -4,9 +4,11 @@ import UsersContainer from "../components/Discover/UsersContainer";
 
 const HomePage = () => {
   return (
-    <div className="pt-4">
+    <div className="pt-4 container">
       <span className="fs-4 fw-bolder">Recommended Just For You</span>
-      <UsersContainer />
+      <div className="row">
+        <UsersContainer />
+      </div>
     </div>
   );
 };

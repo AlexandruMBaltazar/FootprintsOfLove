@@ -30,10 +30,10 @@ class SwipeController extends Controller
      */
     public function store(SwipeRequest $request): SwipeResource
     {
-        $swipe = Auth::user()->swipes()->create([
-            'target_user_id' => $request->input('target_user_id'),
-            'liked' => $request->input('liked')
-        ]);
+        $swipe = Auth::user()->swipes()->updateOrCreate(
+            ['target_user_id' => $request->input('target_user_id')],
+            ['liked' => $request->input('liked')]
+        );
 
         $swipe->load('user', 'targetUser', 'match');
 
@@ -56,10 +56,12 @@ class SwipeController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Swipe $swipe
-     * @return Response
+     * @return SwipeResource
      */
-    public function destroy(Swipe $swipe)
+    public function destroy(Swipe $swipe): SwipeResource
     {
-        //
+        $swipe->delete();
+
+        return new SwipeResource($swipe);
     }
 }

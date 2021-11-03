@@ -46,7 +46,7 @@ class SwipeObserver
      */
     public function deleted(Swipe $swipe)
     {
-        //
+        Matches::query()->where('swipe_id', $swipe->id)->delete();
     }
 
     /**

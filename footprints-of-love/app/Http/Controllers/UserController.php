@@ -37,8 +37,12 @@ class UserController extends Controller
         })
         ->where('id', '!=', Auth::id())
         ->lazy()->filter(function ($user) {
-            return \app()->makeWith(FilterByNonImportantPreferences::class, ['user' => $user])
-                ->meetsThreshold();
+            if (!$user->isSwiped()) {
+                return \app()->makeWith(FilterByNonImportantPreferences::class, ['user' => $user])
+                    ->meetsThreshold();
+            }
+
+            return false;
         });
 
         return new DiscoverResource(CollectionPaginator::paginate($users));

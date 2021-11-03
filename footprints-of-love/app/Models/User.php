@@ -55,7 +55,7 @@ class User extends Authenticatable
         'boarding_completed' => 'boolean',
     ];
 
-    private function isSwiped()
+    public function isSwiped()
     {
         return Auth::user()->swipes()
             ->where('target_user_id', $this->id)

@@ -51,13 +51,15 @@ const ProfilePage = (props) => {
             }
             className={`rounded-circle shadow`}
           />
-          <Link
-            to="/profile/photos"
-            type="button"
-            className={`btn btn-primary mt-5 position-absolute w-50 top-50 start-50 translate-middle ${styles.btn}`}
-          >
-            Add
-          </Link>
+          {props.isAuthUser && (
+            <Link
+              to="/profile/photos"
+              type="button"
+              className={`btn btn-primary mt-5 position-absolute w-50 top-50 start-50 translate-middle ${styles.btn}`}
+            >
+              Add
+            </Link>
+          )}
         </div>
         <div className="ms-2 flex-fill align-self-center">
           <span className="fs-3 fw-bolder">
@@ -101,9 +103,10 @@ const ProfilePage = (props) => {
           <button
             type="button"
             class="btn btn-dark col-5 ms-5 rounded-pill py-3"
+            onClick={() => onSwipe(false)}
           >
             <i class="fas fa-times fa-md me-1"></i>
-            UNMATCH
+            PASS
           </button>
         </div>
       );
@@ -112,7 +115,7 @@ const ProfilePage = (props) => {
     return (
       <div>
         <button
-          onClick={() => onClickLike(true)}
+          onClick={() => onSwipe(true)}
           type="button"
           class={`like btn btn-outline-primary rounded-pill col-5 py-3 ${styles.like}`}
         >
@@ -121,7 +124,7 @@ const ProfilePage = (props) => {
         </button>
 
         <button
-          onClick={() => onClickLike(false)}
+          onClick={() => onSwipe(false)}
           type="button"
           class="btn btn-dark col-5 ms-5 rounded-pill py-3"
         >
@@ -132,7 +135,7 @@ const ProfilePage = (props) => {
     );
   };
 
-  const onClickLike = (isLiked) => {
+  const onSwipe = (isLiked) => {
     const swipe = {
       target_user_id: userId,
       liked: isLiked,
@@ -188,7 +191,9 @@ const ProfilePage = (props) => {
                     className="fas fa-heart fa-md me-3"
                     style={{ color: "#e00095" }}
                   ></i>
-                  You like them!
+                  {props.user.is_matched
+                    ? "You like each other!"
+                    : "You like them!"}
                 </span>
               </div>
             </div>
@@ -225,7 +230,8 @@ const mapDispatchToProps = (dispatch) => {
       getUser: (userId) => dispatch(profileActions.getUser(userId)),
       setIsAuthUser: (value) => dispatch(profileActions.setIsAuthUser(value)),
       clearProfile: () => dispatch(profileActions.clearProfile()),
-      swipe: (swipe) => dispatch(swipeActions.postSwipe(swipe)),
+      swipe: (swipe) => dispatch(swipeActions.swipe(swipe)),
+      unmatch: (swipeId) => dispatch(swipeActions.unmatch(swipeId)),
     },
   };
 };

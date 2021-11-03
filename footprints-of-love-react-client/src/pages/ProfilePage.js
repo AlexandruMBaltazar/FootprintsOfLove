@@ -11,6 +11,7 @@ import * as profileActions from "../actions/user/profileActions";
 import * as swipeActions from "../actions/swipe/swipeActions";
 import Topics from "../components/Topic/Topics";
 import Spinner from "../components/Spinner";
+import PhotoLightbox from "../components/PhotoLightbox";
 
 const ProfilePage = (props) => {
   let { userId } = useParams();
@@ -51,7 +52,7 @@ const ProfilePage = (props) => {
             }
             className={`rounded-circle shadow`}
           />
-          {props.isAuthUser && (
+          {props.isAuthUser ? (
             <Link
               to="/profile/photos"
               type="button"
@@ -59,6 +60,8 @@ const ProfilePage = (props) => {
             >
               Add
             </Link>
+          ) : (
+            <PhotoLightbox />
           )}
         </div>
         <div className="ms-2 flex-fill align-self-center">

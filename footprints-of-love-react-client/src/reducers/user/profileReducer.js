@@ -7,8 +7,11 @@ import {
 
 import { SWIPE } from "../../actions/swipe/types";
 
+import { FETCH_PROFILE_PHOTOS } from "../../actions/photo/types";
+
 const initialState = {
   isFetchingUser: false,
+  photos: [],
 };
 
 export default function profileReducer(state = initialState, action) {
@@ -18,6 +21,12 @@ export default function profileReducer(state = initialState, action) {
         ...state,
         ...action.payload,
         isFetchingUser: false,
+      };
+
+    case FETCH_PROFILE_PHOTOS:
+      return {
+        ...state,
+        photos: action.payload,
       };
 
     case IS_FETCHING_USER:

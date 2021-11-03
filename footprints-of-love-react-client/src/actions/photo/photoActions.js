@@ -6,6 +6,7 @@ import {
   UPLOAD_PHOTO_FAIL,
   CLEAR_UPLOAD_PHOTO_ERRORS,
   FETCH_PHOTOS,
+  FETCH_PROFILE_PHOTOS,
   REMOVE_PHOTO,
   SET_PROFILE_PHOTO,
 } from "./types";
@@ -17,6 +18,15 @@ export const getPhotos = (userId) => (dispatch) => {
   return apiCalls.getPhotos(userId).then((response) => {
     dispatch({
       type: FETCH_PHOTOS,
+      payload: response.data.data,
+    });
+  });
+};
+
+export const fetchProfilePhotos = (userId) => (dispatch) => {
+  return apiCalls.getPhotos(userId).then((response) => {
+    dispatch({
+      type: FETCH_PROFILE_PHOTOS,
       payload: response.data.data,
     });
   });

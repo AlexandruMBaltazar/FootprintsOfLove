@@ -10,6 +10,7 @@ const ProfileImageWithDefault = (props) => {
 
   return (
     <img
+      style={{ objectFit: "cover" }}
       width={props.width}
       height={props.height}
       className={props.className}

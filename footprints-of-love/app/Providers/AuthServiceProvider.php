@@ -3,10 +3,12 @@
 namespace App\Providers;
 
 use App\Models\Photo;
+use App\Models\Session\Message;
 use App\Models\User;
 use App\Models\User\UserDetail;
 use App\Models\User\Preference;
 use App\Policies\PhotoPolicy;
+use App\Policies\Session\MessagePolicy;
 use App\Policies\User\PreferencePolicy;
 use App\Policies\User\UserDetailsPolicy;
 use App\Policies\UserPolicy;
@@ -25,7 +27,8 @@ class AuthServiceProvider extends ServiceProvider
         UserDetail::class => UserDetailsPolicy::class,
         User::class => UserPolicy::class,
         Photo::class => PhotoPolicy::class,
-        Preference::class => PreferencePolicy::class
+        Preference::class => PreferencePolicy::class,
+        Message::class => MessagePolicy::class,
     ];
 
     /**

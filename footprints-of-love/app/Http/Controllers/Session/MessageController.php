@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Session;
 
+use App\Events\Session\MessageCreated;
 use App\Http\Requests\Session\MessageRequest;
 use App\Http\Resources\Session\MessageResource;
 use App\Models\Session;
@@ -29,6 +30,8 @@ class MessageController extends Controller
             'session_id' => $session->id,
             'message' => $request->input('message')
         ]);
+
+        broadcast(new MessageCreated($message))->toOthers();
 
         return new MessageResource($message);
     }

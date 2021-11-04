@@ -10,6 +10,7 @@ use App\Models\User\Preference\Importance;
 use App\Models\User\UserDetail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -139,5 +140,10 @@ class User extends Authenticatable
     public function matches(): HasManyThrough
     {
         return $this->hasManyThrough(Matches::class, Swipe::class, 'user_id', 'swipe_id', 'id', 'id');
+    }
+
+    public function sessions(): BelongsToMany
+    {
+        return $this->belongsToMany(Session::class);
     }
 }

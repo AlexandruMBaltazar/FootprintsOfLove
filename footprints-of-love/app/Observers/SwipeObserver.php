@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Matches;
+use App\Models\Session;
 use App\Models\Swipe;
 
 class SwipeObserver
@@ -22,8 +23,14 @@ class SwipeObserver
         ])->first();
 
         if ($swipe->liked && $otherSwipe) {
+            //Create a match
             $swipe->match()->create();
             $otherSwipe->match()->create();
+
+            //Create a session for the matched users
+            $session = Session::create();
+            $swipe->user->sessions()->attach($session->id);
+            $otherSwipe->user->sessions()->attach($session->id);
         }
     }
 
@@ -46,7 +53,7 @@ class SwipeObserver
      */
     public function deleted(Swipe $swipe)
     {
-        Matches::query()->where('swipe_id', $swipe->id)->delete();
+        //
     }
 
     /**

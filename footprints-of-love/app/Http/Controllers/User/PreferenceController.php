@@ -65,7 +65,7 @@ class PreferenceController extends Controller
 
         if ($request->has('height')) {
             $user->heightPreference()->updateOrCreate(
-                ['user_id' => $user->heightPreference->user_id],
+                ['user_id' => optional($user->heightPreference)->user_id],
                 [
                     'min' => $request->input('height.min'),
                     'max' => $request->input('height.max'),
@@ -76,7 +76,7 @@ class PreferenceController extends Controller
 
         if ($request->has('age')) {
             $user->agePreference()->updateOrCreate(
-                ['user_id' => $user->agePreference->user_id],
+                ['user_id' => optional($user->agePreference)->user_id],
                 [
                     'min' => $request->input('age.min'),
                     'max' => $request->input('age.max'),

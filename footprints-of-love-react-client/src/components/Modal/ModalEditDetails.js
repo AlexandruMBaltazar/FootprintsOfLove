@@ -42,6 +42,8 @@ const ModalEditDetails = (props) => {
 
       setIsImportant(
         props.preferences[detail] && props.preferences[detail].is_important
+          ? props.preferences[detail].is_important
+          : false
       );
     };
 

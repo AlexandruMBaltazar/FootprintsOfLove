@@ -11,7 +11,7 @@ const initialState = {
   isLoading: false,
 };
 
-export default function photoReducer(state = initialState, action) {
+export default function topicReducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_TOPICS:
       return {

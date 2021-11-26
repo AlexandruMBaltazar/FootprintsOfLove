@@ -26,6 +26,10 @@ export const getDetails = (userId) => {
   return axios.get(`/api/users/${userId}/details`);
 };
 
+export const getSessions = () => {
+  return axios.get(`/api/sessions`);
+};
+
 export const getPhotos = (userId) => {
   return axios.get(`/api/users/${userId}/photos`);
 };

@@ -17,7 +17,8 @@ class MessageResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'message' => $this->message
+            'user_id' => $this->user_id,
+            'message' => $this->message,
         ];
     }
 }

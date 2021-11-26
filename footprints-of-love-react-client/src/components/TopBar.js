@@ -33,7 +33,7 @@ const TopBar = (props) => {
   if (props.user.isLoggedIn) {
     links = (
       <ul className="nav navbar-nav w-100 h-100">
-        <li className="nav-item align-self-center ms-1">
+        <li className="nav-item align-self-center ms-1 d-flex">
           <NavLink to="/discover" className="nav-link align-self-center">
             <div>
               <svg
@@ -57,6 +57,12 @@ const TopBar = (props) => {
                 </g>
               </svg>
               <span className="ps-2">Discover</span>
+            </div>
+          </NavLink>
+          <NavLink to="/messages" className="nav-link align-self-center">
+            <div>
+              <i class="far fa-comments" width="19" height="19"></i>
+              <span className="ps-2">Messages</span>
             </div>
           </NavLink>
         </li>

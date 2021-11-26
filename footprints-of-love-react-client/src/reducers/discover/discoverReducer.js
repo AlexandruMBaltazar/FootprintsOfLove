@@ -13,7 +13,7 @@ const initialState = {
   },
 };
 
-export default function photoReducer(state = initialState, action) {
+export default function discoverReducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_PREFERED_USERS:
       return {

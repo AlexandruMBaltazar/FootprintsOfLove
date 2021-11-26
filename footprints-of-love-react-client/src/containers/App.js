@@ -14,6 +14,8 @@ import ProfilePage from "../pages/ProfilePage";
 import OnboardingPage from "../pages/OnboardingPage";
 import ProfilePhotosPage from "../pages/ProfilePhotosPage";
 import Echo from "laravel-echo";
+import Messages from "../pages/Messages";
+import MessageBox from "../components/Messages/MessageBox";
 
 function App(props) {
   const [pendingApiCalls, setPendingApiCalls] = useState(true);
@@ -69,7 +71,7 @@ function App(props) {
   }
 
   return (
-    <div>
+    <div className="position-relative">
       <TopBar />
       <div className="container">
         <Switch>
@@ -77,6 +79,7 @@ function App(props) {
           <SecuredRoute path="/discover" component={HomePage} />
           <Route path="/forgot" component={ForgotPasswordPage} />
           <Route path="/login" component={LoginPage} />
+          <SecuredRoute path="/messages" component={Messages} />
           <SecuredRoute exact path="/profile" component={ProfilePage} />
           <SecuredRoute
             exact
@@ -93,6 +96,9 @@ function App(props) {
           <Route path="/signup" component={UserSignupPage} />
           <SecuredRoute path="/onboarding" component={OnboardingPage} />
         </Switch>
+      </div>
+      <div className="position-fixed bottom-0 end-0 d-none">
+        <MessageBox />
       </div>
     </div>
   );

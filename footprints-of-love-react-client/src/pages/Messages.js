@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import UserSessions from "../components/Messages/UserSessions";
+import UserSessions from "../components/Messages/Sessions/UserSessions";
 import * as sessionActions from "../actions/sessions/sessionActions";
 
 const Messages = (props) => {
@@ -15,7 +15,7 @@ const Messages = (props) => {
   return (
     <div className="container">
       <div className="row">
-        <div className="col-12">
+        <div className="col-6 mt-5">
           <UserSessions />
         </div>
       </div>

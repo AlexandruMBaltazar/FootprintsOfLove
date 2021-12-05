@@ -91,7 +91,7 @@ const TopBar = (props) => {
   }
 
   return (
-    <div className="bg-dark shadow-sm mb-2">
+    <div className="bg-dark shadow-sm">
       <div className="container">
         <nav className="navbar navbar-dark bg-dark navbar-expand">
           <Link to="/" className="navbar-brand">

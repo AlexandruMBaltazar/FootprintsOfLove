@@ -19,6 +19,7 @@ class SessionController extends Controller
     public function index(): AnonymousResourceCollection
     {
         $sessions = Auth::user()->sessions()->with('sessionUser.profilePhoto', 'latestMessage')
+            ->orderByDesc('updated_at')
             ->get();
 
         return SessionResource::collection($sessions);

@@ -13,10 +13,12 @@ const Messages = (props) => {
   }, [props.actions]);
 
   return (
-    <div className="container">
-      <div className="row">
-        <div className="col-6 mt-5">
-          <UserSessions />
+    <div>
+      <div className="container">
+        <div className="row">
+          <div className="col-6 mt-5">
+            <UserSessions />
+          </div>
         </div>
       </div>
     </div>

@@ -5,6 +5,7 @@ import { Link, NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 import * as authActions from "../actions/auth/authActions";
 import ProfileImageWithDefault from "./ProfileImageWithDefault";
+import PageFeatured from "./PageFeatured";
 
 const TopBar = (props) => {
   let links = (
@@ -33,8 +34,14 @@ const TopBar = (props) => {
   if (props.user.isLoggedIn) {
     links = (
       <ul className="nav navbar-nav w-100 h-100">
-        <li className="nav-item align-self-center ms-1 d-flex">
-          <NavLink to="/discover" className="nav-link align-self-center">
+        <li className="nav-item align-self-center ms-1 d-flex gap-3">
+          <NavLink
+            to="/discover"
+            className="nav-link align-self-center"
+            activeStyle={{
+              borderBottom: "3px solid #e00095",
+            }}
+          >
             <div>
               <svg
                 width="19"
@@ -59,9 +66,15 @@ const TopBar = (props) => {
               <span className="ps-2">Discover</span>
             </div>
           </NavLink>
-          <NavLink to="/messages" className="nav-link align-self-center">
+          <NavLink
+            to="/messages"
+            className="nav-link align-self-center"
+            activeStyle={{
+              borderBottom: "3px solid #e00095",
+            }}
+          >
             <div>
-              <i class="far fa-comments" width="19" height="19"></i>
+              <i className="far fa-comments" width="19" height="19"></i>
               <span className="ps-2">Messages</span>
             </div>
           </NavLink>
@@ -91,16 +104,19 @@ const TopBar = (props) => {
   }
 
   return (
-    <div className="bg-dark shadow-sm">
-      <div className="container">
-        <nav className="navbar navbar-dark bg-dark navbar-expand">
-          <Link to="/" className="navbar-brand">
-            <img src={logo} width="60" alt="Footprints of Love" />
-            <span className="ps-2">Footprints of Love</span>
-          </Link>
-          {links}
-        </nav>
+    <div>
+      <div className="bg-dark shadow-sm">
+        <div className="container">
+          <nav className="navbar navbar-dark bg-dark navbar-expand">
+            <Link to="/" className="navbar-brand">
+              <img src={logo} width="60" alt="Footprints of Love" />
+              <span className="ps-2">Footprints of Love</span>
+            </Link>
+            {links}
+          </nav>
+        </div>
       </div>
+      <PageFeatured />
     </div>
   );
 };

@@ -24,6 +24,7 @@ class ShowResource extends JsonResource
             'profile_photo' => new PhotoResource($this->photos()->where('is_profile_photo', true)->first()),
             'is_liked' => $this->isLiked(),
             'is_matched' => $this->isMatched(),
+            'session_id' => $this->sessions->first() !== null ? $this->sessions->first()->id : null
         ];
     }
 }

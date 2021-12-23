@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import ProfileImageWithDefault from "../ProfileImageWithDefault";
 import styles from "./css/MessageBox.module.css";
 
 const MessageBox = (props) => {
@@ -45,10 +46,12 @@ const MessageBox = (props) => {
     <div className="d-flex">
       {!isAuth && groupStart && (
         <div class={`position-relative ${styles.avatar}`}>
-          <img
-            src="https://nextbootstrap.netlify.app/assets/images/profiles/1.jpg"
-            class="img-fluid rounded-circle"
-            alt=""
+          <ProfileImageWithDefault
+            alt="profile"
+            width="43"
+            height="43"
+            src={props.profilePhoto ? `/${props.profilePhoto.location}` : null}
+            className={`rounded-circle`}
           />
           <span class="position-absolute bottom-0 start-100 translate-middle p-1 bg-success border border-light rounded-circle">
             <span class="visually-hidden">New alerts</span>

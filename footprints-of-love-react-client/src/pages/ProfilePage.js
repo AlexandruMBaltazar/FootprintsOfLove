@@ -12,9 +12,12 @@ import * as swipeActions from "../actions/swipe/swipeActions";
 import Topics from "../components/Topic/Topics";
 import Spinner from "../components/Spinner";
 import PhotoLightbox from "../components/PhotoLightbox";
+import * as messageActions from "../actions/messages/messageActions";
 
 const ProfilePage = (props) => {
   let { userId } = useParams();
+
+  const { session_id, id, profile_photo, first_name } = props.user;
 
   useEffect(() => {
     if (userId && userId != props.authUser.id) {
@@ -92,6 +95,14 @@ const ProfilePage = (props) => {
           <button
             type="button"
             class="like btn btn-outline-primary ms-5 rounded-pill col-5 py-3"
+            onClick={() =>
+              props.actions.changeSessionStatus({
+                session_id,
+                user_id: id,
+                profile_photo,
+                first_name,
+              })
+            }
           >
             <i class="fas fa-comment-alt fa-md me-1"></i>
             MESSAGE
@@ -235,6 +246,8 @@ const mapDispatchToProps = (dispatch) => {
       clearProfile: () => dispatch(profileActions.clearProfile()),
       swipe: (swipe) => dispatch(swipeActions.swipe(swipe)),
       unmatch: (swipeId) => dispatch(swipeActions.unmatch(swipeId)),
+      changeSessionStatus: (sessionDetails) =>
+        dispatch(messageActions.changeSessionStatus(sessionDetails)),
     },
   };
 };

@@ -74,6 +74,12 @@ class UserController extends Controller
      */
     public function show(User $user): ShowResource
     {
+        $user->load(['sessions' => function ($query) {
+            $query->whereHas('users', function ($query) {
+                $query->where('users.id', Auth::id());
+            });
+        }]);
+
         return new ShowResource($user);
     }
 

@@ -50,7 +50,7 @@ const UserSession = (props) => {
               <h5 class="mb-1 d-inline">{first_name}</h5>
               {displayMessageStatus()}
             </div>
-            <p class="mb-1">
+            <p class="mb-1 text-truncate">
               {latest_message ? latest_message.message : "It's a match!"}
             </p>
           </div>

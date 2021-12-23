@@ -4,9 +4,11 @@ import ProfileImageWithDefault from "../ProfileImageWithDefault";
 import Message from "./Message";
 import * as messageActions from "../../actions/messages/messageActions";
 import Spinner from "../Spinner";
+import { Link } from "react-router-dom";
 
 const MessageBox = (props) => {
-  const { first_name, profile_photo, session_id } = props.sessionDetails;
+  const { first_name, profile_photo, session_id, user_id } =
+    props.sessionDetails;
 
   useEffect(() => {
     const fetchMessages = () => {
@@ -47,6 +49,7 @@ const MessageBox = (props) => {
                   array[index + 1].user_id !== message.user_id
                 }
                 isAuth={message.user_id === props.auth.id}
+                profilePhoto={profile_photo}
               />
             </div>
           );
@@ -65,7 +68,10 @@ const MessageBox = (props) => {
           <div className="navbar navbar-expand p-0">
             <ul className="navbar-nav me-auto align-items-center">
               <li className="nav-item">
-                <a href="#!" className="nav-link d-flex align-items-center">
+                <Link
+                  to={`/profile/${user_id}`}
+                  className="nav-link d-flex align-items-center"
+                >
                   <div
                     className="position-relative"
                     style={{
@@ -91,7 +97,7 @@ const MessageBox = (props) => {
                   <span className="nav-link text-white fs-5 ps-3">
                     {first_name}
                   </span>
-                </a>
+                </Link>
               </li>
             </ul>
             <ul className="navbar-nav ms-auto">

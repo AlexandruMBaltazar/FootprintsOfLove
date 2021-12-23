@@ -64,35 +64,52 @@ const MessageBox = (props) => {
       );
     }
 
-    return (
-      <div>
-        {props.messages.map((message, index, array) => {
-          return (
-            <div
-              className={`d-flex align-items-baseline ${
-                message.user_id === props.auth.id
-                  ? "text-end justify-content-end"
-                  : ""
-              }`}
-            >
-              <Message
-                key={message.id}
-                message={message}
-                groupStart={
-                  index === 0 || array[index - 1].user_id !== message.user_id
-                }
-                groupEnd={
-                  index === array.length - 1 ||
-                  array[index + 1].user_id !== message.user_id
-                }
-                isAuth={message.user_id === props.auth.id}
-                profilePhoto={profile_photo}
-              />
-            </div>
-          );
-        })}
-      </div>
-    );
+    if (props.messages.length !== 0) {
+      return (
+        <div>
+          {props.messages.map((message, index, array) => {
+            return (
+              <div
+                className={`d-flex align-items-baseline ${
+                  message.user_id === props.auth.id
+                    ? "text-end justify-content-end"
+                    : ""
+                }`}
+              >
+                <Message
+                  key={message.id}
+                  message={message}
+                  groupStart={
+                    index === 0 || array[index - 1].user_id !== message.user_id
+                  }
+                  groupEnd={
+                    index === array.length - 1 ||
+                    array[index + 1].user_id !== message.user_id
+                  }
+                  isAuth={message.user_id === props.auth.id}
+                  profilePhoto={profile_photo}
+                />
+              </div>
+            );
+          })}
+        </div>
+      );
+    } else {
+      return (
+        <div className="my-auto pb-5">
+          <img
+            className="rounded mx-auto d-block"
+            width="300"
+            height="300"
+            alt="message"
+            src="https://cdn.okccdn.com/media/img/messages/intro-accessible.png"
+          ></img>
+          <p className="px-5 ms-4 fw-bolder">
+            Stand out from the crowd by responding to their profile.
+          </p>
+        </div>
+      );
+    }
   };
 
   const sendMessage = (event) => {

@@ -2,6 +2,7 @@ import {
   CHANGE_SESSION_STATUS,
   FETCH_MESSAGES,
   IS_FETCHING_MESSAGES,
+  MESSAGE_SENT,
 } from "../../actions/messages/types";
 
 const initialState = {
@@ -39,6 +40,12 @@ export default function messageReducer(state = initialState, action) {
         ...state,
         messages: [...action.payload],
         isFetchingMessages: false,
+      };
+
+    case MESSAGE_SENT:
+      return {
+        ...state,
+        messages: [...state.messages, action.payload],
       };
 
     default:

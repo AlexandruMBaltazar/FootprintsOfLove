@@ -32,6 +32,9 @@ export const getSessions = () => {
 export const getSessionMessages = (sessionId) => {
   return axios.get(`/api/sessions/${sessionId}/messages`);
 };
+export const postMessage = (sessionId, message) => {
+  return axios.post(`/api/sessions/${sessionId}/messages`, message);
+};
 
 export const getPhotos = (userId) => {
   return axios.get(`/api/users/${userId}/photos`);

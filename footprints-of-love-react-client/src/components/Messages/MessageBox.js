@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import ProfileImageWithDefault from "../ProfileImageWithDefault";
 import Message from "./Message";
@@ -9,6 +9,8 @@ import { Link } from "react-router-dom";
 const MessageBox = (props) => {
   const { first_name, profile_photo, session_id, user_id } =
     props.sessionDetails;
+
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     const fetchMessages = () => {
@@ -56,6 +58,13 @@ const MessageBox = (props) => {
         })}
       </div>
     );
+  };
+
+  const sendMessage = (event) => {
+    if (event.key === "Enter" && message !== null) {
+      props.actions.sendMessage(session_id, { message });
+      setMessage("");
+    }
   };
 
   return (
@@ -134,6 +143,9 @@ const MessageBox = (props) => {
                 type="text"
                 className="form-control border-0"
                 placeholder="Write a message..."
+                value={message}
+                onChange={(event) => setMessage(event.target.value)}
+                onKeyPress={sendMessage}
               />
               <div className="input-group-text bg-transparent border-0">
                 <button className="btn btn-light text-secondary">
@@ -168,6 +180,8 @@ const mapDispatchToProps = (dispatch) => {
       fetchMessages: (session_id) =>
         dispatch(messageActions.fetchMessages(session_id)),
       changeSessionStatus: () => dispatch(messageActions.changeSessionStatus()),
+      sendMessage: (sessionId, message) =>
+        dispatch(messageActions.sendMessage(sessionId, message)),
     },
   };
 };

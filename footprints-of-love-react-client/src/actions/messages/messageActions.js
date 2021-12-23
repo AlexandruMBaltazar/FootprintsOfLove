@@ -2,6 +2,7 @@ import {
   CHANGE_SESSION_STATUS,
   FETCH_MESSAGES,
   IS_FETCHING_MESSAGES,
+  MESSAGE_SENT,
 } from "./types";
 import * as apiCalls from "../../api/apiCalls";
 
@@ -29,6 +30,15 @@ export const fetchMessages = (sessionId) => (dispatch) => {
   return apiCalls.getSessionMessages(sessionId).then((response) => {
     dispatch({
       type: FETCH_MESSAGES,
+      payload: response.data.data,
+    });
+  });
+};
+
+export const sendMessage = (sessionId, message) => (dispatch) => {
+  return apiCalls.postMessage(sessionId, message).then((response) => {
+    dispatch({
+      type: MESSAGE_SENT,
       payload: response.data.data,
     });
   });

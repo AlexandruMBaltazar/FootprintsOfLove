@@ -3,6 +3,7 @@ import {
   FETCH_MESSAGES,
   IS_FETCHING_MESSAGES,
   MESSAGE_SENT,
+  MESSAGE_RECEIVED,
 } from "../../actions/messages/types";
 
 const initialState = {
@@ -43,6 +44,12 @@ export default function messageReducer(state = initialState, action) {
       };
 
     case MESSAGE_SENT:
+      return {
+        ...state,
+        messages: [...state.messages, action.payload],
+      };
+
+    case MESSAGE_RECEIVED:
       return {
         ...state,
         messages: [...state.messages, action.payload],

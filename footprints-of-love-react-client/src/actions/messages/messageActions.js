@@ -3,6 +3,7 @@ import {
   FETCH_MESSAGES,
   IS_FETCHING_MESSAGES,
   MESSAGE_SENT,
+  MESSAGE_RECEIVED,
 } from "./types";
 import * as apiCalls from "../../api/apiCalls";
 
@@ -41,5 +42,12 @@ export const sendMessage = (sessionId, message) => (dispatch) => {
       type: MESSAGE_SENT,
       payload: response.data.data,
     });
+  });
+};
+
+export const messageReceived = (message) => (dispatch) => {
+  dispatch({
+    type: MESSAGE_RECEIVED,
+    payload: message,
   });
 };

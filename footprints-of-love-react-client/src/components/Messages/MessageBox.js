@@ -5,6 +5,8 @@ import Message from "./Message";
 import * as messageActions from "../../actions/messages/messageActions";
 import Spinner from "../Spinner";
 import { Link } from "react-router-dom";
+import Echo from "laravel-echo";
+import axios from "axios";
 
 const MessageBox = (props) => {
   const { first_name, profile_photo, session_id, user_id } =
@@ -13,12 +15,45 @@ const MessageBox = (props) => {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
+    const listen = () => {
+      window.Pusher = require("pusher-js");
+
+      window.Echo = new Echo({
+        broadcaster: "pusher",
+        key: "08a3962f0d9474d77255",
+        cluster: "eu",
+        forceTLS: true,
+      });
+
+      axios.interceptors.request.use((config) => {
+        config.headers["X-Socket-ID"] = window.Echo.socketId();
+        return config;
+      });
+
+      window.Echo.private(`sessions.${session_id}`).listen(
+        ".message.created",
+        (e) => {
+          props.actions.messageReceived(e.message);
+        }
+      );
+    };
+
+    if (props.auth.isLoggedIn) {
+      listen();
+    }
+
     const fetchMessages = () => {
       props.actions.fetchMessages(session_id);
     };
 
     fetchMessages();
-  }, [props.actions, session_id]);
+
+    return () => {
+      window.Echo.private(`sessions.${session_id}`).stopListening(
+        ".message.created"
+      );
+    };
+  }, [props.actions, props.auth.isLoggedIn, session_id]);
 
   const displayMessages = () => {
     if (props.isFetchingMessages) {
@@ -182,6 +217,8 @@ const mapDispatchToProps = (dispatch) => {
       changeSessionStatus: () => dispatch(messageActions.changeSessionStatus()),
       sendMessage: (sessionId, message) =>
         dispatch(messageActions.sendMessage(sessionId, message)),
+      messageReceived: (message) =>
+        dispatch(messageActions.messageReceived(message)),
     },
   };
 };

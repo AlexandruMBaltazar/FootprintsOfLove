@@ -27,6 +27,11 @@ class MessageCreated implements ShouldBroadcast
         $this->message = $message;
     }
 
+    public function broadcastAs()
+    {
+        return 'message.created';
+    }
+
     /**
      * Get the channels the event should broadcast on.
      *

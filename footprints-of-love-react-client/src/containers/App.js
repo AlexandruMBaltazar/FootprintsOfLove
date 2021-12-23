@@ -13,38 +13,12 @@ import PasswordResetPage from "../pages/PasswordResetPage";
 import ProfilePage from "../pages/ProfilePage";
 import OnboardingPage from "../pages/OnboardingPage";
 import ProfilePhotosPage from "../pages/ProfilePhotosPage";
-import Echo from "laravel-echo";
 import Messages from "../pages/Messages";
 import MessageBox from "../components/Messages/MessageBox";
 
 function App(props) {
   const [pendingApiCalls, setPendingApiCalls] = useState(true);
   let history = useHistory();
-
-  // useEffect(() => {
-  //   const listen = () => {
-  //     window.Pusher = require("pusher-js");
-
-  //     window.Echo = new Echo({
-  //       broadcaster: "pusher",
-  //       key: "08a3962f0d9474d77255",
-  //       cluster: "eu",
-  //       forceTLS: true,
-  //     });
-
-  //     window.Echo.private(`messages.${props.user.id}`).listen(
-  //       ".message.created",
-  //       (e) => {
-  //         console.log(e.message);
-  //       }
-  //     );
-  //   };
-
-  //   if (props.user.isLoggedIn) {
-  //     console.log("is logged in");
-  //     listen();
-  //   }
-  // }, [props.user.id, props.user.isLoggedIn]);
 
   useEffect(() => {
     props.actions

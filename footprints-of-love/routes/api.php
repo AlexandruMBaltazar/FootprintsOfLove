@@ -38,8 +38,12 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('logout', [AuthController::class, 'logout']);
 
-    Route::resource('sessions', SessionController::class);
-    Route::post('sessions/{session}/message', MessageController::class);
+    Route::get('sessions', SessionController::class);
+
+    Route::prefix('sessions/{session}')->group(function () {
+        Route::post('/messages', [MessageController::class, 'store']);
+        Route::get('/messages', [MessageController::class, 'index']);
+    });
 
     Route::resource('swipes', SwipeController::class);
 

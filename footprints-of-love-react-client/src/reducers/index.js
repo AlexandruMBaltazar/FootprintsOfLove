@@ -7,6 +7,7 @@ import discoverReducer from "./discover/discoverReducer";
 import topicReducer from "./topics/topicReducer";
 import profileReducer from "./user/profileReducer";
 import sessionReducer from "./session/sessionReducer";
+import messageReducer from "./messages/messageReducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -17,4 +18,5 @@ export default combineReducers({
   discover: discoverReducer,
   topic: topicReducer,
   session: sessionReducer,
+  message: messageReducer,
 });

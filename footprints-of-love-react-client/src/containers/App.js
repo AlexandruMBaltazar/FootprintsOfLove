@@ -97,9 +97,11 @@ function App(props) {
           <SecuredRoute path="/onboarding" component={OnboardingPage} />
         </Switch>
       </div>
-      <div className="position-fixed bottom-0 end-0 d-none">
-        <MessageBox />
-      </div>
+      {props.isSessionOpen && (
+        <div className="position-fixed bottom-0 end-0">
+          <MessageBox />
+        </div>
+      )}
     </div>
   );
 }
@@ -107,6 +109,7 @@ function App(props) {
 const mapStateToProps = (state) => {
   return {
     user: state.auth,
+    isSessionOpen: state.message.isSessionOpen,
   };
 };
 

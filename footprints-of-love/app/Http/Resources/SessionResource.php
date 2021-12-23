@@ -19,7 +19,8 @@ class SessionResource extends JsonResource
             'id' => $this->id,
             'profile_photo' => new PhotoResource($this->sessionUser->first()->profilePhoto),
             'latest_message' => new MessageResource($this->latestMessage),
-            'first_name' => $this->sessionUser->first()->first_name
+            'user_id' => $this->sessionUser->first()->id,
+            'first_name' => $this->sessionUser->first()->first_name,
         ];
     }
 }

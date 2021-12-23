@@ -1,10 +1,11 @@
 import React from "react";
 import ProfileImageWithDefault from "../../ProfileImageWithDefault";
 import { connect } from "react-redux";
+import * as messageActions from "../../../actions/messages/messageActions";
 
 const UserSession = (props) => {
   const { session } = props;
-  const { first_name, latest_message, profile_photo } = session;
+  const { id, first_name, latest_message, profile_photo, user_id } = session;
 
   const displayMessageStatus = () => {
     if (latest_message && latest_message.user_id === props.auth.id) {
@@ -25,6 +26,14 @@ const UserSession = (props) => {
       <button
         class="list-group-item list-group-item-action"
         aria-current="true"
+        onClick={() =>
+          props.actions.changeSessionStatus({
+            session_id: id,
+            user_id,
+            profile_photo,
+            first_name,
+          })
+        }
       >
         <div className="row">
           <div className="col-12 col-md-2">
@@ -57,4 +66,13 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(UserSession);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    actions: {
+      changeSessionStatus: (sessionId) =>
+        dispatch(messageActions.changeSessionStatus(sessionId)),
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserSession);

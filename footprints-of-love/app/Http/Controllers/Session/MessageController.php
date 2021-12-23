@@ -7,21 +7,33 @@ use App\Http\Requests\Session\MessageRequest;
 use App\Http\Resources\Session\MessageResource;
 use App\Models\Session;
 use App\Models\Session\Message;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
 
 
 class MessageController extends Controller
 {
+    public function index(Session $session): AnonymousResourceCollection
+    {
+        $this->authorize('create', [Message::class, $session]);
+
+        $messages = $session->messages;
+
+        return MessageResource::collection($messages);
+    }
+
     /**
-     * Handle the incoming request.
+     * Store incoming message and broadcast it.
      *
-     * @param Request $request
+     * @param MessageRequest $request
      * @param Session $session
      * @return MessageResource
+     * @throws AuthorizationException
      */
-    public function __invoke(MessageRequest $request, Session $session): MessageResource
+    public function store(MessageRequest $request, Session $session): MessageResource
     {
         $this->authorize('create', [Message::class, $session]);
 

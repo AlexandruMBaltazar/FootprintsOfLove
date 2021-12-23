@@ -3,7 +3,6 @@
 namespace App\Policies\Session;
 
 use App\Models\Session;
-use App\Models\Session\Message;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -21,5 +20,4 @@ class MessagePolicy
     {
         return $session->users()->where('users.id', $user->id)->exists();
     }
-
 }

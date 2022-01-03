@@ -26,8 +26,8 @@ export const getDetails = (userId) => {
   return axios.get(`/api/users/${userId}/details`);
 };
 
-export const getSessions = () => {
-  return axios.get(`/api/sessions`);
+export const getSessions = (page = 1) => {
+  return axios.get(`/api/sessions?page=${page}`);
 };
 export const getSessionMessages = (sessionId) => {
   return axios.get(`/api/sessions/${sessionId}/messages`);

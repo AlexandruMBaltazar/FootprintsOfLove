@@ -9,25 +9,6 @@ const MessageBox = (props) => {
   const { message, created_at } = props.message;
 
   const displayMessage = () => {
-    // if (!groupStart) {
-    //   return (
-    //     <div>
-    //       <div
-    //         className={`card ${styles.cardText} ${
-    //           props.isAuth ? "bg-secondary" : "bg-primary"
-    //         } d-inline-block p-2 px-3 m-1 text-white rounded-pill`}
-    //       >
-    //         <span>{message}</span>
-    //       </div>
-    // {groupEnd && (
-    //   <div>
-    //     <div className="small mb-3 ps-2">01:10PM</div>
-    //   </div>
-    // )}
-    //     </div>
-    //   );
-    // }
-
     return (
       <div>
         <div>

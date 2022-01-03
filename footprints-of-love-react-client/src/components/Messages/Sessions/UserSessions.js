@@ -5,6 +5,7 @@ import * as sessionActions from "../../../actions/sessions/sessionActions";
 
 const UserSessions = (props) => {
   const [page, setPage] = useState(1);
+  const [filterBy, setFilterBy] = useState("all");
 
   useEffect(() => {
     const loadSessions = () => {
@@ -20,11 +21,75 @@ const UserSessions = (props) => {
     };
   }, [props.actions]);
 
+  const getFilteredSessions = () => {
+    switch (filterBy) {
+      case "all":
+        return props.sessions;
+
+      case "newMatch":
+        return props.sessions.filter(
+          (session) => session.latest_message === null
+        );
+
+      case "yourTurn":
+        return props.sessions.filter(
+          (session) =>
+            session.latest_message &&
+            session.latest_message.user_id !== props.auth.id
+        );
+
+      default:
+        return props.sessions;
+    }
+  };
+
   return (
     <div>
+      <div
+        className="btn-group mb-4 col-12"
+        role="group"
+        aria-label="Basic radio toggle button group"
+      >
+        <input
+          type="radio"
+          className="btn-check"
+          name="btnradio"
+          id="btnradio1"
+          autocomplete="off"
+          onClick={() => setFilterBy("all")}
+          defaultChecked
+        />
+        <label className="btn btn-outline-primary" for="btnradio1">
+          All
+        </label>
+
+        <input
+          type="radio"
+          className="btn-check"
+          name="btnradio"
+          id="btnradio2"
+          autocomplete="off"
+          onClick={() => setFilterBy("yourTurn")}
+        />
+        <label className="btn btn-outline-primary" for="btnradio2">
+          Your turn
+        </label>
+
+        <input
+          type="radio"
+          className="btn-check"
+          name="btnradio"
+          id="btnradio3"
+          autocomplete="off"
+          onClick={() => setFilterBy("newMatch")}
+        />
+        <label className="btn btn-outline-primary" for="btnradio3">
+          New matches
+        </label>
+      </div>
       <div className="list-group">
         {props.sessions &&
-          props.sessions.map((session) => {
+          getFilteredSessions().map((session) => {
             return <UserSession key={session.id} session={session} />;
           })}
       </div>
@@ -45,6 +110,7 @@ const UserSessions = (props) => {
 
 const mapStateToProps = (state) => {
   return {
+    auth: state.auth,
     sessions: state.session.sessions,
     next: state.session.next,
   };

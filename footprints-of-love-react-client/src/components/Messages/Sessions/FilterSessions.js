@@ -2,6 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 
 const FilterSessions = (props) => {
+  const { sessions } = props;
+
   return (
     <div
       className="btn-group mb-4 col-12"
@@ -37,6 +39,7 @@ const FilterSessions = (props) => {
         name="btnradio"
         id="btnradio3"
         autocomplete="off"
+        onClick={() => console.log("clicked")}
       />
       <label className="btn btn-outline-primary" for="btnradio3">
         New matches

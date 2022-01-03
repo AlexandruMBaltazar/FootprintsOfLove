@@ -14,6 +14,15 @@ class Session extends Model
 {
     use HasFactory;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'updated_at',
+    ];
+
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class);

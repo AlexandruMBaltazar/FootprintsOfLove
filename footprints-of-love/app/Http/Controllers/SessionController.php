@@ -12,7 +12,7 @@ class SessionController extends Controller
     {
         $sessions = Auth::user()->sessions()->with('sessionUser.profilePhoto', 'latestMessage')
             ->orderByDesc('updated_at')
-            ->simplePaginate(9);
+            ->simplePaginate(1);
 
         return SessionResource::collection($sessions);
     }

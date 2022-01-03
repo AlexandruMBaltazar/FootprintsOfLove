@@ -1,5 +1,5 @@
 import * as apiCalls from "../../api/apiCalls";
-import { FETCH_SESSIONS } from "./types";
+import { FETCH_SESSIONS, CLEAR_SESSIONS } from "./types";
 
 export const fetchSessions =
   (page = 1) =>
@@ -11,3 +11,10 @@ export const fetchSessions =
       });
     });
   };
+
+export const clearSessions = () => (dispatch) => {
+  dispatch({
+    type: CLEAR_SESSIONS,
+    payload: [],
+  });
+};

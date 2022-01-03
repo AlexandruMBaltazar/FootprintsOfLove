@@ -1,4 +1,4 @@
-import { FETCH_SESSIONS } from "../../actions/sessions/types";
+import { FETCH_SESSIONS, CLEAR_SESSIONS } from "../../actions/sessions/types";
 
 const initialState = {
   sessions: [],
@@ -10,11 +10,15 @@ export default function sessionReducer(state = initialState, action) {
     case FETCH_SESSIONS:
       return {
         ...state,
-        sessions: state.sessions
-          ? [...state.sessions, ...action.payload.data]
-          : action.payload.data,
+        sessions:
+          state.sessions.length > 0
+            ? [...state.sessions, ...action.payload.data]
+            : action.payload.data,
         next: action.payload.links.next,
       };
+
+    case CLEAR_SESSIONS:
+      return initialState;
 
     default:
       return state;

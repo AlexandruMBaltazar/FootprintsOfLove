@@ -14,6 +14,12 @@ const UserSessions = (props) => {
     loadSessions();
   }, [page, props.actions]);
 
+  useEffect(() => {
+    return () => {
+      props.actions.clearSessions();
+    };
+  }, [props.actions]);
+
   return (
     <div>
       <div className="list-group">
@@ -48,6 +54,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     actions: {
       fetchSessions: (page) => dispatch(sessionActions.fetchSessions(page)),
+      clearSessions: () => dispatch(sessionActions.clearSessions()),
     },
   };
 };

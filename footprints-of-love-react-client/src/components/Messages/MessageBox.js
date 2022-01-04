@@ -30,12 +30,19 @@ const MessageBox = (props) => {
         return config;
       });
 
-      window.Echo.private(`sessions.${session_id}`).listen(
-        ".message.created",
-        (e) => {
+      window.Echo.join(`sessions.${session_id}`)
+        .here((users) => {
+          console.log(users);
+        })
+        .joining((user) => {
+          console.log(user.name);
+        })
+        .leaving((user) => {
+          console.log(user.name);
+        })
+        .listen(".message.created", (e) => {
           props.actions.messageReceived(e.message);
-        }
-      );
+        });
     };
 
     if (props.auth.isLoggedIn) {
@@ -49,9 +56,7 @@ const MessageBox = (props) => {
     fetchMessages();
 
     return () => {
-      window.Echo.private(`sessions.${session_id}`).stopListening(
-        ".message.created"
-      );
+      window.Echo.leave(`sessions.${session_id}`);
     };
   }, [props.actions, props.auth.isLoggedIn, session_id]);
 

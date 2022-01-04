@@ -39,6 +39,6 @@ class MessageCreated implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('sessions.'.$this->message->session_id);
+        return new PresenceChannel('sessions.'.$this->message->session_id);
     }
 }

@@ -19,5 +19,12 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 });
 
 Broadcast::channel('sessions.{session}', function ($user, Session $session) {
-    return $session->users()->where('users.id', $user->id)->exists();
+    if ($session->users()->where('users.id', $user->id)->exists()) {
+        return [
+          'id' => $user->id,
+          'first_name' => $user->first_name,
+        ];
+    }
+
+    return false;
 });

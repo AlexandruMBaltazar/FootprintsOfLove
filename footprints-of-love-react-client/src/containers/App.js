@@ -27,6 +27,12 @@ function App(props) {
   const { session_id } = sessionDetails;
 
   useEffect(() => {
+    if (props.user.id !== 0) {
+      props.actions.fetchNotifications(props.user.id);
+    }
+  }, [props.actions, props.user.id]);
+
+  useEffect(() => {
     props.actions
       .getAuthUser()
       .then((response) => {
@@ -133,6 +139,9 @@ const mapDispatchToProps = (dispatch) => {
       getAuthUser: () => dispatch(authActions.loginSuccess()),
       notificationHandler: (notification) =>
         dispatch(notificationActions.notificationHandler(notification)),
+
+      fetchNotifications: (userId) =>
+        dispatch(notificationActions.fetchNotifications(userId)),
     },
   };
 };

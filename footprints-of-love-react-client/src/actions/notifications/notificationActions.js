@@ -1,4 +1,4 @@
-import { ADD_MESSAGE_NOTIFICATION } from "./types";
+import { ADD_MESSAGE_NOTIFICATION, FETCH_NOTIFICATIONS } from "./types";
 import * as apiCalls from "../../api/apiCalls";
 import * as messageActions from "../messages/messageActions";
 
@@ -6,6 +6,15 @@ export const addMessageNotification = (notification) => (dispatch) => {
   dispatch({
     type: ADD_MESSAGE_NOTIFICATION,
     payload: notification,
+  });
+};
+
+export const fetchNotifications = (userId) => (dispatch) => {
+  return apiCalls.getNotifications(userId).then((response) => {
+    dispatch({
+      type: FETCH_NOTIFICATIONS,
+      payload: response.data.data,
+    });
   });
 };
 

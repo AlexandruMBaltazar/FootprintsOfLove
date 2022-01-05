@@ -8,6 +8,8 @@ import ProfileImageWithDefault from "./ProfileImageWithDefault";
 import PageFeatured from "./PageFeatured";
 
 const TopBar = (props) => {
+  const { messageNotifications } = props.notification;
+
   let links = (
     <div className="w-100">
       <ul className="nav navbar-nav float-end">
@@ -68,7 +70,7 @@ const TopBar = (props) => {
           </NavLink>
           <NavLink
             to="/messages"
-            className="nav-link align-self-center"
+            className="nav-link align-self-center position-relative"
             activeStyle={{
               borderBottom: "3px solid #e00095",
             }}
@@ -77,6 +79,15 @@ const TopBar = (props) => {
               <i className="far fa-comments" width="19" height="19"></i>
               <span className="ps-2">Messages</span>
             </div>
+            {messageNotifications.length > 0 && (
+              <span
+                class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
+                style={{ backgroundColor: "#e00095" }}
+              >
+                {messageNotifications.length + "+"}
+                <span class="visually-hidden">unread messages</span>
+              </span>
+            )}
           </NavLink>
         </li>
         <li className="nav-item ms-auto align-self-center">
@@ -124,6 +135,7 @@ const TopBar = (props) => {
 const mapStateToProps = (state) => {
   return {
     user: state.auth,
+    notification: state.notification,
   };
 };
 

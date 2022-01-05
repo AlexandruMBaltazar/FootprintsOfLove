@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\PasswordController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Session\MessageController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\SwipeController;
@@ -52,6 +53,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('topics/{topic}/answers', AnswerController::class);
 
     Route::resource('users.photos', PhotoController::class)->shallow();
+    Route::resource('users.notifications', NotificationController::class)->shallow();
 
     Route::prefix('users/{user}')->group(function () {
         Route::post('/details', [UserDetailsController::class, 'store']);

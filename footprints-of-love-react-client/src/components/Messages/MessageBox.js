@@ -15,39 +15,39 @@ const MessageBox = (props) => {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    const listen = () => {
-      window.Pusher = require("pusher-js");
+    // const listen = () => {
+    //   window.Pusher = require("pusher-js");
 
-      window.Echo = new Echo({
-        broadcaster: "pusher",
-        key: "08a3962f0d9474d77255",
-        cluster: "eu",
-        forceTLS: true,
-      });
+    //   window.Echo = new Echo({
+    //     broadcaster: "pusher",
+    //     key: "08a3962f0d9474d77255",
+    //     cluster: "eu",
+    //     forceTLS: true,
+    //   });
 
-      axios.interceptors.request.use((config) => {
-        config.headers["X-Socket-ID"] = window.Echo.socketId();
-        return config;
-      });
+    //   axios.interceptors.request.use((config) => {
+    //     config.headers["X-Socket-ID"] = window.Echo.socketId();
+    //     return config;
+    //   });
 
-      window.Echo.join(`sessions.${session_id}`)
-        .here((users) => {
-          console.log(users);
-        })
-        .joining((user) => {
-          console.log(user.name);
-        })
-        .leaving((user) => {
-          console.log(user.name);
-        })
-        .listen(".message.created", (e) => {
-          props.actions.messageReceived(e.message);
-        });
-    };
+    //   window.Echo.join(`sessions.${session_id}`)
+    //     .here((users) => {
+    //       console.log(users);
+    //     })
+    //     .joining((user) => {
+    //       console.log(user.name);
+    //     })
+    //     .leaving((user) => {
+    //       console.log(user.name);
+    //     })
+    //     .listen(".message.created", (e) => {
+    //       props.actions.messageReceived(e.message);
+    //     });
+    // };
 
-    if (props.auth.isLoggedIn) {
-      listen();
-    }
+    // if (props.auth.isLoggedIn) {
+    //   listen();
+    // }
 
     const fetchMessages = () => {
       props.actions.fetchMessages(session_id);
@@ -55,9 +55,9 @@ const MessageBox = (props) => {
 
     fetchMessages();
 
-    return () => {
-      window.Echo.leave(`sessions.${session_id}`);
-    };
+    // return () => {
+    //   window.Echo.leave(`sessions.${session_id}`);
+    // };
   }, [props.actions, props.auth.isLoggedIn, session_id]);
 
   const displayMessages = () => {

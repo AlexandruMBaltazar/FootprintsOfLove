@@ -8,6 +8,7 @@ import topicReducer from "./topics/topicReducer";
 import profileReducer from "./user/profileReducer";
 import sessionReducer from "./session/sessionReducer";
 import messageReducer from "./messages/messageReducer";
+import notificationReducer from "./notifications/notificationReducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -19,4 +20,5 @@ export default combineReducers({
   topic: topicReducer,
   session: sessionReducer,
   message: messageReducer,
+  notification: notificationReducer,
 });

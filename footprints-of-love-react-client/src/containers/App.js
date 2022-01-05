@@ -15,10 +15,16 @@ import OnboardingPage from "../pages/OnboardingPage";
 import ProfilePhotosPage from "../pages/ProfilePhotosPage";
 import Messages from "../pages/Messages";
 import MessageBox from "../components/Messages/MessageBox";
+import Echo from "laravel-echo";
+import axios from "axios";
+import * as notificationActions from "../actions/notifications/notificationActions";
 
 function App(props) {
   const [pendingApiCalls, setPendingApiCalls] = useState(true);
   let history = useHistory();
+
+  const { isSessionOpen, sessionDetails } = props.session;
+  const { session_id } = sessionDetails;
 
   useEffect(() => {
     props.actions
@@ -30,6 +36,40 @@ function App(props) {
         setPendingApiCalls(false);
       });
   }, [props.actions, history]);
+
+  useEffect(() => {
+    const websocketListen = () => {
+      window.Pusher = require("pusher-js");
+
+      window.Echo = new Echo({
+        broadcaster: "pusher",
+        key: "08a3962f0d9474d77255",
+        cluster: "eu",
+        forceTLS: true,
+      });
+
+      axios.interceptors.request.use((config) => {
+        config.headers["X-Socket-ID"] = window.Echo.socketId();
+        return config;
+      });
+
+      window.Echo.private("App.Models.User." + props.user.id).notification(
+        (notification) => {
+          props.actions.notificationHandler(notification);
+        }
+      );
+    };
+
+    if (props.user.id !== 0) {
+      websocketListen();
+    }
+
+    return () => {
+      if (props.user.id !== 0) {
+        window.Echo.leave("App.Models.User." + props.user.id);
+      }
+    };
+  }, [isSessionOpen, props.actions, props.user.id, session_id]);
 
   if (pendingApiCalls) {
     return (
@@ -71,7 +111,7 @@ function App(props) {
           <SecuredRoute path="/onboarding" component={OnboardingPage} />
         </Switch>
       </div>
-      {props.isSessionOpen && (
+      {isSessionOpen && (
         <div className="position-fixed bottom-0 end-0">
           <MessageBox />
         </div>
@@ -83,7 +123,7 @@ function App(props) {
 const mapStateToProps = (state) => {
   return {
     user: state.auth,
-    isSessionOpen: state.message.isSessionOpen,
+    session: state.message,
   };
 };
 
@@ -91,6 +131,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     actions: {
       getAuthUser: () => dispatch(authActions.loginSuccess()),
+      notificationHandler: (notification) =>
+        dispatch(notificationActions.notificationHandler(notification)),
     },
   };
 };

@@ -36,6 +36,10 @@ export const postMessage = (sessionId, message) => {
   return axios.post(`/api/sessions/${sessionId}/messages`, message);
 };
 
+export const deleteNotification = (notificationId) => {
+  return axios.delete(`/api/notifications/${notificationId}`);
+};
+
 export const getPhotos = (userId) => {
   return axios.get(`/api/users/${userId}/photos`);
 };

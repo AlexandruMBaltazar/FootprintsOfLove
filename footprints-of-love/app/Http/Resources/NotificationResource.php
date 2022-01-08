@@ -14,6 +14,6 @@ class NotificationResource extends JsonResource
      */
     public function toArray($request)
     {
-        return array_merge($this->data, ['type' => 'notification.message']);
+        return $this->data;
     }
 }

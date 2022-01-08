@@ -57,7 +57,16 @@ class Message extends Notification
      */
     public function toArray($notifiable)
     {
-        return $this->message->toArray();
+        return [
+            'id' => $this->message->id,
+            'session_id' => $this->message->session_id,
+            'user_id' => $this->message->user->id,
+            'first_name' => $this->message->user->first_name,
+            'profile_photo_location' => $this->message->user->profilePhoto?->location,
+            'message' => $this->message->message,
+            'created_at' => $this->message->created_at,
+            'type' => $this->broadcastType()
+        ];
     }
 
     /**

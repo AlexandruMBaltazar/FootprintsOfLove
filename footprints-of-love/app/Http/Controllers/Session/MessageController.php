@@ -50,6 +50,8 @@ class MessageController extends Controller
             'updated_at' => Carbon::now()->toDateTimeString()
         ]);
 
+        $message->load('user.profilePhoto');
+
         $user = $session->users()->where('users.id', '!=', Auth::id())->first();
         $user->notify(new MessageNotification($message));
 

@@ -18,6 +18,7 @@ import MessageBox from "../components/Messages/MessageBox";
 import Echo from "laravel-echo";
 import axios from "axios";
 import * as notificationActions from "../actions/notifications/notificationActions";
+import Notifications from "../components/Notifications/Notifications";
 
 function App(props) {
   const [pendingApiCalls, setPendingApiCalls] = useState(true);
@@ -93,29 +94,36 @@ function App(props) {
   return (
     <div className="position-relative">
       <TopBar />
-      <div className="container">
-        <Switch>
-          <SecuredRoute exact path="/" component={HomePage} />
-          <SecuredRoute path="/discover" component={HomePage} />
-          <Route path="/forgot" component={ForgotPasswordPage} />
-          <Route path="/login" component={LoginPage} />
-          <SecuredRoute path="/messages" component={Messages} />
-          <SecuredRoute exact path="/profile" component={ProfilePage} />
-          <SecuredRoute
-            exact
-            path="/profile/photos"
-            component={ProfilePhotosPage}
-          />
-          <SecuredRoute exact path="/profile/:userId" component={ProfilePage} />
-          <SecuredRoute
-            exact
-            path="/profile/photos"
-            component={ProfilePhotosPage}
-          />
-          <Route path="/reset/:token" component={PasswordResetPage} />
-          <Route path="/signup" component={UserSignupPage} />
-          <SecuredRoute path="/onboarding" component={OnboardingPage} />
-        </Switch>
+      <div className="position-relative">
+        <div className="container">
+          <Switch>
+            <SecuredRoute exact path="/" component={HomePage} />
+            <SecuredRoute path="/discover" component={HomePage} />
+            <Route path="/forgot" component={ForgotPasswordPage} />
+            <Route path="/login" component={LoginPage} />
+            <SecuredRoute path="/messages" component={Messages} />
+            <SecuredRoute exact path="/profile" component={ProfilePage} />
+            <SecuredRoute
+              exact
+              path="/profile/photos"
+              component={ProfilePhotosPage}
+            />
+            <SecuredRoute
+              exact
+              path="/profile/:userId"
+              component={ProfilePage}
+            />
+            <SecuredRoute
+              exact
+              path="/profile/photos"
+              component={ProfilePhotosPage}
+            />
+            <Route path="/reset/:token" component={PasswordResetPage} />
+            <Route path="/signup" component={UserSignupPage} />
+            <SecuredRoute path="/onboarding" component={OnboardingPage} />
+          </Switch>
+        </div>
+        <Notifications />
       </div>
       {isSessionOpen && (
         <div className="position-fixed bottom-0 end-0">
@@ -130,6 +138,7 @@ const mapStateToProps = (state) => {
   return {
     user: state.auth,
     session: state.message,
+    notification: state.notification,
   };
 };
 

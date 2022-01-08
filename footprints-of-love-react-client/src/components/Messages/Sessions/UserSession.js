@@ -13,7 +13,7 @@ const UserSession = (props) => {
     }
 
     return (
-      <div class="badge bg-primary rounded-pill d-inline float-end">
+      <div className="badge bg-primary rounded-pill d-inline float-end">
         {latest_message && latest_message.user_id !== props.auth.id
           ? "Your turn"
           : "New match"}
@@ -24,7 +24,7 @@ const UserSession = (props) => {
   return (
     <div>
       <button
-        class="list-group-item list-group-item-action"
+        className="list-group-item list-group-item-action"
         aria-current="true"
         onClick={() =>
           props.actions.changeSessionStatus({
@@ -46,13 +46,23 @@ const UserSession = (props) => {
             />
           </div>
           <div className="col-12 col-md-10">
-            <div class="w-100 align-baseline">
-              <h5 class="mb-1 d-inline">{first_name}</h5>
+            <div className="w-100 align-baseline pe-1">
+              <h5 className="mb-1 d-inline">{first_name}</h5>
               {displayMessageStatus()}
             </div>
-            <p class="mb-1 text-truncate">
-              {latest_message ? latest_message.message : "It's a match!"}
-            </p>
+            <div className="align-baseline">
+              <p className="text-truncate d-inline">
+                {latest_message ? latest_message.message : "It's a match!"}
+              </p>
+              {props.hasNotification && (
+                <span
+                  className="float-end me-4 mt-2 d-block p-2 border border-light rounded-circle"
+                  style={{ backgroundColor: "rgb(224, 0, 149)" }}
+                >
+                  <span className="visually-hidden">New alerts</span>
+                </span>
+              )}
+            </div>
           </div>
         </div>
       </button>

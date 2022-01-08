@@ -46,8 +46,10 @@ export const sendMessage = (sessionId, message) => (dispatch) => {
 };
 
 export const messageReceived = (message) => (dispatch) => {
-  dispatch({
-    type: MESSAGE_RECEIVED,
-    payload: message,
+  return apiCalls.deleteNotification(message.id).then((response) => {
+    dispatch({
+      type: MESSAGE_RECEIVED,
+      payload: message,
+    });
   });
 };

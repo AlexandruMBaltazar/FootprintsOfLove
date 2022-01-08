@@ -3,10 +3,12 @@ import { connect } from "react-redux";
 import ProfileImageWithDefault from "../ProfileImageWithDefault";
 import Message from "./Message";
 import * as messageActions from "../../actions/messages/messageActions";
+import * as notificationActions from "../../actions/notifications/notificationActions";
 import Spinner from "../Spinner";
 import { Link } from "react-router-dom";
 import Echo from "laravel-echo";
 import axios from "axios";
+import { deleteMessageNotifications } from "../../api/apiCalls";
 
 const MessageBox = (props) => {
   const { first_name, profile_photo, session_id, user_id } =
@@ -15,50 +17,23 @@ const MessageBox = (props) => {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    const listen = () => {
-      window.Pusher = require("pusher-js");
-
-      window.Echo = new Echo({
-        broadcaster: "pusher",
-        key: "08a3962f0d9474d77255",
-        cluster: "eu",
-        forceTLS: true,
-      });
-
-      axios.interceptors.request.use((config) => {
-        config.headers["X-Socket-ID"] = window.Echo.socketId();
-        return config;
-      });
-
-      window.Echo.join(`sessions.${session_id}`)
-        .here((users) => {
-          console.log(users);
-        })
-        .joining((user) => {
-          console.log(user.name);
-        })
-        .leaving((user) => {
-          console.log(user.name);
-        })
-        .listen(".message.created", (e) => {
-          props.actions.messageReceived(e.message);
-        });
-    };
-
-    if (props.auth.isLoggedIn) {
-      listen();
-    }
-
     const fetchMessages = () => {
       props.actions.fetchMessages(session_id);
     };
 
-    fetchMessages();
-
-    return () => {
-      window.Echo.leave(`sessions.${session_id}`);
+    const deleteNotification = () => {
+      if (
+        props.notifications.filter(
+          (notification) => notification.session_id === session_id
+        ).length > 0
+      ) {
+        props.actions.deleteMessageNotifications(session_id);
+      }
     };
-  }, [props.actions, props.auth.isLoggedIn, session_id]);
+
+    deleteNotification();
+    fetchMessages();
+  }, [props.actions, props.auth.isLoggedIn, props.notification, session_id]);
 
   const displayMessages = () => {
     if (props.isFetchingMessages) {
@@ -228,6 +203,7 @@ const mapStateToProps = (state) => {
     sessionDetails: state.message.sessionDetails,
     messages: state.message.messages,
     isFetchingMessages: state.message.isFetchingMessages,
+    notifications: state.notification.messageNotifications,
   };
 };
 
@@ -241,6 +217,8 @@ const mapDispatchToProps = (dispatch) => {
         dispatch(messageActions.sendMessage(sessionId, message)),
       messageReceived: (message) =>
         dispatch(messageActions.messageReceived(message)),
+      deleteMessageNotifications: (sessionId) =>
+        dispatch(notificationActions.deleteMessageNotifications(sessionId)),
     },
   };
 };

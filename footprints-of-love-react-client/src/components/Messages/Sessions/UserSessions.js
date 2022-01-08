@@ -90,7 +90,17 @@ const UserSessions = (props) => {
       <div className="list-group">
         {props.sessions &&
           getFilteredSessions().map((session) => {
-            return <UserSession key={session.id} session={session} />;
+            return (
+              <UserSession
+                key={session.id}
+                session={session}
+                hasNotification={
+                  props.notifications.filter(
+                    (notification) => notification.session_id === session.id
+                  ).length > 0
+                }
+              />
+            );
           })}
       </div>
       {props.next && (
@@ -113,6 +123,7 @@ const mapStateToProps = (state) => {
     auth: state.auth,
     sessions: state.session.sessions,
     next: state.session.next,
+    notifications: state.notification.messageNotifications,
   };
 };
 

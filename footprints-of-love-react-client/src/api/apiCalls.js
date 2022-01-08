@@ -42,6 +42,9 @@ export const getNotifications = (userId) => {
 export const deleteNotification = (notificationId) => {
   return axios.delete(`/api/notifications/${notificationId}`);
 };
+export const deleteMessageNotifications = (sessionId) => {
+  return axios.delete(`/api/sessions/${sessionId}/notifications`);
+};
 
 export const getPhotos = (userId) => {
   return axios.get(`/api/users/${userId}/photos`);

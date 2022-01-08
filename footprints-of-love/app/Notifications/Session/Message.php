@@ -58,7 +58,7 @@ class Message extends Notification
     public function toArray($notifiable)
     {
         return [
-            'id' => $this->message->id,
+            'message_id' => $this->message->id,
             'session_id' => $this->message->session_id,
             'user_id' => $this->message->user->id,
             'first_name' => $this->message->user->first_name,

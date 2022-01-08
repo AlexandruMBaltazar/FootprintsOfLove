@@ -1,6 +1,7 @@
 import {
   ADD_MESSAGE_NOTIFICATION,
   FETCH_NOTIFICATIONS,
+  DELETE_MESSAGE_NOTIFICATIONS,
 } from "../../actions/notifications/types";
 
 const initialState = {
@@ -21,6 +22,16 @@ export default function notificationReducer(state = initialState, action) {
       return {
         ...state,
         messageNotifications: [action.payload, ...state.messageNotifications],
+      };
+
+    case DELETE_MESSAGE_NOTIFICATIONS:
+      return {
+        ...state,
+        messageNotifications: [
+          ...state.messageNotifications.filter(
+            (notification) => notification.session_id !== action.payload
+          ),
+        ],
       };
 
     default:

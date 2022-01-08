@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\NotificationResource;
+use App\Models\Session;
 use App\Models\User;
+use App\Notifications\Session\Message;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Notifications\DatabaseNotification;
@@ -88,5 +91,14 @@ class NotificationController extends Controller
         $notification->delete();
 
         return new NotificationResource($notification);
+    }
+
+    public function destroyMessageNotifications(Session $session): JsonResponse
+    {
+        DatabaseNotification::query()->where('type', Message::class)
+            ->whereRaw("JSON_EXTRACT(`data`, '$.session_id') = ?", [$session->id]
+            )->delete();
+
+        return response()->json(['success' => 'success'], 200);
     }
 }

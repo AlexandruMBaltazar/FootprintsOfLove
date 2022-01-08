@@ -53,7 +53,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('topics/{topic}/answers', AnswerController::class);
 
     Route::resource('users.photos', PhotoController::class)->shallow();
+
     Route::resource('users.notifications', NotificationController::class)->shallow();
+    Route::delete('sessions/{session}/notifications', [NotificationController::class, 'destroyMessageNotifications']);
 
     Route::prefix('users/{user}')->group(function () {
         Route::post('/details', [UserDetailsController::class, 'store']);

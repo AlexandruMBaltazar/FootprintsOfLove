@@ -14,6 +14,6 @@ class NotificationResource extends JsonResource
      */
     public function toArray($request)
     {
-        return $this->data;
+        return array_merge($this->data, ['id' => $this->id]);
     }
 }

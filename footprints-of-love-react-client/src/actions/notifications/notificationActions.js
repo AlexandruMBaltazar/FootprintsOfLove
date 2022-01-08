@@ -1,4 +1,8 @@
-import { ADD_MESSAGE_NOTIFICATION, FETCH_NOTIFICATIONS } from "./types";
+import {
+  ADD_MESSAGE_NOTIFICATION,
+  FETCH_NOTIFICATIONS,
+  DELETE_MESSAGE_NOTIFICATIONS,
+} from "./types";
 import * as apiCalls from "../../api/apiCalls";
 import * as messageActions from "../messages/messageActions";
 
@@ -6,6 +10,15 @@ export const addMessageNotification = (notification) => (dispatch) => {
   dispatch({
     type: ADD_MESSAGE_NOTIFICATION,
     payload: notification,
+  });
+};
+
+export const deleteMessageNotifications = (sessionId) => (dispatch) => {
+  return apiCalls.deleteMessageNotifications(sessionId).then((response) => {
+    dispatch({
+      type: DELETE_MESSAGE_NOTIFICATIONS,
+      payload: sessionId,
+    });
   });
 };
 

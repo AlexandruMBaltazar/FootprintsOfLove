@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\PasswordController;
+use App\Http\Controllers\LikesController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Session\MessageController;
 use App\Http\Controllers\SessionController;
@@ -38,6 +39,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('details', DetailController::class);
 
     Route::post('logout', [AuthController::class, 'logout']);
+
+    Route::prefix('likes')->group(function () {
+        Route::get('/who-likes-you', [LikesController::class, 'whoLikesYou']);
+        Route::get('/who-you-like', [LikesController::class, 'likedUsers']);
+
+    });
 
     Route::get('sessions', SessionController::class);
 

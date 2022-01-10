@@ -138,6 +138,11 @@ class User extends Authenticatable
         return $this->hasMany(Swipe::class, 'user_id');
     }
 
+    public function targetSwipes(): HasMany
+    {
+        return $this->hasMany(Swipe::class, 'target_user_id');
+    }
+
     public function matches(): HasManyThrough
     {
         return $this->hasManyThrough(Matches::class, Swipe::class, 'user_id', 'swipe_id', 'id', 'id');

@@ -32,19 +32,11 @@ Route::post('forgot', [PasswordController::class, 'forgot']);
 Route::post('login', [AuthController::class, 'login']);
 Route::post('reset', [PasswordController::class, 'reset']);
 
-Route::resource('users', UserController::class);
-
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('details', DetailController::class);
 
     Route::post('logout', [AuthController::class, 'logout']);
-
-    Route::prefix('likes')->group(function () {
-        Route::get('/who-likes-you', [LikesController::class, 'whoLikesYou']);
-        Route::get('/who-you-like', [LikesController::class, 'likedUsers']);
-
-    });
 
     Route::get('sessions', SessionController::class);
 
@@ -52,6 +44,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/messages', [MessageController::class, 'store']);
         Route::get('/messages', [MessageController::class, 'index']);
     });
+
+    Route::get('swipes/users', LikesController::class);
 
     Route::resource('swipes', SwipeController::class);
 
@@ -75,4 +69,6 @@ Route::middleware('auth:sanctum')->group(function () {
     });
     Route::put('/details/{detail}', [UserDetailsController::class, 'update']);
 });
+
+Route::resource('users', UserController::class);
 

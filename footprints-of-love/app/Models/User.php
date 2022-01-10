@@ -81,7 +81,30 @@ class User extends Authenticatable
         return !Auth::user()->matches->pluck('swipe')->where('target_user_id', $this->id)->isEmpty();
     }
 
-
+    //Scopes
+    public function scopeLikes($query, $type)
+    {
+        match ($type) {
+            "likedUsers" => $query->whereHas('targetSwipes', function ($query) {
+                return $query
+                    ->doesntHave('match')
+                    ->where('user_id', Auth::id())
+                    ->where('liked', true);
+            }),
+            "dislikedUsers" => $query->whereHas('targetSwipes', function ($query) {
+                return $query
+                    ->doesntHave('match')
+                    ->where('user_id', Auth::id())
+                    ->where('liked', false);
+            }),
+            default => $query->whereHas('swipes', function ($query) {
+                return $query
+                    ->doesntHave('match')
+                    ->where('target_user_id', Auth::id())
+                    ->where('liked', true);
+            }),
+        };
+    }
 
     //Relationships
     public function detail(): HasOne

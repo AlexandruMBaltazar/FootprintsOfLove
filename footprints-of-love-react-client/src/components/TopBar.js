@@ -69,6 +69,18 @@ const TopBar = (props) => {
             </div>
           </NavLink>
           <NavLink
+            to="/likes"
+            className="nav-link align-self-center position-relative"
+            activeStyle={{
+              borderBottom: "3px solid #e00095",
+            }}
+          >
+            <div>
+              <i class="far fa-heart"></i>
+              <span className="ps-1">Likes</span>
+            </div>
+          </NavLink>
+          <NavLink
             to="/messages"
             className="nav-link align-self-center position-relative"
             activeStyle={{
@@ -118,7 +130,7 @@ const TopBar = (props) => {
     <div>
       <div className="bg-dark shadow-sm">
         <div className="container">
-          <nav className="navbar navbar-dark bg-dark navbar-expand">
+          <nav className="navbar navbar-dark bg-dark navbar-expand pb-0">
             <Link to="/" className="navbar-brand">
               <img src={logo} width="60" alt="Footprints of Love" />
               <span className="ps-2">Footprints of Love</span>

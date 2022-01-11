@@ -4,12 +4,20 @@ import { useLocation } from "react-router-dom";
 const PageFeatured = (props) => {
   const location = useLocation();
 
+  const findTerm = (term) => {
+    if (location.pathname.includes(term)) {
+      return location.pathname;
+    }
+  };
+
   const displayedPage = () => {
     switch (location.pathname) {
-      case "/messages":
+      case findTerm("/messages"):
         return "Messages";
-      case "/discover":
+      case findTerm("/discover"):
         return "Discover";
+      case findTerm("/likes"):
+        return "Likes";
       case "/":
         return "Discover";
       default:
@@ -19,7 +27,7 @@ const PageFeatured = (props) => {
 
   return (
     <div>
-      <div className="bg-dark shadow-sm mb-2 p-3">
+      <div className="bg-dark shadow-sm p-3">
         <div className="container">
           <h2 className="text-white">{displayedPage()}</h2>
         </div>

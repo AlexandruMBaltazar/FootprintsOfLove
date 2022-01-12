@@ -9,6 +9,7 @@ import profileReducer from "./user/profileReducer";
 import sessionReducer from "./session/sessionReducer";
 import messageReducer from "./messages/messageReducer";
 import notificationReducer from "./notifications/notificationReducer";
+import likeReducer from "./likes/likeReducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -21,4 +22,5 @@ export default combineReducers({
   session: sessionReducer,
   message: messageReducer,
   notification: notificationReducer,
+  likes: likeReducer,
 });

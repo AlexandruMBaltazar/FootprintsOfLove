@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\PasswordController;
+use App\Http\Controllers\LikesController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Session\MessageController;
 use App\Http\Controllers\SessionController;
@@ -31,8 +32,6 @@ Route::post('forgot', [PasswordController::class, 'forgot']);
 Route::post('login', [AuthController::class, 'login']);
 Route::post('reset', [PasswordController::class, 'reset']);
 
-Route::resource('users', UserController::class);
-
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('details', DetailController::class);
@@ -45,6 +44,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/messages', [MessageController::class, 'store']);
         Route::get('/messages', [MessageController::class, 'index']);
     });
+
+    Route::get('swipes/users', LikesController::class);
 
     Route::resource('swipes', SwipeController::class);
 
@@ -68,4 +69,6 @@ Route::middleware('auth:sanctum')->group(function () {
     });
     Route::put('/details/{detail}', [UserDetailsController::class, 'update']);
 });
+
+Route::resource('users', UserController::class);
 

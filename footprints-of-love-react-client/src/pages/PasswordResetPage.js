@@ -36,7 +36,7 @@ const PasswordResetPage = (props) => {
   };
 
   return (
-    <div>
+    <div className="container">
       <form className="d-flex flex-column w-50 offset-4 mt-5" onSubmit={submit}>
         <h1 className="h3 mb-3 fw-normal text-center">Reset your password</h1>
         <div className="mb-1">

@@ -1,0 +1,3 @@
+export const FETCH_LIKES = "FETCH_LIKES";
+export const IS_FETCHING_LIKES = "IS_FETCHING_LIKES";
+export const CLEAR_LIKES = "CLEAR_LIKES";

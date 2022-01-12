@@ -69,6 +69,18 @@ const TopBar = (props) => {
             </div>
           </NavLink>
           <NavLink
+            to="/likes"
+            className="nav-link align-self-center position-relative"
+            activeStyle={{
+              borderBottom: "3px solid #e00095",
+            }}
+          >
+            <div>
+              <i className="far fa-heart"></i>
+              <span className="ps-1">Likes</span>
+            </div>
+          </NavLink>
+          <NavLink
             to="/messages"
             className="nav-link align-self-center position-relative"
             activeStyle={{
@@ -81,11 +93,11 @@ const TopBar = (props) => {
             </div>
             {messageNotifications.length > 0 && (
               <span
-                class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
+                className="position-absolute top-0 start-100 translate-middle badge rounded-pill"
                 style={{ backgroundColor: "#e00095" }}
               >
                 {messageNotifications.length + "+"}
-                <span class="visually-hidden">unread messages</span>
+                <span className="visually-hidden">unread messages</span>
               </span>
             )}
           </NavLink>
@@ -118,7 +130,7 @@ const TopBar = (props) => {
     <div>
       <div className="bg-dark shadow-sm">
         <div className="container">
-          <nav className="navbar navbar-dark bg-dark navbar-expand">
+          <nav className="navbar navbar-dark bg-dark navbar-expand pb-0">
             <Link to="/" className="navbar-brand">
               <img src={logo} width="60" alt="Footprints of Love" />
               <span className="ps-2">Footprints of Love</span>

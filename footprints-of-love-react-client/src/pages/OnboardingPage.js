@@ -95,7 +95,7 @@ const OnboardingPage = (props) => {
   ));
 
   return (
-    <div>
+    <div className="container">
       <form className="d-flex flex-column w-50 offset-4 mt-5" onSubmit={submit}>
         <h1 className="h3 mb-3 fw-normal">About you</h1>
         <div className="row mb-3 mt-3">

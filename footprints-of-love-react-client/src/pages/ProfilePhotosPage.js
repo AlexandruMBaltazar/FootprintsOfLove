@@ -40,7 +40,7 @@ const ProfilePhotosPage = (props) => {
   };
 
   return (
-    <div>
+    <div className="container">
       <div className="row">
         <div className="pt-2">
           <div className="d-flex">

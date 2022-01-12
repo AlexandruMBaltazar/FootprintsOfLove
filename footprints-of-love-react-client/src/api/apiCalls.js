@@ -81,6 +81,10 @@ export const signup = (user) => {
   return axios.post("/api/users", user);
 };
 
+export const getLikes = (type = "", page = 1) => {
+  return axios.get(`/api/swipes/users?type=${type}&page=${page}`);
+};
+
 export const postSwipe = (swipe) => {
   return axios.post("/api/swipes", swipe);
 };

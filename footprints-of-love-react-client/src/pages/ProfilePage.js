@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import moment from "moment";
 import UserDetails from "../components/User/UserDetails";
 import styles from "./css/profilepage.module.css";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import * as authActions from "../actions/auth/authActions";
 import * as profileActions from "../actions/user/profileActions";
 import * as swipeActions from "../actions/swipe/swipeActions";
@@ -16,6 +16,7 @@ import * as messageActions from "../actions/messages/messageActions";
 
 const ProfilePage = (props) => {
   let { userId } = useParams();
+  let history = useHistory();
 
   const { session_id, id, profile_photo, first_name } = props.user;
 
@@ -126,6 +127,21 @@ const ProfilePage = (props) => {
       );
     }
 
+    if (props.user.is_liked === false) {
+      return (
+        <div>
+          <button
+            onClick={() => onSwipe(true)}
+            type="button"
+            class={`like btn btn-outline-primary rounded-pill col-5 py-3 ${styles.like}`}
+          >
+            <i className="fas fa-heart fa-md me-1"></i>
+            LIKE
+          </button>
+        </div>
+      );
+    }
+
     return (
       <div>
         <button
@@ -156,6 +172,10 @@ const ProfilePage = (props) => {
     };
 
     props.actions.swipe(swipe);
+
+    if (!isLiked) {
+      history.push("/discover");
+    }
   };
 
   return (

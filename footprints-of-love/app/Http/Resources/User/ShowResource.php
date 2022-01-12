@@ -21,6 +21,7 @@ class ShowResource extends JsonResource
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
             'email' => $this->email,
+            'age' => $this->detail->age,
             'profile_photo' => new PhotoResource($this->photos()->where('is_profile_photo', true)->first()),
             'is_liked' => $this->isLiked(),
             'is_matched' => $this->isMatched(),

@@ -76,7 +76,7 @@ const TopBar = (props) => {
             }}
           >
             <div>
-              <i class="far fa-heart"></i>
+              <i className="far fa-heart"></i>
               <span className="ps-1">Likes</span>
             </div>
           </NavLink>
@@ -93,11 +93,11 @@ const TopBar = (props) => {
             </div>
             {messageNotifications.length > 0 && (
               <span
-                class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
+                className="position-absolute top-0 start-100 translate-middle badge rounded-pill"
                 style={{ backgroundColor: "#e00095" }}
               >
                 {messageNotifications.length + "+"}
-                <span class="visually-hidden">unread messages</span>
+                <span className="visually-hidden">unread messages</span>
               </span>
             )}
           </NavLink>

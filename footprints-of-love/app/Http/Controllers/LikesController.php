@@ -17,7 +17,7 @@ class LikesController extends Controller
      */
     public function __invoke(Request $request): AnonymousResourceCollection
     {
-        $users = User::likes($request->type)->simplePaginate(5);
+        $users = User::likes($request->type)->with('detail')->simplePaginate(5);
 
         return ShowResource::collection($users);
     }

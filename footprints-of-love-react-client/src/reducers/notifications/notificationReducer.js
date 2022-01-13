@@ -2,10 +2,13 @@ import {
   ADD_MESSAGE_NOTIFICATION,
   FETCH_NOTIFICATIONS,
   DELETE_MESSAGE_NOTIFICATIONS,
+  ADD_LIKE_NOTIFICATION,
+  DELETE_NOTIFICATION,
 } from "../../actions/notifications/types";
 
 const initialState = {
   messageNotifications: [],
+  likeNotifications: [],
 };
 
 export default function notificationReducer(state = initialState, action) {
@@ -15,6 +18,9 @@ export default function notificationReducer(state = initialState, action) {
         ...state,
         messageNotifications: action.payload.filter(
           (notification) => notification.type === "notification.message"
+        ),
+        likeNotifications: action.payload.filter(
+          (notification) => notification.type === "notification.like"
         ),
       };
 
@@ -32,6 +38,20 @@ export default function notificationReducer(state = initialState, action) {
             (notification) => notification.session_id !== action.payload
           ),
         ],
+      };
+
+    case DELETE_NOTIFICATION:
+      return {
+        ...state,
+        likeNotifications: state.likeNotifications.filter(
+          (notification) => notification.id !== action.payload.id
+        ),
+      };
+
+    case ADD_LIKE_NOTIFICATION:
+      return {
+        ...state,
+        likeNotifications: [action.payload, ...state.likeNotifications],
       };
 
     default:

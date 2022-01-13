@@ -6,9 +6,10 @@ import { connect } from "react-redux";
 import * as authActions from "../actions/auth/authActions";
 import ProfileImageWithDefault from "./ProfileImageWithDefault";
 import PageFeatured from "./PageFeatured";
+import NotificationPill from "./NotificationPill";
 
 const TopBar = (props) => {
-  const { messageNotifications } = props.notification;
+  const { messageNotifications, likeNotifications } = props.notification;
 
   let links = (
     <div className="w-100">
@@ -77,8 +78,11 @@ const TopBar = (props) => {
           >
             <div>
               <i className="far fa-heart"></i>
-              <span className="ps-1">Likes</span>
+              <span className="ps-2">Likes</span>
             </div>
+            {likeNotifications.length > 0 && (
+              <NotificationPill notifications={likeNotifications} />
+            )}
           </NavLink>
           <NavLink
             to="/messages"
@@ -92,13 +96,7 @@ const TopBar = (props) => {
               <span className="ps-2">Messages</span>
             </div>
             {messageNotifications.length > 0 && (
-              <span
-                className="position-absolute top-0 start-100 translate-middle badge rounded-pill"
-                style={{ backgroundColor: "#e00095" }}
-              >
-                {messageNotifications.length + "+"}
-                <span className="visually-hidden">unread messages</span>
-              </span>
+              <NotificationPill notifications={messageNotifications} />
             )}
           </NavLink>
         </li>

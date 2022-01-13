@@ -97,12 +97,14 @@ class User extends Authenticatable
                     ->where('user_id', Auth::id())
                     ->where('liked', false);
             }),
-            default => $query->whereHas('swipes', function ($query) {
+            default => $query->orderBy(Swipe::select('created_at')
+                ->whereColumn('users.id', 'swipes.user_id'), 'desc')
+                ->whereHas('swipes', function ($query) {
                 return $query
                     ->doesntHave('match')
                     ->where('target_user_id', Auth::id())
                     ->where('liked', true);
-            }),
+            })->with('swipes')
         };
     }
 

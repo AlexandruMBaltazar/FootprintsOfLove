@@ -17,6 +17,17 @@ class SwipeObserver
      */
     public function created(Swipe $swipe)
     {
+        //
+    }
+
+    /**
+     * Handle the Swipe "created" event.
+     *
+     * @param  \App\Models\Swipe  $swipe
+     * @return void
+     */
+    public function saved(Swipe $swipe)
+    {
         $otherSwipe = Swipe::query()->where([
             'user_id' => $swipe->target_user_id,
             'target_user_id' => $swipe->user_id,
@@ -24,9 +35,6 @@ class SwipeObserver
         ])->first();
 
         if ($swipe->liked) {
-            $swipe->load('user.profilePhoto', 'targetUser');
-            $swipe->targetUser->notify(new SwipeLike($swipe));
-
             if ($otherSwipe) {
                 //Create a match
                 $swipe->match()->create();
@@ -36,6 +44,9 @@ class SwipeObserver
                 $session = Session::create();
                 $swipe->user->sessions()->attach($session->id);
                 $otherSwipe->user->sessions()->attach($session->id);
+            } else {
+                $swipe->load('user.profilePhoto', 'targetUser');
+                $swipe->targetUser->notify(new SwipeLike($swipe));
             }
         }
     }

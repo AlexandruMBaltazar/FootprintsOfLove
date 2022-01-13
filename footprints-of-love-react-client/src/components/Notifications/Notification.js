@@ -25,6 +25,14 @@ const Notification = (props) => {
 
           break;
 
+        case "notification.like":
+          setNotificationDetails({
+            header: `${first_name} liked you`,
+            body: "Like them back to create a match!",
+          });
+
+          break;
+
         default:
           break;
       }

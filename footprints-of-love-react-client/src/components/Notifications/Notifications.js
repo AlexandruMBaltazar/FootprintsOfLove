@@ -4,7 +4,17 @@ import { connect } from "react-redux";
 import Notification from "./Notification";
 
 const Notifications = (props) => {
-  const notifications = [...props.notification.messageNotifications];
+  const notifications = [
+    ...props.notification.messageNotifications,
+    ...props.notification.likeNotifications,
+  ].sort(function (a, b) {
+    var keyA = new Date(a.created_at),
+      keyB = new Date(b.created_at);
+    // Compare the 2 dates
+    if (keyA < keyB) return -1;
+    if (keyA > keyB) return 1;
+    return 0;
+  });
 
   return (
     <div>

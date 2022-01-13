@@ -64,7 +64,15 @@ const UserRows = (props) => {
     }
 
     return props.users.map((user) => {
-      return <User key={user.id} user={user} />;
+      return (
+        <User
+          key={user.id}
+          user={user}
+          likeNotification={props.notifications.find(
+            (notification) => notification.user_id === user.id
+          )}
+        />
+      );
     });
   };
 
@@ -100,6 +108,7 @@ const mapStateToProps = (state) => {
     users: state.likes.users,
     next: state.likes.next,
     isFetchingLikes: state.likes.isFetchingLikes,
+    notifications: state.notification.likeNotifications,
   };
 };
 

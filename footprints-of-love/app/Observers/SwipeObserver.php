@@ -5,6 +5,7 @@ namespace App\Observers;
 use App\Models\Matches;
 use App\Models\Session;
 use App\Models\Swipe;
+use App\Notifications\SwipeLike;
 
 class SwipeObserver
 {
@@ -22,15 +23,20 @@ class SwipeObserver
             'liked' => true
         ])->first();
 
-        if ($swipe->liked && $otherSwipe) {
-            //Create a match
-            $swipe->match()->create();
-            $otherSwipe->match()->create();
+        if ($swipe->liked) {
+            $swipe->load('user.profilePhoto', 'targetUser');
+            $swipe->targetUser->notify(new SwipeLike($swipe));
 
-            //Create a session for the matched users
-            $session = Session::create();
-            $swipe->user->sessions()->attach($session->id);
-            $otherSwipe->user->sessions()->attach($session->id);
+            if ($otherSwipe) {
+                //Create a match
+                $swipe->match()->create();
+                $otherSwipe->match()->create();
+
+                //Create a session for the matched users
+                $session = Session::create();
+                $swipe->user->sessions()->attach($session->id);
+                $otherSwipe->user->sessions()->attach($session->id);
+            }
         }
     }
 

@@ -1,5 +1,6 @@
 import {
   ADD_MESSAGE_NOTIFICATION,
+  ADD_MATCH_NOTIFICATION,
   FETCH_NOTIFICATIONS,
   DELETE_MESSAGE_NOTIFICATIONS,
   ADD_LIKE_NOTIFICATION,
@@ -9,6 +10,7 @@ import {
 const initialState = {
   messageNotifications: [],
   likeNotifications: [],
+  matchNotifications: [],
 };
 
 export default function notificationReducer(state = initialState, action) {
@@ -22,12 +24,21 @@ export default function notificationReducer(state = initialState, action) {
         likeNotifications: action.payload.filter(
           (notification) => notification.type === "notification.like"
         ),
+        matchNotifications: action.payload.filter(
+          (notification) => notification.type === "notification.match"
+        ),
       };
 
     case ADD_MESSAGE_NOTIFICATION:
       return {
         ...state,
         messageNotifications: [action.payload, ...state.messageNotifications],
+      };
+
+    case ADD_MATCH_NOTIFICATION:
+      return {
+        ...state,
+        matchNotifications: [action.payload, ...state.matchNotifications],
       };
 
     case DELETE_MESSAGE_NOTIFICATIONS:
@@ -44,6 +55,9 @@ export default function notificationReducer(state = initialState, action) {
       return {
         ...state,
         likeNotifications: state.likeNotifications.filter(
+          (notification) => notification.id !== action.payload.id
+        ),
+        matchNotifications: state.matchNotifications.filter(
           (notification) => notification.id !== action.payload.id
         ),
       };

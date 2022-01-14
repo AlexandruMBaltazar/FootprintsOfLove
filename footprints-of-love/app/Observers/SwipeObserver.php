@@ -2,10 +2,10 @@
 
 namespace App\Observers;
 
-use App\Models\Matches;
 use App\Models\Session;
 use App\Models\Swipe;
 use App\Notifications\SwipeLike;
+use Illuminate\Notifications\DatabaseNotification;
 
 class SwipeObserver
 {
@@ -35,6 +35,8 @@ class SwipeObserver
         ])->first();
 
         if ($swipe->liked) {
+            $swipe->load('user.profilePhoto', 'targetUser');
+
             if ($otherSwipe) {
                 //Create a match
                 $swipe->match()->create();
@@ -44,10 +46,14 @@ class SwipeObserver
                 $session = Session::create();
                 $swipe->user->sessions()->attach($session->id);
                 $otherSwipe->user->sessions()->attach($session->id);
-            } else {
-                $swipe->load('user.profilePhoto', 'targetUser');
-                $swipe->targetUser->notify(new SwipeLike($swipe));
+
+                //Delete the previous existed like notification if it exists
+                $swipe->user->notifications()->where('type', SwipeLike::class)
+                    ->whereRaw("JSON_EXTRACT(`data`, '$.user_id') = ?", [$otherSwipe->user_id])
+                    ->delete();
             }
+
+            $swipe->targetUser->notify(new SwipeLike($swipe, $otherSwipe !== null));
         }
     }
 

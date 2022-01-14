@@ -33,6 +33,14 @@ const Notification = (props) => {
 
           break;
 
+        case "notification.match":
+          setNotificationDetails({
+            header: `You have a new match with ${first_name}`,
+            body: "Send them a message!",
+          });
+
+          break;
+
         default:
           break;
       }

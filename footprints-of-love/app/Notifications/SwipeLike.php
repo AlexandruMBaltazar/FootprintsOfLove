@@ -13,15 +13,17 @@ class SwipeLike extends Notification implements ShouldQueue
     use Queueable;
 
     protected Swipe $swipe;
+    protected bool $hasMatched;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Swipe $swipe)
+    public function __construct(Swipe $swipe, bool $hasMatched)
     {
         $this->swipe = $swipe;
+        $this->hasMatched = $hasMatched;
     }
 
     /**
@@ -74,6 +76,10 @@ class SwipeLike extends Notification implements ShouldQueue
      */
     public function broadcastType()
     {
+        if ($this->hasMatched) {
+            return 'notification.match';
+        }
+
         return 'notification.like';
     }
 }

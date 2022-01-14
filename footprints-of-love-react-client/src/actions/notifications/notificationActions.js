@@ -1,6 +1,7 @@
 import {
   ADD_MESSAGE_NOTIFICATION,
   ADD_LIKE_NOTIFICATION,
+  ADD_MATCH_NOTIFICATION,
   FETCH_NOTIFICATIONS,
   DELETE_MESSAGE_NOTIFICATIONS,
   DELETE_NOTIFICATION,
@@ -27,6 +28,13 @@ export const deleteMessageNotifications = (sessionId) => (dispatch) => {
 export const addLikeNotification = (notification) => (dispatch) => {
   dispatch({
     type: ADD_LIKE_NOTIFICATION,
+    payload: notification,
+  });
+};
+
+export const addMatchNotification = (notification) => (dispatch) => {
+  dispatch({
+    type: ADD_MATCH_NOTIFICATION,
     payload: notification,
   });
 };
@@ -69,6 +77,10 @@ export const notificationHandler = (notification) => (dispatch, getState) => {
 
     case "notification.like":
       dispatch(addLikeNotification(notification));
+      break;
+
+    case "notification.match":
+      dispatch(addMatchNotification(notification));
       break;
 
     default:

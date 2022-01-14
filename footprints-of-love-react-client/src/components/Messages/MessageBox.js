@@ -23,17 +23,32 @@ const MessageBox = (props) => {
 
     const deleteNotification = () => {
       if (
-        props.notifications.filter(
+        props.notification.messageNotifications.filter(
           (notification) => notification.session_id === session_id
         ).length > 0
       ) {
         props.actions.deleteMessageNotifications(session_id);
       }
+
+      const matchNotification = props.notification.matchNotifications.find(
+        (notification) => notification.user_id === user_id
+      );
+
+      if (matchNotification) {
+        props.actions.deleteNotification(matchNotification.id);
+      }
     };
 
     deleteNotification();
     fetchMessages();
-  }, [props.actions, props.auth.isLoggedIn, props.notification, session_id]);
+  }, [
+    props.actions,
+    props.auth.isLoggedIn,
+    props.notification,
+    props.notifications,
+    session_id,
+    user_id,
+  ]);
 
   const displayMessages = () => {
     if (props.isFetchingMessages) {
@@ -203,7 +218,7 @@ const mapStateToProps = (state) => {
     sessionDetails: state.message.sessionDetails,
     messages: state.message.messages,
     isFetchingMessages: state.message.isFetchingMessages,
-    notifications: state.notification.messageNotifications,
+    notification: state.notification,
   };
 };
 
@@ -219,6 +234,8 @@ const mapDispatchToProps = (dispatch) => {
         dispatch(messageActions.messageReceived(message)),
       deleteMessageNotifications: (sessionId) =>
         dispatch(notificationActions.deleteMessageNotifications(sessionId)),
+      deleteNotification: (notificationId) =>
+        dispatch(notificationActions.deleteNotification(notificationId)),
     },
   };
 };

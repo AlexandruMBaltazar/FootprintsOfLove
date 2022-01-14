@@ -9,7 +9,8 @@ import PageFeatured from "./PageFeatured";
 import NotificationPill from "./NotificationPill";
 
 const TopBar = (props) => {
-  const { messageNotifications, likeNotifications } = props.notification;
+  const { messageNotifications, likeNotifications, matchNotifications } =
+    props.notification;
 
   let links = (
     <div className="w-100">
@@ -95,8 +96,11 @@ const TopBar = (props) => {
               <i className="far fa-comments" width="19" height="19"></i>
               <span className="ps-2">Messages</span>
             </div>
-            {messageNotifications.length > 0 && (
-              <NotificationPill notifications={messageNotifications} />
+            {(messageNotifications.length > 0 ||
+              matchNotifications.length > 0) && (
+              <NotificationPill
+                notifications={[...messageNotifications, ...matchNotifications]}
+              />
             )}
           </NavLink>
         </li>

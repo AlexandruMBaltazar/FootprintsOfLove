@@ -7,6 +7,7 @@ const Notifications = (props) => {
   const notifications = [
     ...props.notification.messageNotifications,
     ...props.notification.likeNotifications,
+    ...props.notification.matchNotifications,
   ].sort(function (a, b) {
     var keyA = new Date(a.created_at),
       keyB = new Date(b.created_at);

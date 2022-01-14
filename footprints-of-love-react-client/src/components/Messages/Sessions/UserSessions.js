@@ -95,8 +95,13 @@ const UserSessions = (props) => {
                 key={session.id}
                 session={session}
                 hasNotification={
-                  props.notifications.filter(
-                    (notification) => notification.session_id === session.id
+                  [
+                    ...props.notification.messageNotifications,
+                    ...props.notification.matchNotifications,
+                  ].filter(
+                    (notification) =>
+                      notification.session_id === session.id ||
+                      notification.user_id === session.user_id
                   ).length > 0
                 }
               />
@@ -123,7 +128,7 @@ const mapStateToProps = (state) => {
     auth: state.auth,
     sessions: state.session.sessions,
     next: state.session.next,
-    notifications: state.notification.messageNotifications,
+    notification: state.notification,
   };
 };
 

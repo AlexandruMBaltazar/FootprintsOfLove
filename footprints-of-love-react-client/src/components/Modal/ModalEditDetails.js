@@ -1,17 +1,30 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useLocation } from "react-router";
 import * as changeCase from "change-case";
 import { connect } from "react-redux";
 import * as userDetailsActions from "../../actions/user/details/userDetailsActions";
 import * as userPreferenceActions from "../../actions/user/preference/userPreferenceActions";
+import * as locationActions from "../../actions/location/locationActions";
 import ButtonWithProgress from "../ButtonWithProgress";
 import RadioFieldSet from "../RadioFieldSet";
 import CheckFieldSet from "../CheckFieldSet";
 import Input from "../Input";
+import Select from "react-select";
+import countryList from "react-select-country-list";
 
 const ModalEditDetails = (props) => {
   const [height, setHeight] = useState();
   const [value, setValue] = useState();
+  const [selectedLocation, setSelectedLocation] = useState({
+    country: "",
+    city: "",
+    lat: null,
+    long: null,
+    message: undefined,
+    isSearching: false,
+  });
+
+  const countryOptions = useMemo(() => countryList().getData(), []);
 
   const [preferenceIds, setPreferenceIds] = useState([]);
   const [min, setMin] = useState();
@@ -25,6 +38,13 @@ const ModalEditDetails = (props) => {
 
   useEffect(() => {
     setHeight(props.details && props.details.height);
+
+    if (props.details.location !== null) {
+      setSelectedLocation({
+        ...props.details.location,
+        country: { label: props.details.location.country },
+      });
+    }
 
     const loadPreferences = () => {
       if (detail === "height" || detail === "age") {
@@ -51,8 +71,62 @@ const ModalEditDetails = (props) => {
 
     return () => {
       setValue(undefined);
+      if (props.details.location !== null) {
+        setSelectedLocation({
+          ...props.details.location,
+          country: { label: props.details.location.country },
+        });
+      } else {
+        setSelectedLocation({
+          country: "",
+          city: "",
+          lat: null,
+          long: null,
+          message: undefined,
+          isSearching: false,
+        });
+      }
     };
   }, [props.details, props.details.height, detail, props.preferences]);
+
+  useEffect(() => {
+    let newTimer = null;
+    if (selectedLocation.city.length >= 3) {
+      setSelectedLocation((previousSelectedLocations) => {
+        return {
+          ...previousSelectedLocations,
+          isSearching: true,
+        };
+      });
+      newTimer = setTimeout(() => {
+        props.actions.searchLocation(selectedLocation).then((response) => {
+          if (response.geometry) {
+            setSelectedLocation((previousSelectedLocations) => {
+              return {
+                ...previousSelectedLocations,
+                lat: response.geometry.coordinates[1],
+                long: response.geometry.coordinates[0],
+                message: "",
+                isSearching: false,
+              };
+            });
+          } else {
+            setSelectedLocation((previousSelectedLocations) => {
+              return {
+                ...previousSelectedLocations,
+                message: "We couldn’t find that location!",
+                isSearching: false,
+              };
+            });
+          }
+        });
+      }, 600);
+    }
+
+    return () => {
+      clearTimeout(newTimer);
+    };
+  }, [props.actions, selectedLocation.country, selectedLocation.city]);
 
   const onChangeRadio = (event) => {
     const { value, name } = event.target;
@@ -98,9 +172,35 @@ const ModalEditDetails = (props) => {
     });
   };
 
+  const onChangeCountry = (value) => {
+    setSelectedLocation((previousSelectedLocations) => {
+      return {
+        ...previousSelectedLocations,
+        country: value,
+      };
+    });
+  };
+
+  const onChangeCity = (event) => {
+    setSelectedLocation((previousSelectedLocations) => {
+      return {
+        ...previousSelectedLocations,
+        city: event.target.value,
+      };
+    });
+  };
+
   const submitNewDetails = () => {
     if (height !== props.details.height) {
       props.actions.updateUserDetails({ height: height }, props.detailId);
+    } else if (
+      JSON.stringify(selectedLocation) !==
+      JSON.stringify(props.details.location)
+    ) {
+      props.actions.addLocation({
+        ...selectedLocation,
+        country: selectedLocation.country.label,
+      });
     } else {
       props.actions.updateUserDetails(value, props.detailId);
     }
@@ -138,6 +238,14 @@ const ModalEditDetails = (props) => {
   };
 
   const disableSubmitButton = () => {
+    if (page === "edit" && detail === "location") {
+      return selectedLocation.isSearching ||
+        selectedLocation.message ||
+        selectedLocation.city.length < 3
+        ? true
+        : false;
+    }
+
     if (page === "edit") {
       let disableSubmit =
         value || height !== props.details.height ? false : true;
@@ -156,36 +264,90 @@ const ModalEditDetails = (props) => {
     return preferenceIds && preferenceIds.length === 0;
   };
 
-  const editDetails = (
-    <div>
-      {detail && detail !== "height" ? (
-        <RadioFieldSet
-          detail={changeCase.pascalCase(detail)}
-          name={detail}
-          onChange={onChangeRadio}
-        />
-      ) : (
-        <div>
-          <h3 className="offset-3">Height</h3>
-          <div className="row">
-            <div className="col-sm-10">
-              <div className="bg-white p-2 mt-5">
-                <label className="form-label">Height in cm - {height} </label>
-                <Input
-                  type="range"
-                  className="form-range"
-                  min="145"
-                  max="200"
-                  value={height}
-                  onChange={(event) => setHeight(event.target.value)}
-                />
+  const editDetails = () => {
+    switch (detail) {
+      case "height":
+        return (
+          <div>
+            <h3 className="offset-3">Height</h3>
+            <div className="row">
+              <div className="col-sm-10">
+                <div className="bg-white p-2 mt-5">
+                  <label className="form-label">Height in cm - {height} </label>
+                  <Input
+                    type="range"
+                    className="form-range"
+                    min="145"
+                    max="200"
+                    value={height}
+                    onChange={(event) => setHeight(event.target.value)}
+                  />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
-    </div>
-  );
+        );
+
+      case "location":
+        let inputClassName = "form-control";
+
+        if (
+          selectedLocation.message !== undefined &&
+          !selectedLocation.isSearching
+        ) {
+          inputClassName +=
+            selectedLocation.message ||
+            selectedLocation.city === "" ||
+            selectedLocation.city.length < 3
+              ? " is-invalid"
+              : " is-valid";
+        }
+
+        return (
+          <div>
+            <h3 className="offset-3">Location</h3>
+            <div className="row">
+              <div className="col-sm-10">
+                <div className="bg-white p-2 mt-5">
+                  <Select
+                    options={countryOptions}
+                    value={selectedLocation.country}
+                    onChange={onChangeCountry}
+                  />
+                  <div class="input-group mt-4">
+                    <input
+                      type="text"
+                      name="city"
+                      className={inputClassName}
+                      placeholder="City"
+                      value={selectedLocation.city}
+                      onChange={onChangeCity}
+                      required={true}
+                    />
+                    {selectedLocation.message && (
+                      <span className="invalid-feedback">
+                        {selectedLocation.message}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+
+      default:
+        return (
+          <div>
+            <RadioFieldSet
+              detail={changeCase.pascalCase(detail)}
+              name={detail}
+              onChange={onChangeRadio}
+            />
+          </div>
+        );
+    }
+  };
 
   const editPreferences = () => {
     if (detail === "height" || detail === "age") {
@@ -280,7 +442,7 @@ const ModalEditDetails = (props) => {
                 style={{ height: "260px" }}
               >
                 <div className="mb-1">
-                  {page === "edit" ? editDetails : editPreferences()}
+                  {page === "edit" ? editDetails() : editPreferences()}
                 </div>
               </form>
             </div>
@@ -346,6 +508,12 @@ const mapDispatchToProps = (dispatch) => {
         dispatch(
           userPreferenceActions.postUserPreferences(userId, preferences)
         ),
+
+      searchLocation: (location) =>
+        dispatch(locationActions.searchLocation(location)),
+
+      addLocation: (location) =>
+        dispatch(locationActions.addLocation(location)),
     },
   };
 };

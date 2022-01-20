@@ -26,6 +26,13 @@ export const getDetails = (userId) => {
   return axios.get(`/api/users/${userId}/details`);
 };
 
+export const searchLocation = (country = "", city = "") => {
+  return axios.get(`/api/location?country=${country}&city=${city}`);
+};
+export const addLocation = (location) => {
+  return axios.post(`/api/location`, location);
+};
+
 export const getSessions = (page = 1) => {
   return axios.get(`/api/sessions?page=${page}`);
 };

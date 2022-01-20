@@ -44,7 +44,11 @@ const Modal = (props) => {
             {[...detailType.values]
               .filter((value) => {
                 if (page === "edit") {
-                  return value[0] !== "age";
+                  return value[0] !== "age" && value[0] !== "distance";
+                }
+
+                if (page === "preferences") {
+                  return value[0] !== "location";
                 }
 
                 return true;
@@ -78,7 +82,9 @@ const Modal = (props) => {
   };
 
   const getSideBarDetailsInfo = (infoType) => {
-    return props.details && props.details[infoType].value;
+    if (props.details && props.details[infoType]) {
+      return props.details[infoType].value;
+    }
   };
 
   const getSideBarPreferencesInfo = (infoType) => {
@@ -95,12 +101,12 @@ const Modal = (props) => {
     }
 
     let preferences =
-      props.preferences[infoType].values &&
+      props.preferences[infoType] &&
       props.preferences[infoType].values.map((preference) => {
         return preference.value;
       });
 
-    return preferences.length !== 0
+    return preferences && preferences.length !== 0
       ? preferences.join(" | ")
       : "Add your preference";
   };

@@ -11,10 +11,12 @@ import CheckFieldSet from "../CheckFieldSet";
 import Input from "../Input";
 import Select from "react-select";
 import countryList from "react-select-country-list";
+import { deprecationHandler } from "moment";
 
 const ModalEditDetails = (props) => {
   const [height, setHeight] = useState();
   const [value, setValue] = useState();
+
   const [selectedLocation, setSelectedLocation] = useState({
     country: "",
     city: "",
@@ -23,8 +25,19 @@ const ModalEditDetails = (props) => {
     message: undefined,
     isSearching: false,
   });
-
   const countryOptions = useMemo(() => countryList().getData(), []);
+
+  const distanceOptions = [
+    { value: 5, label: "5 km" },
+    { value: 10, label: "10 km" },
+    { value: 25, label: "25 km" },
+    { value: 50, label: "50 km" },
+    { value: 100, label: "100 km" },
+    { value: 250, label: "250 km" },
+    { value: 500, label: "500 km" },
+    { value: 0, label: "Anywhere" },
+  ];
+  const [distance, setDistance] = useState();
 
   const [preferenceIds, setPreferenceIds] = useState([]);
   const [min, setMin] = useState();
@@ -50,6 +63,13 @@ const ModalEditDetails = (props) => {
       if (detail === "height" || detail === "age") {
         setMin(props.preferences[detail] && props.preferences[detail].min);
         setMax(props.preferences[detail] && props.preferences[detail].max);
+      } else if (detail === "distance") {
+        setDistance(
+          props.preferences.distance &&
+            distanceOptions.find(
+              (option) => option.value === props.preferences.distance.value
+            )
+        );
       } else {
         setPreferenceIds(() => {
           return (
@@ -91,7 +111,11 @@ const ModalEditDetails = (props) => {
 
   useEffect(() => {
     let newTimer = null;
-    if (selectedLocation.city.length >= 3) {
+    if (
+      selectedLocation.city.length >= 3 &&
+      page === "edit" &&
+      detail === "location"
+    ) {
       setSelectedLocation((previousSelectedLocations) => {
         return {
           ...previousSelectedLocations,
@@ -194,8 +218,16 @@ const ModalEditDetails = (props) => {
     if (height !== props.details.height) {
       props.actions.updateUserDetails({ height: height }, props.detailId);
     } else if (
-      JSON.stringify(selectedLocation) !==
-      JSON.stringify(props.details.location)
+      JSON.stringify({
+        lat: String(selectedLocation.lat),
+        long: String(selectedLocation.long),
+      }) !==
+      JSON.stringify(
+        props.details.location && {
+          lat: String(props.details.location.lat),
+          long: String(props.details.location.long),
+        }
+      )
     ) {
       props.actions.addLocation({
         ...selectedLocation,
@@ -227,6 +259,12 @@ const ModalEditDetails = (props) => {
       };
 
       props.actions.postUserPreferences(props.user.id, body);
+    } else if (detail === "distance") {
+      let body = {
+        distance: distance.value,
+        is_important: isImportant,
+      };
+      props.actions.postUserPreferences(props.user.id, body);
     } else {
       let body = {
         preference_ids: preferenceIds,
@@ -246,19 +284,28 @@ const ModalEditDetails = (props) => {
         : false;
     }
 
+    let disableSubmit = false;
+
     if (page === "edit") {
-      let disableSubmit =
-        value || height !== props.details.height ? false : true;
+      disableSubmit = value || height !== props.details.height ? false : true;
 
       return props.isLoading || disableSubmit;
     }
 
-    return props.isPostingUserPreferences;
+    if (detail === "distance") {
+      disableSubmit = distance ? false : true;
+    }
+
+    return props.isPostingUserPreferences || disableSubmit;
   };
 
   const disableSiwtch = () => {
     if (detail === "height" || detail === "age") {
       return !min && !max;
+    }
+
+    if (detail === "distance") {
+      return !distance;
     }
 
     return preferenceIds && preferenceIds.length === 0;
@@ -331,6 +378,11 @@ const ModalEditDetails = (props) => {
                     )}
                   </div>
                 </div>
+                <div className="d-flex justify-content-center text-center mt-2">
+                  <button type="button" className="btn btn-link">
+                    Remove my location
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -397,6 +449,28 @@ const ModalEditDetails = (props) => {
       );
     }
 
+    if (detail === "distance") {
+      return (
+        <div>
+          <h3 className="offset-3">{changeCase.capitalCase(detail)}</h3>
+          <div className="row">
+            <div className="col-sm-10">
+              <div className="bg-white p-2 mt-5">
+                <Select
+                  value={distance}
+                  onChange={(value) => setDistance(value)}
+                  className="basic-single"
+                  classNamePrefix="select"
+                  options={distanceOptions}
+                  isClearable={true}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div>
         {detail && (
@@ -435,7 +509,13 @@ const ModalEditDetails = (props) => {
     <div className="container">
       {detail && (
         <div>
-          <div className="row overflow-auto">
+          <div
+            className={`row ${
+              detail === "distance" || detail === "location"
+                ? null
+                : "overflow-auto"
+            }`}
+          >
             <div className="col-12">
               <form
                 className="d-flex flex-column offset-2 mt-5"

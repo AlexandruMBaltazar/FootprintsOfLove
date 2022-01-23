@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Topic\Answer;
 use App\Models\User\AgePreference;
+use App\Models\User\DistancePreference;
 use App\Models\User\HeightPreference;
 use App\Models\User\Location;
 use App\Models\User\Preference;
@@ -136,6 +137,11 @@ class User extends Authenticatable
     public function agePreference(): HasOne
     {
         return $this->hasOne(AgePreference::class);
+    }
+
+    public function distancePreference(): HasOne
+    {
+        return $this->hasOne(DistancePreference::class);
     }
 
     public function importances(): HasMany

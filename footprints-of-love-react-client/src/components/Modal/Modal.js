@@ -100,6 +100,16 @@ const Modal = (props) => {
         : "Add";
     }
 
+    if (infoType === "distance") {
+      if (!props.preferences[infoType]) {
+        return "Add";
+      }
+
+      return props.preferences[infoType].value !== 0
+        ? props.preferences[infoType].value + " km"
+        : "Anywhere";
+    }
+
     let preferences =
       props.preferences[infoType] &&
       props.preferences[infoType].values.map((preference) => {

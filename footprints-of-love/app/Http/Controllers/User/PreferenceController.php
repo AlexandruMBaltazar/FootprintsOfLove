@@ -85,6 +85,16 @@ class PreferenceController extends Controller
             );
         }
 
+        if ($request->has('distance')) {
+            $user->distancePreference()->updateOrCreate(
+                ['user_id' => optional($user->distancePreference)->user_id],
+                [
+                    'distance' => $request->input('distance'),
+                    'is_important' => $request->input('is_important')
+                ]
+            );
+        }
+
         $preferences = $user->preferences()
             ->with(['preferenceable', 'user.importances'])
             ->get();

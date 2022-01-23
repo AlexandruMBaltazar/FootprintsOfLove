@@ -4,6 +4,8 @@ import {
   UPDATE_USER_DETAILS,
 } from "../../../actions/user/details/types";
 
+import { LOCATION_ADDED } from "../../../actions/location/types";
+
 const initialState = {
   details: {
     user: { value: "" },
@@ -23,6 +25,12 @@ const initialState = {
     religion: { value: "" },
     sign: { value: "" },
     smoke: { value: "" },
+    location: {
+      city: "",
+      country: "",
+      lat: null,
+      long: null,
+    },
     dob: "",
   },
   isLoading: false,
@@ -44,6 +52,15 @@ export default function userDetailsReducer(state = initialState, action) {
         details: {
           ...state.details,
           ...action.payload,
+        },
+        isLoading: false,
+      };
+
+    case LOCATION_ADDED:
+      return {
+        details: {
+          ...state.details,
+          location: action.payload,
         },
         isLoading: false,
       };

@@ -3,6 +3,7 @@
 namespace App\Http\Resources\User;
 
 use App\Http\Resources\User\Detail\DetailResource;
+use App\Http\Resources\User\Preference\DistanceResource;
 use App\Http\Resources\User\Preference\VariablePreferenceResource;
 use App\Http\Resources\UserResource;
 use App\Models\User\Detail\BodyType;
@@ -94,6 +95,7 @@ class PreferenceResource extends JsonResource
                 'values' => DetailResource::collection($this->ofType(Smoke::class)),
                 'is_important' => $this->ofImportanceType(Smoke::class)
             ],
+            'distance' => new DistanceResource($request->user()->distancePreference),
             'age' => new VariablePreferenceResource($request->user()->agePreference),
             'height' => new VariablePreferenceResource($request->user()->heightPreference),
         ];

@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\PasswordController;
+use App\Http\Controllers\GeocodingController;
 use App\Http\Controllers\LikesController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Session\MessageController;
 use App\Http\Controllers\SessionController;
@@ -35,6 +37,8 @@ Route::post('reset', [PasswordController::class, 'reset']);
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('details', DetailController::class);
+
+    Route::resource('location', LocationController::class);
 
     Route::post('logout', [AuthController::class, 'logout']);
 

@@ -12,6 +12,7 @@ const initialState = {
     child: { values: [], is_important: "" },
     diet: { values: [], is_important: "" },
     drink: { values: [], is_important: "" },
+    distance: { value: "", is_important: "" },
     education: { values: [], is_important: "" },
     employment: { values: [], is_important: "" },
     ethnicity: { values: [], is_important: "" },

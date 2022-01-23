@@ -4,7 +4,9 @@ export const detailTypes = [
     values: new Map()
       .set("gender", "Gender")
       .set("relationship", "Relationship")
-      .set("age", "Age"),
+      .set("age", "Age")
+      .set("location", "Location")
+      .set("distance", "Distance"),
     icon: (
       <svg
         width="24"

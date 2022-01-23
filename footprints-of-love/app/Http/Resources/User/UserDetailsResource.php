@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\User;
 
+use App\Http\Resources\LocationResource;
 use App\Http\Resources\User\Detail\DetailResource;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -35,6 +36,7 @@ class UserDetailsResource extends JsonResource
             'religion' => new DetailResource($this->religion),
             'sign' => new DetailResource($this->sign),
             'smoke' => new DetailResource($this->smoke),
+            'location' => new LocationResource($this->user->location),
             'dob' => $this->dob,
             'age' => $this->age,
         ];

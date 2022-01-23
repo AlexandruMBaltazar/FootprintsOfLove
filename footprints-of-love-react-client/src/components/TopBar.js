@@ -108,7 +108,10 @@ const TopBar = (props) => {
           <div>
             <NavLink
               to="/profile"
-              className="text-decoration-none text-white bg-dark"
+              className="text-decoration-none text-white bg-dark pb-2"
+              activeStyle={{
+                borderBottom: "3px solid #e00095",
+              }}
             >
               <ProfileImageWithDefault
                 className="rounded-circle m-auto"

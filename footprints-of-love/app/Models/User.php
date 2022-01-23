@@ -4,13 +4,13 @@ namespace App\Models;
 
 use App\Models\Topic\Answer;
 use App\Models\User\AgePreference;
+use App\Models\User\DistancePreference;
 use App\Models\User\HeightPreference;
+use App\Models\User\Location;
 use App\Models\User\Preference;
 use App\Models\User\Preference\Importance;
 use App\Models\User\UserDetail;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
@@ -139,6 +139,11 @@ class User extends Authenticatable
         return $this->hasOne(AgePreference::class);
     }
 
+    public function distancePreference(): HasOne
+    {
+        return $this->hasOne(DistancePreference::class);
+    }
+
     public function importances(): HasMany
     {
         return $this->hasMany(Importance::class);
@@ -176,5 +181,10 @@ class User extends Authenticatable
     public function sessions(): BelongsToMany
     {
         return $this->belongsToMany(Session::class);
+    }
+
+    public function location(): HasOne
+    {
+        return $this->hasOne(Location::class);
     }
 }

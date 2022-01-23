@@ -20,7 +20,7 @@ class PreferenceRequest extends FormRequest
             ],
 
             'preference_type' => [
-                'required_without_all:height,age',
+                'required_without_all:height,age,distance',
                 Rule::in(['BodyType', 'Child', 'Diet', 'Drink', 'Education', 'Employment', 'Ethnicity', 'Gender', 'Language',
                     'Pet', 'Politics', 'Relationship', 'Religion', 'Sign', 'Smoke']),
             ],
@@ -32,7 +32,7 @@ class PreferenceRequest extends FormRequest
             ],
 
             'height' => [
-                'required_without_all:preference_ids,age,preference_type',
+                'required_without_all:preference_ids,age,preference_type,distance',
                 'array'
             ],
             'height.*.min' => [
@@ -45,7 +45,7 @@ class PreferenceRequest extends FormRequest
             ],
 
             'age' => [
-                'required_without_all:preference_ids,height,preference_type',
+                'required_without_all:preference_ids,height,preference_type,distance',
                 'array'
             ],
             'age.*.min' => [
@@ -55,6 +55,10 @@ class PreferenceRequest extends FormRequest
             'age.*.max' => [
                 'min:18',
                 'max:99'
+            ],
+            'distance' => [
+                'integer',
+                'required_without_all:preference_ids,age,height,preference_type',
             ],
         ];
     }

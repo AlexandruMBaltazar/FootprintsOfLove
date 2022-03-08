@@ -13,6 +13,7 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "league/fractal": "^0.19.2",
+        "mjaschen/phpgeo": "^4.0",
         "php-http/guzzle7-adapter": "^1.0",
         "pusher/pusher-php-server": "^7.0",
         "toin0u/geocoder-laravel": "^4.4"

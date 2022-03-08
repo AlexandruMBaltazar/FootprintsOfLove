@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Location\Coordinate;
+use Location\Distance\Vincenty;
 
 class FilterByNonImportantPreferences
 {
@@ -16,8 +18,8 @@ class FilterByNonImportantPreferences
 
     public function __construct(User $user)
     {
-        $this->filteredUser = $user;
-        $this->user = Auth::user()->load(['preferencesImportance', 'heightPreference', 'agePreference']);
+        $this->filteredUser = $user->load('location');
+        $this->user = Auth::user()->load('preferencesImportance', 'heightPreference', 'agePreference', 'location');
     }
 
     public function meetsThreshold()
@@ -25,7 +27,7 @@ class FilterByNonImportantPreferences
         $preferences = $this->getNonImportantPreferences($this->user);
 
         try {
-            $percentageWorth = 100 / (count($preferences) + (Arr::exists($preferences, 'Height') ? 1 : 0) + (Arr::exists($preferences, 'Age') ? 1 : 0));
+            $percentageWorth = 100 / (count($preferences) + (Arr::exists($preferences, 'Distance') ? 1 : 0) + (Arr::exists($preferences, 'Height') ? 1 : 0) + (Arr::exists($preferences, 'Age') ? 1 : 0));
         } catch (\DivisionByZeroError $exception) {
             return true;
         }
@@ -87,6 +89,22 @@ class FilterByNonImportantPreferences
                 $this->total += in_array($this->filteredUser->detail->smoke_id ,$preferences[User\Detail\Smoke::class]->all()) ? $percentageWorth : 0;
                 return $preferences;
             })
+            ->when(Arr::exists($preferences, 'Distance'), function ($preferences) use ($percentageWorth) {
+                if ($this->user->location && $this->filteredUser->location) {
+                    $coordinate1 = new Coordinate((float)$this->user->location->lat, (float)$this->user->location->long);
+                    $coordinate2 = new Coordinate((float)$this->filteredUser->location->lat, (float)$this->filteredUser->location->long);
+
+                    $calculator = new Vincenty();
+
+                    $distance = $calculator->getDistance($coordinate1, $coordinate2) / 1000;
+
+                    if ($distance < $this->user->distancePreference->distance) {
+                        $this->total += $percentageWorth;
+                    }
+                }
+
+                return $preferences;
+            })
             ->when(Arr::exists($preferences, 'Height'), function ($preferences) use ($percentageWorth) {
                 if ($this->filteredUser->height >=  $this->user->heightPreference->min
                     && $this->filteredUser->height <=  $this->user->heightPreference->max) {
@@ -123,6 +141,13 @@ class FilterByNonImportantPreferences
 
         if (optional($user->agePreference)->is_important !== null && optional($user->agePreference)->is_important == false) {
             $preferences['Age'] = optional($user->agePreference)->is_important;
+        }
+
+        if (optional($user->distancePreference)->is_important !== null
+            && optional($user->distancePreference)->is_important == false
+            && optional($user->distancePreference)->distance > 0
+        ) {
+            $preferences['Distance'] = optional($user->distancePreference)->is_important;
         }
 
         return $preferences;

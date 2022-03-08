@@ -222,12 +222,13 @@ const ModalEditDetails = (props) => {
         lat: String(selectedLocation.lat),
         long: String(selectedLocation.long),
       }) !==
-      JSON.stringify(
-        props.details.location && {
-          lat: String(props.details.location.lat),
-          long: String(props.details.location.long),
-        }
-      )
+        JSON.stringify(
+          props.details.location && {
+            lat: String(props.details.location.lat),
+            long: String(props.details.location.long),
+          }
+        ) &&
+      detail === "location"
     ) {
       props.actions.addLocation({
         ...selectedLocation,

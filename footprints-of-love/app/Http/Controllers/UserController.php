@@ -13,7 +13,6 @@ use App\Paginator\CollectionPaginator;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Builder;
@@ -32,9 +31,16 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::with('profilePhoto', 'detail')->whereHas('detail', function (Builder $query) {
-            $query->searchByImportantPreferences();
-        })
+        $users = User::with('profilePhoto', 'detail', 'location')
+            ->whereHas('detail', function (Builder $query) {
+                $query->searchByImportantPreferences();
+            })
+            ->when(optional(Auth::user()->distancePreference)->is_important
+                && optional(Auth::user()->distancePreference)->distance > 0, function ($query) {
+                return $query->whereHas('location', function (Builder $query) {
+                    $query->isWithinMaxDistance();
+                });
+            })
         ->where('id', '!=', Auth::id())
         ->lazy()->filter(function ($user) {
             if (!$user->isSwiped()) {

@@ -26,11 +26,20 @@ class LocationController extends Controller
         $dumper = new GeoArray();
         $location = $dumper->dump($result->first());
 
-        if (!array_key_exists('locality', $location['properties'])) {
-            return response(['message' => 'We couldn’t find that location!']);
+        $isValidCountry = $request->country === $location['properties']['country'];
+
+        $isValidCityLocality = array_key_exists('locality', $location['properties'])
+            && $request->city === $location['properties']['locality'];
+
+        $isValidCitySubLocality = array_key_exists('subLocality', $location['properties'])
+            && $request->city === $location['properties']['subLocality'];
+
+
+        if ($isValidCountry && ($isValidCityLocality || $isValidCitySubLocality)) {
+            return response($dumper->dump($result->first()));
         }
 
-        return response($dumper->dump($result->first()));
+        return response(['message' => 'We couldn’t find that location!']);
     }
 
     /**

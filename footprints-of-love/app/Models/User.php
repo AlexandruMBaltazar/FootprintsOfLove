@@ -109,6 +109,11 @@ class User extends Authenticatable
     }
 
     //Relationships
+    public function blockedAccounts(): HasMany
+    {
+        return $this->hasMany(BlockedAccount::class);
+    }
+
     public function detail(): HasOne
     {
         return $this->hasOne(UserDetail::class);

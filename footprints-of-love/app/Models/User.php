@@ -114,6 +114,11 @@ class User extends Authenticatable
         return $this->hasMany(BlockedAccount::class);
     }
 
+    public function blockedBy(): HasMany
+    {
+        return $this->hasMany(BlockedAccount::class, 'blocked_user_id');
+    }
+
     public function detail(): HasOne
     {
         return $this->hasOne(UserDetail::class);
@@ -185,7 +190,13 @@ class User extends Authenticatable
 
     public function sessions(): BelongsToMany
     {
-        return $this->belongsToMany(Session::class);
+        return $this->belongsToMany(Session::class)
+            ->whereDoesntHave('sessionUser.blockedBy', function ($query) {
+                $query->where('user_id', Auth::id());
+            })
+            ->whereDoesntHave('sessionUser.blockedAccounts', function ($query) {
+                $query->where('blocked_user_id', '!=', Auth::id());
+            });
     }
 
     public function location(): HasOne

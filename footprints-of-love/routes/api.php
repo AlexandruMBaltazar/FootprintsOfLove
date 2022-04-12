@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\PasswordController;
+use App\Http\Controllers\BlockedAccountController;
 use App\Http\Controllers\GeocodingController;
 use App\Http\Controllers\LikesController;
 use App\Http\Controllers\LocationController;
@@ -35,6 +36,8 @@ Route::post('login', [AuthController::class, 'login']);
 Route::post('reset', [PasswordController::class, 'reset']);
 
 Route::middleware('auth:sanctum')->group(function () {
+
+    Route::resource('blocked-accounts', BlockedAccountController::class);
 
     Route::get('details', DetailController::class);
 

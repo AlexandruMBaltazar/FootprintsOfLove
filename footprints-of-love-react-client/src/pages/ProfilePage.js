@@ -13,6 +13,7 @@ import Topics from "../components/Topic/Topics";
 import Spinner from "../components/Spinner";
 import PhotoLightbox from "../components/PhotoLightbox";
 import * as messageActions from "../actions/messages/messageActions";
+import * as blockedAccountsActions from "../actions/blockedAccounts/blockedAccountsActions";
 
 const ProfilePage = (props) => {
   let { userId } = useParams();
@@ -88,6 +89,7 @@ const ProfilePage = (props) => {
           <button
             type="button"
             class="btn btn-dark col-5 ms-5 rounded-pill py-3"
+            onClick={onUnmatch}
           >
             <i class="fas fa-times fa-md me-1"></i>
             UNMATCH
@@ -176,6 +178,12 @@ const ProfilePage = (props) => {
     if (!isLiked) {
       history.push("/discover");
     }
+  };
+
+  const onUnmatch = () => {
+    props.actions.blockAccount(userId).then((response) => {
+      history.push("/discover");
+    });
   };
 
   return (
@@ -268,6 +276,8 @@ const mapDispatchToProps = (dispatch) => {
       unmatch: (swipeId) => dispatch(swipeActions.unmatch(swipeId)),
       changeSessionStatus: (sessionDetails) =>
         dispatch(messageActions.changeSessionStatus(sessionDetails)),
+      blockAccount: (userId) =>
+        dispatch(blockedAccountsActions.blockAccount(userId)),
     },
   };
 };

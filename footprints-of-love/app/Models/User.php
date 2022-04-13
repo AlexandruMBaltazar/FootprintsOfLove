@@ -81,6 +81,11 @@ class User extends Authenticatable
         return !Auth::user()->matches->pluck('swipe')->where('target_user_id', $this->id)->isEmpty();
     }
 
+    public function isBlocked()
+    {
+        return Auth::user()->blockedAccounts()->where('blocked_user_id', $this->id)->exists();
+    }
+
     //Scopes
     public function scopeLikes($query, $type)
     {

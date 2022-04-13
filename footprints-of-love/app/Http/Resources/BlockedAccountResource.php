@@ -15,7 +15,7 @@ class BlockedAccountResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
+            'account_id' => $this->id,
             'blocked_user' => new UserResource($this->blockedUser)
         ];
     }

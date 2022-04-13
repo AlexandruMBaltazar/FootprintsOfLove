@@ -13,8 +13,14 @@ export const reset = (data) => {
   return axios.post("/api/reset", data);
 };
 
+export const getBlockedAccounts = (page) => {
+  return axios.get(`/api/blocked-accounts?page=${page}`);
+};
 export const postBlockedAccounts = (user_id) => {
   return axios.post(`/api/blocked-accounts`, user_id);
+};
+export const deleteBlockedAccounts = (account_id) => {
+  return axios.delete(`/api/blocked-accounts/${account_id}`);
 };
 
 export const details = (detail) => {

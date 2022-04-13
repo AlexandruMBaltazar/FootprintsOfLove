@@ -20,6 +20,7 @@ import axios from "axios";
 import * as notificationActions from "../actions/notifications/notificationActions";
 import Notifications from "../components/Notifications/Notifications";
 import LikesPage from "../pages/LikesPage";
+import SettingsPage from "../pages/SettingsPage";
 
 function App(props) {
   const [pendingApiCalls, setPendingApiCalls] = useState(true);
@@ -117,6 +118,7 @@ function App(props) {
           />
           <Route path="/reset/:token" component={PasswordResetPage} />
           <Route path="/signup" component={UserSignupPage} />
+          <SecuredRoute path="/settings" component={SettingsPage} />
           <SecuredRoute path="/onboarding" component={OnboardingPage} />
         </Switch>
         <Notifications />

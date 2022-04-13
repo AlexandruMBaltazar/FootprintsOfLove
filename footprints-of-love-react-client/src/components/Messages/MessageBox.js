@@ -189,10 +189,15 @@ const MessageBox = (props) => {
               <input
                 type="text"
                 className="form-control border-0"
-                placeholder="Write a message..."
+                placeholder={
+                  props.user.is_blocked
+                    ? "User is blocked"
+                    : "Write a message..."
+                }
                 value={message}
                 onChange={(event) => setMessage(event.target.value)}
                 onKeyPress={sendMessage}
+                disabled={props.user.is_blocked}
               />
               <div className="input-group-text bg-transparent border-0">
                 <button className="btn btn-light text-secondary">
@@ -219,6 +224,7 @@ const mapStateToProps = (state) => {
     messages: state.message.messages,
     isFetchingMessages: state.message.isFetchingMessages,
     notification: state.notification,
+    user: state.profile,
   };
 };
 

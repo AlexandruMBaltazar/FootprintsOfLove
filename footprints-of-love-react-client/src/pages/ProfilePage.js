@@ -110,7 +110,7 @@ const ProfilePage = (props) => {
             }
           >
             <i class="fas fa-comment-alt fa-md me-1"></i>
-            MESSAGE
+            {props.user.is_blocked ? "PREVIEW MESSAGES" : "MESSAGE"}
           </button>
         </div>
       );

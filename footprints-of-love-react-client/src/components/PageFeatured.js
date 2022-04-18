@@ -18,6 +18,8 @@ const PageFeatured = (props) => {
         return "Discover";
       case findTerm("/likes"):
         return "Likes";
+      case findTerm("/settings"):
+        return "Settings";
       case "/":
         return "Discover";
       default:

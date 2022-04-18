@@ -20,7 +20,7 @@ class BlockedAccountController extends Controller
     {
         $blockedAccounts = Auth::user()->blockedAccounts()->with('blockedUser')
             ->orderByDesc('created_at')
-            ->simplePaginate(10);
+            ->simplePaginate(1);
 
         return BlockedAccountResource::collection($blockedAccounts);
     }

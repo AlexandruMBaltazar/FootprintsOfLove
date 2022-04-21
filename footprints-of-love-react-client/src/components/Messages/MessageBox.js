@@ -4,6 +4,7 @@ import ProfileImageWithDefault from "../ProfileImageWithDefault";
 import Message from "./Message";
 import * as messageActions from "../../actions/messages/messageActions";
 import * as notificationActions from "../../actions/notifications/notificationActions";
+import * as videoCallActions from "../../actions/videoCall/videoCallActions";
 import Spinner from "../Spinner";
 import { Link } from "react-router-dom";
 import Echo from "laravel-echo";
@@ -155,6 +156,15 @@ const MessageBox = (props) => {
                   </span>
                 </Link>
               </li>
+              <div className="justify-content-end">
+                <button
+                  type="button"
+                  className="btn btn-secondary btn-sm"
+                  onClick={() => props.actions.placeCall(user_id)}
+                >
+                  <i class="fas fa-video"></i>
+                </button>
+              </div>
             </ul>
             <ul className="navbar-nav ms-auto">
               <li className="nav-item">
@@ -242,6 +252,7 @@ const mapDispatchToProps = (dispatch) => {
         dispatch(notificationActions.deleteMessageNotifications(sessionId)),
       deleteNotification: (notificationId) =>
         dispatch(notificationActions.deleteNotification(notificationId)),
+      placeCall: (userId) => dispatch(videoCallActions.placeCall(userId)),
     },
   };
 };

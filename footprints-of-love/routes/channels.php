@@ -28,3 +28,11 @@ Broadcast::channel('sessions.{session}', function ($user, Session $session) {
 
     return false;
 });
+
+Broadcast::channel('Video.Channel.{id}', function ($user, $id) {
+    return (int) $user->id === (int) $id;
+});
+
+Broadcast::channel('agora-online-channel', function ($user) {
+    return ['id' => $user->id, 'name' => $user->first_name];
+});

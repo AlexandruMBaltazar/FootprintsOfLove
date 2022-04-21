@@ -21,6 +21,9 @@ import * as notificationActions from "../actions/notifications/notificationActio
 import Notifications from "../components/Notifications/Notifications";
 import LikesPage from "../pages/LikesPage";
 import SettingsPage from "../pages/SettingsPage";
+import VideoCallModal from "../components/VideoCall/VideoCallModal";
+import * as videoCallActions from "../actions/videoCall/videoCallActions";
+import IncomingCall from "../components/VideoCall/IncomingCall";
 
 function App(props) {
   const [pendingApiCalls, setPendingApiCalls] = useState(true);
@@ -80,6 +83,35 @@ function App(props) {
     };
   }, [isSessionOpen, props.actions, props.user.id, session_id]);
 
+  useEffect(() => {
+    const listenForVideoCall = () => {
+      window.Echo.private("Video.Channel." + props.user.id).listen(
+        `.client.signal.${props.user.id}`,
+        (signal) => {
+          signal.data.data.sdp = signal.data.data.sdp + "\r\n";
+          //Incoming call
+          if (signal.data.data.type === "offer") {
+            console.log("Incoming call");
+            props.actions.setSignal(signal.data, true);
+          } else {
+            console.log("Not incoming call");
+            props.actions.setSignal(signal.data, false);
+          }
+        }
+      );
+    };
+
+    if (props.user.id !== 0) {
+      listenForVideoCall();
+    }
+
+    return () => {
+      if (props.user.id !== 0) {
+        window.Echo.leave("Video.Channel." + props.user.id);
+      }
+    };
+  }, [props.actions, props.user.id]);
+
   if (pendingApiCalls) {
     return (
       <div className="d-flex flex-column min-vh-100 justify-content-center align-items-center">
@@ -121,6 +153,7 @@ function App(props) {
           <SecuredRoute path="/settings" component={SettingsPage} />
           <SecuredRoute path="/onboarding" component={OnboardingPage} />
         </Switch>
+        {props.videoCall.incomingCall && <IncomingCall />}
         <Notifications />
       </div>
       {isSessionOpen && (
@@ -128,6 +161,7 @@ function App(props) {
           <MessageBox />
         </div>
       )}
+      {props.videoCall.callPlaced && <VideoCallModal />}
     </div>
   );
 }
@@ -137,6 +171,8 @@ const mapStateToProps = (state) => {
     user: state.auth,
     session: state.message,
     notification: state.notification,
+    videoCall: state.videoCall,
+    peer: state.videoCall.peer,
   };
 };
 
@@ -146,9 +182,10 @@ const mapDispatchToProps = (dispatch) => {
       getAuthUser: () => dispatch(authActions.loginSuccess()),
       notificationHandler: (notification) =>
         dispatch(notificationActions.notificationHandler(notification)),
-
       fetchNotifications: (userId) =>
         dispatch(notificationActions.fetchNotifications(userId)),
+      setSignal: (signal, isIncomingSignal) =>
+        dispatch(videoCallActions.setSignal(signal, isIncomingSignal)),
     },
   };
 };

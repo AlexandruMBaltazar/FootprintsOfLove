@@ -48,8 +48,10 @@ export default function videoCallReducer(state = initialState, action) {
       };
 
     case CLOSE_CALL:
-      state.stream.getTracks().forEach((track) => track.stop());
-      state.peer.emit("close");
+      if (state.stream && state.peer) {
+        state.stream.getTracks().forEach((track) => track.stop());
+        state.peer.emit("close");
+      }
 
       return {
         ...initialState,

@@ -53,7 +53,7 @@ const VideoCallModal = (props) => {
 
       return peer;
     },
-    [user.id]
+    [props.actions, user.id]
   );
 
   useEffect(() => {

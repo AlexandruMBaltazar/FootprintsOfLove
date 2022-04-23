@@ -98,8 +98,12 @@ const VideoCallModal = (props) => {
       <div className="modal-dialog modal-xl modal-dialog-centered">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title">Modal title</h5>
-            <button type="button" className="btn-close"></button>
+            <h5 className="modal-title">Video Call</h5>
+            <button
+              type="button"
+              className="btn-close"
+              onClick={() => closeCall()}
+            ></button>
           </div>
           <div className="modal-body">
             <div className={`video-container ${styles.videoContainer}`}>
@@ -114,9 +118,6 @@ const VideoCallModal = (props) => {
             </div>
           </div>
           <div className="modal-footer d-flex justify-content-center">
-            <button type="button" className="btn btn-primary">
-              Save changes
-            </button>
             <button
               type="button"
               className="btn btn-danger"

@@ -38,7 +38,7 @@ const IncomingCall = (props) => {
               <button
                 type="button"
                 className="btn btn-danger"
-                onClick={() => console.log("deny call")}
+                onClick={() => props.actions.closeCallPlaced({ user_id: id })}
               >
                 <i className="fas fa-phone-slash pe-1"></i> Decline
               </button>
@@ -60,6 +60,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     actions: {
       placeCall: (userId) => dispatch(videoCallActions.placeCall(userId)),
+      closeCallPlaced: (userId) =>
+        dispatch(videoCallActions.closeCallPlaced(userId)),
     },
   };
 };

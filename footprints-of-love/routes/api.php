@@ -9,6 +9,7 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\Session\MessageController;
 use App\Http\Controllers\SessionController;
+use App\Http\Controllers\SignalController;
 use App\Http\Controllers\SwipeController;
 use App\Http\Controllers\Topic\AnswerController;
 use App\Http\Controllers\TopicController;
@@ -36,6 +37,8 @@ Route::post('login', [AuthController::class, 'login']);
 Route::post('reset', [PasswordController::class, 'reset']);
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::post('call/placeCall', [SignalController::class, 'placeCall']);
+    Route::post('call/closeCall', [SignalController::class, 'closeCall']);
 
     Route::resource('blocked-accounts', BlockedAccountController::class);
 

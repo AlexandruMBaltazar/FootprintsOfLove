@@ -11,6 +11,7 @@ import messageReducer from "./messages/messageReducer";
 import notificationReducer from "./notifications/notificationReducer";
 import likeReducer from "./likes/likeReducer";
 import settingsReducer from "./settings/settingsReducer";
+import videoCallReducer from "./videoCall/videoCallReducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -25,4 +26,5 @@ export default combineReducers({
   notification: notificationReducer,
   likes: likeReducer,
   settings: settingsReducer,
+  videoCall: videoCallReducer,
 });

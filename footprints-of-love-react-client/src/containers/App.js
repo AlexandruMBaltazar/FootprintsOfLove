@@ -85,9 +85,8 @@ function App(props) {
 
   useEffect(() => {
     const listenForVideoCall = () => {
-      window.Echo.private("Video.Channel." + props.user.id).listen(
-        `.client.signal.${props.user.id}`,
-        (signal) => {
+      window.Echo.private("Video.Channel." + props.user.id)
+        .listen(`.client.signal.${props.user.id}`, (signal) => {
           signal.data.data.sdp = signal.data.data.sdp + "\r\n";
           //Incoming call
           if (signal.data.data.type === "offer") {
@@ -97,8 +96,10 @@ function App(props) {
             console.log("Not incoming call");
             props.actions.setSignal(signal.data, false);
           }
-        }
-      );
+        })
+        .listen(`.client.signal.close.${props.user.id}`, (signal) => {
+          props.actions.closeCall();
+        });
     };
 
     if (props.user.id !== 0) {
@@ -173,6 +174,7 @@ const mapStateToProps = (state) => {
     notification: state.notification,
     videoCall: state.videoCall,
     peer: state.videoCall.peer,
+    stream: state.videoCall.stream,
   };
 };
 
@@ -186,6 +188,7 @@ const mapDispatchToProps = (dispatch) => {
         dispatch(notificationActions.fetchNotifications(userId)),
       setSignal: (signal, isIncomingSignal) =>
         dispatch(videoCallActions.setSignal(signal, isIncomingSignal)),
+      closeCall: () => dispatch(videoCallActions.closeCall()),
     },
   };
 };

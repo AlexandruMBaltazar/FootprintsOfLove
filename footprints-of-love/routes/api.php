@@ -37,7 +37,8 @@ Route::post('login', [AuthController::class, 'login']);
 Route::post('reset', [PasswordController::class, 'reset']);
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/signal', SignalController::class);
+    Route::post('call/placeCall', [SignalController::class, 'placeCall']);
+    Route::post('call/closeCall', [SignalController::class, 'closeCall']);
 
     Route::resource('blocked-accounts', BlockedAccountController::class);
 

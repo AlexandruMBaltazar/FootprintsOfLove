@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CloseSignalCall;
 use App\Events\MakeSignalCall;
 use App\Http\Resources\User\ShowResource;
 use App\Models\User;
@@ -12,10 +13,10 @@ class SignalController extends Controller
     /**
      * Handle the incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return bool
      */
-    public function __invoke(Request $request)
+    public function placeCall(Request $request): bool
     {
         $signal['type'] = $request->input('type');
         $signal['user'] = (new ShowResource(User::query()->findOrFail($request->input('userId'))))
@@ -25,5 +26,15 @@ class SignalController extends Controller
         $signal['data'] = $request->input('data');
 
         broadcast(new MakeSignalCall($signal))->toOthers();
+
+        return true;
+    }
+
+    public function closeCall(Request $request)
+    {
+        $data['user_id'] = $request->input('user_id');
+        broadcast(new CloseSignalCall($data))->toOthers();
+
+        return true;
     }
 }

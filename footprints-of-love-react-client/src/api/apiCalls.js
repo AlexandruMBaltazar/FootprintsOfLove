@@ -23,6 +23,10 @@ export const deleteBlockedAccounts = (account_id) => {
   return axios.delete(`/api/blocked-accounts/${account_id}`);
 };
 
+export const postCloseCall = (userId) => {
+  return axios.post(`/api/call/closeCall`, userId);
+};
+
 export const details = (detail) => {
   return axios.get(`/api/details?detail=${detail}`);
 };

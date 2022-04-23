@@ -7,11 +7,10 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class MakeSignalCall implements ShouldBroadcast
+class CloseSignalCall implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -34,7 +33,7 @@ class MakeSignalCall implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('Video.Channel.' . $this->data['otherUser']['id']);
+        return new PrivateChannel('Video.Channel.' . $this->data['user_id']);
     }
 
     /**
@@ -44,6 +43,6 @@ class MakeSignalCall implements ShouldBroadcast
      */
     public function broadcastAs()
     {
-        return 'client.signal.' . $this->data['otherUser']['id'];
+        return 'client.signal.close.' . $this->data['user_id'];
     }
 }

@@ -2,16 +2,18 @@ import {
   CALL_PLACED,
   SET_SIGNAL,
   INCOMING_CALL,
+  CLOSE_CALL,
   SET_PEER,
 } from "../../actions/videoCall/types";
 
 const initialState = {
   userId: null,
   callPlaced: false,
-  peer: undefined,
   incomingCall: false,
   signal: null,
   initiator: true,
+  peer: null,
+  stream: null,
 };
 
 export default function videoCallReducer(state = initialState, action) {
@@ -27,7 +29,8 @@ export default function videoCallReducer(state = initialState, action) {
     case SET_PEER:
       return {
         ...state,
-        peer: { [`${state.userId}`]: action.payload },
+        peer: action.payload.peer,
+        stream: action.payload.stream,
       };
 
     case INCOMING_CALL:
@@ -42,6 +45,14 @@ export default function videoCallReducer(state = initialState, action) {
       return {
         ...state,
         signal: action.payload,
+      };
+
+    case CLOSE_CALL:
+      state.stream.getTracks().forEach((track) => track.stop());
+      state.peer.emit("close");
+
+      return {
+        ...initialState,
       };
 
     default:

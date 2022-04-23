@@ -8,24 +8,25 @@ import * as videoCallActions from "../../actions/videoCall/videoCallActions";
 
 const VideoCallModal = (props) => {
   const [peer, setPeer] = useState(undefined);
+  const [userStream, setUserStream] = useState(null);
 
-  const userStream = useRef(null);
   const myVideo = useRef(null);
   const userVideo = useRef(null);
 
   const { user } = props;
 
   const startPeer = useCallback(
-    (userId, initiator = true) => {
-      console.log("Peer Stream: " + userStream.current);
+    (userId, stream, initiator = true) => {
       const peer = new Peer({
         initiator,
-        stream: userStream.current,
+        stream: stream,
         trickle: false,
       });
 
+      props.actions.setPeer({ peer, stream });
+
       peer.on("signal", (data) => {
-        axios.post("/api/signal", {
+        axios.post("/api/call/placeCall", {
           type: "signal",
           userId: user.id,
           otherUserId: userId,
@@ -34,7 +35,6 @@ const VideoCallModal = (props) => {
       });
 
       peer.on("stream", (stream) => {
-        console.log("STREAM");
         try {
           userVideo.current.srcObject = stream;
         } catch (e) {
@@ -45,12 +45,10 @@ const VideoCallModal = (props) => {
       });
 
       peer.on("close", () => {
-        let peerObj = peer;
-        if (peerObj !== undefined) {
-          peerObj.destroy();
+        if (peer !== undefined) {
+          peer.destroy();
         }
-
-        peerObj = undefined;
+        setPeer(undefined);
       });
 
       return peer;
@@ -60,9 +58,7 @@ const VideoCallModal = (props) => {
 
   useEffect(() => {
     mediaHandler.getPermissions().then((stream) => {
-      console.log("Stream: " + stream);
-      userStream.current = stream;
-      console.log("User Stream: " + userStream.current);
+      setUserStream((prevUserStream) => stream);
       try {
         myVideo.current.srcObject = stream;
       } catch (e) {
@@ -72,19 +68,27 @@ const VideoCallModal = (props) => {
       myVideo.current.play();
 
       if (props.callPlaced) {
-        console.log("start peer");
-        setPeer(startPeer(props.userId, props.initiator));
+        setPeer((prevPeer) => startPeer(props.userId, stream, props.initiator));
       }
     });
   }, [props.callPlaced, props.initiator, props.userId, startPeer]);
 
   useEffect(() => {
     if (props.signal && peer) {
-      console.log("Signal: " + JSON.stringify(props.signal.data));
-      console.log("Peer to signal: " + JSON.stringify(peer));
       peer.signal(props.signal.data);
     }
   }, [peer, props.signal]);
+
+  const closeCall = () => {
+    peer.removeStream(userStream);
+    userStream.getTracks().forEach((track) => track.stop());
+    setUserStream(null);
+    myVideo.current = null;
+    userVideo.current = null;
+
+    peer.emit("close");
+    props.actions.closeCallPlaced({ user_id: props.userId });
+  };
 
   return (
     <div
@@ -109,12 +113,16 @@ const VideoCallModal = (props) => {
               ></video>
             </div>
           </div>
-          <div className="modal-footer">
-            <button type="button" className="btn btn-secondary">
-              Close
-            </button>
+          <div className="modal-footer d-flex justify-content-center">
             <button type="button" className="btn btn-primary">
               Save changes
+            </button>
+            <button
+              type="button"
+              className="btn btn-danger"
+              onClick={() => closeCall()}
+            >
+              <i className="fas fa-phone-slash pe-1"></i> Close Call
             </button>
           </div>
         </div>
@@ -129,7 +137,6 @@ const mapStateToProps = (state) => {
     userId: state.videoCall.userId,
     callPlaced: state.videoCall.callPlaced,
     signal: state.videoCall.signal,
-    peer: state.videoCall.peer,
     initiator: state.videoCall.initiator,
   };
 };
@@ -137,7 +144,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     actions: {
-      setPeer: (peer) => dispatch(videoCallActions.setPeer(peer)),
+      closeCallPlaced: (userId) =>
+        dispatch(videoCallActions.closeCallPlaced(userId)),
+      setPeer: (data) => dispatch(videoCallActions.setPeer(data)),
     },
   };
 };

@@ -4,7 +4,10 @@ import {
   UPDATE_USER_DETAILS,
 } from "../../../actions/user/details/types";
 
-import { LOCATION_ADDED } from "../../../actions/location/types";
+import {
+  LOCATION_ADDED,
+  REMOVE_LOCATION,
+} from "../../../actions/location/types";
 
 const initialState = {
   details: {
@@ -61,6 +64,15 @@ export default function userDetailsReducer(state = initialState, action) {
         details: {
           ...state.details,
           location: action.payload,
+        },
+        isLoading: false,
+      };
+
+    case REMOVE_LOCATION:
+      return {
+        details: {
+          ...state.details,
+          location: initialState.details.location,
         },
         isLoading: false,
       };

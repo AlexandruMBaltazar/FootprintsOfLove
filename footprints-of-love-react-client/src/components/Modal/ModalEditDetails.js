@@ -380,7 +380,13 @@ const ModalEditDetails = (props) => {
                   </div>
                 </div>
                 <div className="d-flex justify-content-center text-center mt-2">
-                  <button type="button" className="btn btn-link">
+                  <button
+                    type="button"
+                    className="btn btn-link"
+                    onClick={() =>
+                      props.actions.deleteLocation(props.details.location.id)
+                    }
+                  >
                     Remove my location
                   </button>
                 </div>
@@ -595,6 +601,9 @@ const mapDispatchToProps = (dispatch) => {
 
       addLocation: (location) =>
         dispatch(locationActions.addLocation(location)),
+
+      deleteLocation: (location_id) =>
+        dispatch(locationActions.deleteLocation(location_id)),
     },
   };
 };

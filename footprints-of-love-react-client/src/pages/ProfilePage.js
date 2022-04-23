@@ -49,7 +49,7 @@ const ProfilePage = (props) => {
       headerInfo += `${age}`;
     }
 
-    if (location) {
+    if (location && location.city && location.country) {
       headerInfo += ` • ${location.city}, ${location.country}`;
     }
 

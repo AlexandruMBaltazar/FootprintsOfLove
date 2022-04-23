@@ -46,6 +46,9 @@ export const searchLocation = (country = "", city = "") => {
 export const addLocation = (location) => {
   return axios.post(`/api/location`, location);
 };
+export const deleteLocation = (location_id) => {
+  return axios.delete(`/api/location/${location_id}`);
+};
 
 export const getSessions = (page = 1) => {
   return axios.get(`/api/sessions?page=${page}`);

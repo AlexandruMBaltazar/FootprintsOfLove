@@ -1,5 +1,5 @@
 import * as apiCalls from "../../api/apiCalls";
-import { SEARCH_LOCATION, LOCATION_ADDED } from "./types";
+import { LOCATION_ADDED, REMOVE_LOCATION } from "./types";
 import { LOADING_USER_DETAILS } from "../user/details/types";
 
 export const searchLocation =
@@ -19,6 +19,15 @@ export const addLocation = (location) => (dispatch) => {
     dispatch({
       type: LOCATION_ADDED,
       payload: response.data.data,
+    });
+  });
+};
+
+export const deleteLocation = (location_id) => (dispatch) => {
+  return apiCalls.deleteLocation(location_id).then((response) => {
+    dispatch({
+      type: REMOVE_LOCATION,
+      payload: location_id,
     });
   });
 };

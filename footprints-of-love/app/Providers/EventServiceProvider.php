@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Swipe;
 use App\Models\User;
 use App\Observers\SwipeObserver;
+use App\Observers\User\LocationObserver;
 use App\Observers\UserObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -33,5 +34,6 @@ class EventServiceProvider extends ServiceProvider
     {
         User::observe(UserObserver::class);
         Swipe::observe(SwipeObserver::class);
+        User\Location::observe(LocationObserver::class);
     }
 }

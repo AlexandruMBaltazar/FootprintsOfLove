@@ -30,6 +30,8 @@ class Photo extends Model
         'is_profile_photo' => 'boolean',
     ];
 
+    const MAX_PHOTOS = 5;
+
     public function user(): BelongsTo
     {
        return $this->belongsTo(User::class);

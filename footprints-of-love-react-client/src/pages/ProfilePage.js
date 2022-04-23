@@ -20,6 +20,7 @@ const ProfilePage = (props) => {
   let history = useHistory();
 
   const { session_id, id, profile_photo, first_name } = props.user;
+  const { age, location } = props.details;
 
   useEffect(() => {
     if (userId && userId != props.authUser.id) {
@@ -35,12 +36,21 @@ const ProfilePage = (props) => {
   }, [props.actions, props.authUser.id, userId]);
 
   const displayUserHeaderInfo = () => {
-    if (props.user.isFetchingUser) {
+    if (props.user.isFetchingUser || props.isLoadingDetails) {
       return (
         <div className="mt-5 ms-5">
           <Spinner />
         </div>
       );
+    }
+
+    let headerInfo = "";
+    if (age) {
+      headerInfo += `${age}`;
+    }
+
+    if (location) {
+      headerInfo += ` • ${location.city}, ${location.country}`;
     }
 
     return (
@@ -69,10 +79,17 @@ const ProfilePage = (props) => {
             <PhotoLightbox />
           )}
         </div>
-        <div className="ms-2 flex-fill align-self-center">
-          <span className="fs-3 fw-bolder">
-            {props.user.first_name} - {props.userDetails.details.age}
-          </span>
+        <div className="ps-4 pb-5 flex-fill align-self-center">
+          <div className="col-12 col-md-10">
+            <div className="w-100 align-baseline pe-1">
+              <h5 className="mb-1 d-inline fs-1 fw-bolder">{first_name}</h5>
+            </div>
+            <div className="align-baseline pt-2">
+              <p className="text-truncate d-inline fs-4 fw-bolder">
+                {headerInfo}
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -278,9 +295,10 @@ const ProfilePage = (props) => {
 const mapStateToProps = (state, ownProps) => {
   return {
     user: state.profile.isAuthUser ? state.auth : state.profile,
-    userDetails: state.userDetails,
+    details: state.userDetails.details,
     authUser: state.auth,
     isAuthUser: state.profile.isAuthUser,
+    isLoadingDetails: state.userDetails.isLoading,
   };
 };
 

@@ -3,6 +3,24 @@ import { Link } from "react-router-dom";
 import ProfileImageWithDefault from "../ProfileImageWithDefault";
 
 const User = (props) => {
+  let headerInfo = "";
+  let aboutUserInfo =
+    "This user doesn't have any description about themselves yet";
+
+  if (props.user.detail.age) {
+    headerInfo += `${props.user.detail.age}`;
+  }
+
+  if (props.user.location) {
+    headerInfo += ` • ${props.user.location.city}, ${props.user.location.country}`;
+  }
+
+  if (props.user.answers.length > 0) {
+    aboutUserInfo = props.user.answers.find(
+      (answer) => answer.topic_id === 1
+    ).value;
+  }
+
   return (
     <div>
       <div className="card" style={{ width: "18rem" }}>
@@ -18,11 +36,14 @@ const User = (props) => {
         />
         <div className="card-body">
           <h5 className="card-title">
-            {props.user.first_name + " - " + props.user.detail.age}
+            <div className="text-center">{props.user.first_name}</div>
+            <div className="text-center">{headerInfo}</div>
           </h5>
           <p className="card-text">
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
+            <div>
+              {aboutUserInfo.substring(0, 300)}
+              {aboutUserInfo.length >= 300 && "..."}
+            </div>
           </p>
           <Link to={`/profile/${props.user.id}`} className="btn btn-primary">
             Discover more

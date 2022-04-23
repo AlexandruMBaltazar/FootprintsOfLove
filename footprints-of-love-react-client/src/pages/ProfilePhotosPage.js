@@ -8,6 +8,7 @@ import PhotoList from "../components/Photo/PhotoList";
 
 const ProfilePhotosPage = (props) => {
   const [photo, setPhoto] = useState();
+  const MAX_PHOTOS = 5;
 
   useEffect(() => {
     return () => {
@@ -39,6 +40,31 @@ const ProfilePhotosPage = (props) => {
     });
   };
 
+  const displayUploadInput = () => {
+    if (props.photo.photos.length >= MAX_PHOTOS) {
+      return (
+        <div class="alert alert-info" role="alert">
+          Max photo limit reached
+        </div>
+      );
+    }
+
+    return (
+      <UploadInput
+        onClick={uploadPhoto}
+        onChange={onFileSelect}
+        disabled={props.photo.pendingApiCall || !photo}
+        pendingApiCall={props.photo.pendingApiCall}
+        hasError={
+          props.uploadPhotoErrors && props.uploadPhotoErrors.length !== 0
+            ? true
+            : undefined
+        }
+        error={props.uploadPhotoErrors}
+      />
+    );
+  };
+
   return (
     <div className="container">
       <div className="row">
@@ -60,21 +86,7 @@ const ProfilePhotosPage = (props) => {
             <div className="ms-2 flex-fill align-self-center">
               <span className="fs-4 fw-bolder">{props.user.first_name}</span>
             </div>
-            <div className="align-self-center">
-              <UploadInput
-                onClick={uploadPhoto}
-                onChange={onFileSelect}
-                disabled={props.photo.pendingApiCall || !photo}
-                pendingApiCall={props.photo.pendingApiCall}
-                hasError={
-                  props.uploadPhotoErrors &&
-                  props.uploadPhotoErrors.length !== 0
-                    ? true
-                    : undefined
-                }
-                error={props.uploadPhotoErrors}
-              />
-            </div>
+            <div className="align-self-center">{displayUploadInput()}</div>
           </div>
         </div>
       </div>
@@ -87,6 +99,13 @@ const ProfilePhotosPage = (props) => {
         </div>
         <div className="col-4">
           <PhotoList />
+          {MAX_PHOTOS - props.photo.photos.length !== 0 && (
+            <div className="alert alert-info mt-2" role="alert">
+              {`You can upload ${
+                MAX_PHOTOS - props.photo.photos.length
+              } more photos`}
+            </div>
+          )}
         </div>
       </div>
     </div>

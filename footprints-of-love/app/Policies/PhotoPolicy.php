@@ -41,7 +41,7 @@ class PhotoPolicy
      */
     public function create(User $user, User $photoUser)
     {
-        return $user->id == $photoUser->id;
+        return $user->id == $photoUser->id && $user->photos()->count() !== Photo::MAX_PHOTOS;
     }
 
     /**

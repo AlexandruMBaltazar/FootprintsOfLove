@@ -31,7 +31,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::with('profilePhoto', 'detail', 'location')
+        $users = User::with('profilePhoto', 'detail', 'location', 'answers.topic')
             ->whereHas('detail', function (Builder $query) {
                 $query->searchByImportantPreferences();
             })

@@ -9,6 +9,7 @@ const UserRows = (props) => {
   const [headerInfo, setHeaderInfo] = useState({
     header: "",
     subHead: "",
+    emptyMessage: "Nothing to display",
   });
 
   const [page, setPage] = useState(1);
@@ -28,6 +29,7 @@ const UserRows = (props) => {
             header: "People you like",
             subHead:
               "When there is a match you will be able to send them a message!",
+            emptyMessage: "You didn't like anyone yet",
           });
 
           props.actions.fetchLikes(props.type, page);
@@ -37,6 +39,7 @@ const UserRows = (props) => {
           setHeaderInfo({
             header: "People you dislike",
             subHead: "Have you changed your mind ? You can like them again !",
+            emptyMessage: "You didn't dislike anyone yet",
           });
 
           props.actions.fetchLikes(props.type, page);
@@ -46,6 +49,7 @@ const UserRows = (props) => {
           setHeaderInfo({
             header: "People that like you",
             subHead: "Like them to create a match!",
+            emptyMessage: "Nobody liked you yet",
           });
           props.actions.fetchLikes(props.type, page);
       }
@@ -59,6 +63,14 @@ const UserRows = (props) => {
       return (
         <div className="mt-5">
           <Spinner />
+        </div>
+      );
+    }
+
+    if (props.users.length <= 0) {
+      return (
+        <div class="alert alert-info" role="alert">
+          {headerInfo.emptyMessage}
         </div>
       );
     }

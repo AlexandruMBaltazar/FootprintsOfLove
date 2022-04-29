@@ -4,6 +4,7 @@ import { Switch } from "react-router-dom";
 import { useRouteMatch } from "react-router-dom";
 import { Link } from "react-router-dom";
 import ProfileImageWithDefault from "../components/ProfileImageWithDefault";
+import Account from "../components/Settings/Account";
 import Privacy from "../components/Settings/Privacy";
 import SecuredRoute from "../securityUtils/SecuredRoute";
 import styles from "./css/settingspace.module.css";
@@ -63,6 +64,9 @@ const SettingsPage = (props) => {
             <Switch>
               <SecuredRoute path={`${path}/privacy`}>
                 <Privacy />
+              </SecuredRoute>
+              <SecuredRoute path={`${path}`}>
+                <Account />
               </SecuredRoute>
             </Switch>
           </div>

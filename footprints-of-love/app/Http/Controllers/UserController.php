@@ -101,7 +101,13 @@ class UserController extends Controller
     {
         $this->authorize('update', $user);
 
-        $user->update($request->fillable());
+        if ($request->input('password')) {
+            $user->update([
+                'password' => Hash::make($request->input('password'))
+            ]);
+        } else {
+            $user->update($request->fillable());
+        }
 
         return new UserResource($user);
     }

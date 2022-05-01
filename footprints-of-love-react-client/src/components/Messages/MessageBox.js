@@ -156,6 +156,7 @@ const MessageBox = (props) => {
                   </span>
                 </Link>
               </li>
+            {!props.user.is_blocked && (
               <div className="justify-content-end">
                 <button
                   type="button"
@@ -163,8 +164,9 @@ const MessageBox = (props) => {
                   onClick={() => props.actions.placeCall(user_id)}
                 >
                   <i class="fas fa-video"></i>
-                </button>
-              </div>
+              </button>
+            </div>
+            )}
             </ul>
             <ul className="navbar-nav ms-auto">
               <li className="nav-item">

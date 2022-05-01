@@ -21,7 +21,7 @@ class MessageController extends Controller
 {
     public function index(Session $session): AnonymousResourceCollection
     {
-        $this->authorize('create', [Message::class, $session]);
+        $this->authorize('view', [Message::class, $session]);
 
         $messages = $session->messages;
 

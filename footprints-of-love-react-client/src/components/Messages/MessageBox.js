@@ -156,17 +156,17 @@ const MessageBox = (props) => {
                   </span>
                 </Link>
               </li>
-            {!props.user.is_blocked && (
-              <div className="justify-content-end">
-                <button
-                  type="button"
-                  className="btn btn-secondary btn-sm"
-                  onClick={() => props.actions.placeCall(user_id)}
-                >
-                  <i class="fas fa-video"></i>
-              </button>
-            </div>
-            )}
+              {!props.user.is_blocked && (
+                <div className="justify-content-end">
+                  <button
+                    type="button"
+                    className="btn btn-secondary btn-sm"
+                    onClick={() => props.actions.placeCall(user_id)}
+                  >
+                    <i class="fas fa-video"></i>
+                  </button>
+                </div>
+              )}
             </ul>
             <ul className="navbar-nav ms-auto">
               <li className="nav-item">

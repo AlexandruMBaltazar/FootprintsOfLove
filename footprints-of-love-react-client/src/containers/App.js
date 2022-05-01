@@ -60,20 +60,21 @@ function App(props) {
         forceTLS: true,
         authorizer: (channel, options) => {
           return {
-              authorize: (socketId, callback) => {
-                  axios.post('/api/broadcasting/auth', {
-                      socket_id: socketId,
-                      channel_name: channel.name
-                  })
-                  .then(response => {
-                      callback(false, response.data);
-                  })
-                  .catch(error => {
-                      callback(true, error);
-                  });
-              }
+            authorize: (socketId, callback) => {
+              axios
+                .post("/api/broadcasting/auth", {
+                  socket_id: socketId,
+                  channel_name: channel.name,
+                })
+                .then((response) => {
+                  callback(false, response.data);
+                })
+                .catch((error) => {
+                  callback(true, error);
+                });
+            },
           };
-      },
+        },
       });
 
       axios.interceptors.request.use((config) => {

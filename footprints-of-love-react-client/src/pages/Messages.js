@@ -7,7 +7,9 @@ const Messages = (props) => {
     <div>
       <div className="container">
         <div className="row">
-          <div className="col-6 mt-5"><UserSessions /></div>
+          <div className="col-6 mt-5">
+            <UserSessions />
+          </div>
         </div>
       </div>
     </div>

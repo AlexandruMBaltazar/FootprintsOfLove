@@ -43,84 +43,97 @@ const UserSessions = (props) => {
     }
   };
 
-  return (
-    <div>
-      <div
-        className="btn-group mb-4 col-12"
-        role="group"
-        aria-label="Basic radio toggle button group"
-      >
-        <input
-          type="radio"
-          className="btn-check"
-          name="btnradio"
-          id="btnradio1"
-          autocomplete="off"
-          onClick={() => setFilterBy("all")}
-          defaultChecked
-        />
-        <label className="btn btn-outline-primary" for="btnradio1">
-          All
-        </label>
 
-        <input
-          type="radio"
-          className="btn-check"
-          name="btnradio"
-          id="btnradio2"
-          autocomplete="off"
-          onClick={() => setFilterBy("yourTurn")}
-        />
-        <label className="btn btn-outline-primary" for="btnradio2">
-          Your turn
-        </label>
-
-        <input
-          type="radio"
-          className="btn-check"
-          name="btnradio"
-          id="btnradio3"
-          autocomplete="off"
-          onClick={() => setFilterBy("newMatch")}
-        />
-        <label className="btn btn-outline-primary" for="btnradio3">
-          New matches
-        </label>
-      </div>
-      <div className="list-group">
-        {props.sessions &&
-          getFilteredSessions().map((session) => {
-            return (
-              <UserSession
-                key={session.id}
-                session={session}
-                hasNotification={
-                  [
-                    ...props.notification.messageNotifications,
-                    ...props.notification.matchNotifications,
-                  ].filter(
-                    (notification) =>
-                      notification.session_id === session.id ||
-                      notification.user_id === session.user_id
-                  ).length > 0
-                }
-              />
-            );
-          })}
-      </div>
-      {props.next && (
-        <div className="d-flex justify-content-center text-center mt-2">
-          <button
-            type="button"
-            className="btn btn-link"
-            onClick={() => setPage(page + 1)}
-          >
-            Load More...
-          </button>
+  const displaySessions = () => {
+    if (props.sessions.length <= 0) {
+      return (
+        <div class="alert alert-info" role="alert">
+          You don't have any matches or messages
         </div>
-      )}
-    </div>
-  );
+      );
+    }
+
+    return (
+      <div>
+        <div
+          className="btn-group mb-4 col-12"
+          role="group"
+          aria-label="Basic radio toggle button group"
+        >
+          <input
+            type="radio"
+            className="btn-check"
+            name="btnradio"
+            id="btnradio1"
+            autocomplete="off"
+            onClick={() => setFilterBy("all")}
+            defaultChecked
+          />
+          <label className="btn btn-outline-primary" for="btnradio1">
+            All
+          </label>
+
+          <input
+            type="radio"
+            className="btn-check"
+            name="btnradio"
+            id="btnradio2"
+            autocomplete="off"
+            onClick={() => setFilterBy("yourTurn")}
+          />
+          <label className="btn btn-outline-primary" for="btnradio2">
+            Your turn
+          </label>
+
+          <input
+            type="radio"
+            className="btn-check"
+            name="btnradio"
+            id="btnradio3"
+            autocomplete="off"
+            onClick={() => setFilterBy("newMatch")}
+          />
+          <label className="btn btn-outline-primary" for="btnradio3">
+            New matches
+          </label>
+        </div>
+        <div className="list-group">
+          {props.sessions &&
+            getFilteredSessions().map((session) => {
+              return (
+                <UserSession
+                  key={session.id}
+                  session={session}
+                  hasNotification={
+                    [
+                      ...props.notification.messageNotifications,
+                      ...props.notification.matchNotifications,
+                    ].filter(
+                      (notification) =>
+                        notification.session_id === session.id ||
+                        notification.user_id === session.user_id
+                    ).length > 0
+                  }
+                />
+              );
+            })}
+        </div>
+        {props.next && (
+          <div className="d-flex justify-content-center text-center mt-2">
+            <button
+              type="button"
+              className="btn btn-link"
+              onClick={() => setPage(page + 1)}
+            >
+              Load More...
+            </button>
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  return displaySessions();
 };
 
 const mapStateToProps = (state) => {

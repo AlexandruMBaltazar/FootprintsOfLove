@@ -58,6 +58,22 @@ function App(props) {
         key: "08a3962f0d9474d77255",
         cluster: "eu",
         forceTLS: true,
+        authorizer: (channel, options) => {
+          return {
+              authorize: (socketId, callback) => {
+                  axios.post('/api/broadcasting/auth', {
+                      socket_id: socketId,
+                      channel_name: channel.name
+                  })
+                  .then(response => {
+                      callback(false, response.data);
+                  })
+                  .catch(error => {
+                      callback(true, error);
+                  });
+              }
+          };
+      },
       });
 
       axios.interceptors.request.use((config) => {

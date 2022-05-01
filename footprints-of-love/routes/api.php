@@ -3,7 +3,6 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\BlockedAccountController;
-use App\Http\Controllers\GeocodingController;
 use App\Http\Controllers\LikesController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\NotificationController;
@@ -17,7 +16,7 @@ use App\Http\Controllers\User\Detail\DetailController;
 use App\Http\Controllers\User\PreferenceController;
 use App\Http\Controllers\User\UserDetailsController;
 use App\Http\Controllers\UserController;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PhotoController;
 
@@ -31,6 +30,7 @@ use App\Http\Controllers\PhotoController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Broadcast::routes(['middleware' => ['auth:sanctum']]);
 
 Route::post('forgot', [PasswordController::class, 'forgot']);
 Route::post('login', [AuthController::class, 'login']);

@@ -42,6 +42,7 @@ class UserController extends Controller
                 });
             })
         ->where('id', '!=', Auth::id())
+        -> orderByDesc('created_at')
         ->lazy()->filter(function ($user) {
             if (!$user->isSwiped()) {
                 return \app()->makeWith(FilterByNonImportantPreferences::class, ['user' => $user])

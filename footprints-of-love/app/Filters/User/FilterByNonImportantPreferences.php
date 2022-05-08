@@ -121,7 +121,7 @@ class FilterByNonImportantPreferences
             });
 
 
-        return $this->total > User\Preference\Importance::THRESHOLD;
+        return $this->total >= User\Preference\Importance::THRESHOLD;
     }
 
     private function getNonImportantPreferences(User $user): Collection

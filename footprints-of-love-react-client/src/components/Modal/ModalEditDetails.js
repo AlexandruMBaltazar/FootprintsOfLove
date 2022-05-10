@@ -470,6 +470,9 @@ const ModalEditDetails = (props) => {
                   classNamePrefix="select"
                   options={distanceOptions}
                   isClearable={true}
+                  isDisabled={
+                    !(props.details.location && props.details.location.lat)
+                  }
                 />
               </div>
             </div>

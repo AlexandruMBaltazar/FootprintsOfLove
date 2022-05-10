@@ -56,7 +56,7 @@ const Modal = (props) => {
               .map((value) => {
                 return (
                   <span
-                    className="list-group-item list-group-item-action"
+                    className={`list-group-item list-group-item-action`}
                     style={{ cursor: "pointer" }}
                     onClick={() =>
                       history.push(`/profile?page=${page}&detail=${value[0]}`)
@@ -97,12 +97,14 @@ const Modal = (props) => {
         ? props.preferences[infoType].min +
             " - " +
             props.preferences[infoType].max
-        : "Add";
+        : "Add your preference";
     }
 
     if (infoType === "distance") {
       if (!props.preferences[infoType]) {
-        return "Add";
+        return props.details.location && props.details.location.lat
+          ? "Add your preference"
+          : "Set your location before adding this preference";
       }
 
       return props.preferences[infoType].value !== 0

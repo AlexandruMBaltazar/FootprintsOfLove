@@ -2,15 +2,17 @@ import React from "react";
 import { connect } from "react-redux";
 import { Switch } from "react-router-dom";
 import { useRouteMatch } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import ProfileImageWithDefault from "../components/ProfileImageWithDefault";
 import Account from "../components/Settings/Account";
 import Privacy from "../components/Settings/Privacy";
 import SecuredRoute from "../securityUtils/SecuredRoute";
 import styles from "./css/settingspace.module.css";
+import * as authActions from "../actions/auth/authActions";
 
 const SettingsPage = (props) => {
   let { path, url } = useRouteMatch();
+  let history = useHistory();
 
   return (
     <div>
@@ -51,7 +53,10 @@ const SettingsPage = (props) => {
                       <h5 className="p-3">Privacy</h5>
                     </div>
                   </Link>
-                  <Link className="list-group-item list-group-item-action">
+                  <Link
+                    onClick={() => props.actions.logout(props.history)}
+                    className="list-group-item list-group-item-action"
+                  >
                     <div className="w-100">
                       <h5 className="p-3">Sign Out</h5>
                     </div>
@@ -76,10 +81,18 @@ const SettingsPage = (props) => {
   );
 };
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    actions: {
+      logout: (history) => dispatch(authActions.logout(history)),
+    },
+  };
+};
+
 const mapStateToProps = (state) => {
   return {
     user: state.auth,
   };
 };
 
-export default connect(mapStateToProps)(SettingsPage);
+export default connect(mapStateToProps, mapDispatchToProps)(SettingsPage);

@@ -277,7 +277,7 @@ const ProfilePage = (props) => {
             </div>
           )}
           <UserDetails user={props.user} />
-          {props.isAuthUser && (
+          {/* {props.isAuthUser && (
             <button
               type="button"
               class="btn btn-outline-danger mt-3 w-100"
@@ -285,7 +285,7 @@ const ProfilePage = (props) => {
             >
               Logout
             </button>
-          )}
+          )} */}
         </div>
       </div>
     </div>

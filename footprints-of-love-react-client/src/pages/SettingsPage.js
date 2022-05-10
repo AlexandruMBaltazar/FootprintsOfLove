@@ -9,6 +9,7 @@ import Privacy from "../components/Settings/Privacy";
 import SecuredRoute from "../securityUtils/SecuredRoute";
 import styles from "./css/settingspace.module.css";
 import * as authActions from "../actions/auth/authActions";
+import SafetyCenter from "../components/Settings/SafetyCenter";
 
 const SettingsPage = (props) => {
   let { path, url } = useRouteMatch();
@@ -54,6 +55,14 @@ const SettingsPage = (props) => {
                     </div>
                   </Link>
                   <Link
+                    to={`${url}/safety-center`}
+                    className="list-group-item list-group-item-action"
+                  >
+                    <div className="w-100">
+                      <h5 className="p-3">Safety Center</h5>
+                    </div>
+                  </Link>
+                  <Link
                     onClick={() => props.actions.logout(props.history)}
                     className="list-group-item list-group-item-action"
                   >
@@ -67,6 +76,9 @@ const SettingsPage = (props) => {
           </div>
           <div className="col-md-12 col-lg-6 mt-5">
             <Switch>
+              <SecuredRoute path={`${path}/safety-center`}>
+                <SafetyCenter />
+              </SecuredRoute>
               <SecuredRoute path={`${path}/privacy`}>
                 <Privacy />
               </SecuredRoute>
